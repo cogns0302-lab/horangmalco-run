@@ -1219,11 +1219,6 @@ function viewTrain(id) {
   const vurl = (id2, type) => type === 'S' ? 'https://www.youtube.com/shorts/' + id2 : 'https://www.youtube.com/watch?v=' + id2;
   app.innerHTML = `
     <h1 class="sec-title">러닝 팁</h1><p class="sec-sub">대표 러닝 훈련법을 골라 핵심 방법과 조회수가 높은 최신 영상을 확인해 보세요.</p>
-    <section class="ytbox">
-      <div class="ytbox-h"><h2>추천 러닝 유튜버</h2><span>구독자 10만 명 이상 · 2026년 11월 기준</span></div>
-      <div class="ytc-grid">${chs.map(channelCard).join('')}</div>
-      <button class="btn ghost ytc-more" onclick="chMore=!chMore;viewTrain('${id}')">${chMore ? '접기 ↑' : `추천 유튜버 더 보기 (${TIP_CHANNELS.length - 3}개) ↓`}</button>
-    </section>
     ${tipChips('훈련법')}
     ${trainRail(id)}
     <section class="tg" style="--tc:${col}">
@@ -1271,12 +1266,7 @@ function viewTips(t) {
   tipPage = Math.min(Math.max(1, tipPage), pages);
   const chs = chMore ? TIP_CHANNELS : TIP_CHANNELS.slice(0, 3);
   app.innerHTML = `
-    <h1 class="sec-title">러닝 팁</h1><p class="sec-sub">구독자 10만 명 이상 러닝 유튜버와, 단계별로 조회수가 높은 최신 롱폼·쇼츠를 모았어요. 영상을 누르면 새 창으로 열립니다.</p>
-    <section class="ytbox">
-      <div class="ytbox-h"><h2>추천 러닝 유튜버</h2><span>구독자 10만 명 이상 · 2026년 11월 기준</span></div>
-      <div class="ytc-grid">${chs.map(channelCard).join('')}</div>
-      <button class="btn ghost ytc-more" onclick="chMore=!chMore;viewTips('${t}')">${chMore ? '접기 ↑' : `추천 유튜버 더 보기 (${TIP_CHANNELS.length - 3}개) ↓`}</button>
-    </section>
+    <h1 class="sec-title">러닝 팁</h1><p class="sec-sub">단계별로 조회수가 높은 최신 롱폼·쇼츠를 모았어요. 영상을 누르면 새 창으로 열립니다.</p>
     ${tipChips(t)}
     ${tipGuide(t)}
     <div class="rtabs" style="margin-bottom:20px">${['전체', '롱폼', '쇼츠'].map(k => `<button class="${k === tipType ? 'on' : ''}" onclick="tipType='${k}';tipPage=1;viewTips('${t}')">${k} <small style="font-size:13px">${k === '전체' ? TIPS[t].length : TIPS[t].filter(v => (k === '쇼츠') === (v[2] === 'S')).length}</small></button>`).join('')}</div>
