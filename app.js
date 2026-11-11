@@ -390,8 +390,6 @@ function openShoe(id) {
     <div class="mbody">
       <h3 style="margin-top:0">핵심 포인트 & 장점 3</h3>
       <div class="pros">${s.pros.map((p, i) => `<div class="pro"><div class="n">${i + 1}</div><p>${esc(p)}</p></div>`).join('')}</div>
-      ${reviewBlock(s)}
-
       <h3>한눈에 보는 요약</h3>
       <ul class="sumlist">
         <li><b>평가</b><span>${s.s == null ? 'RunRepeat에 아직 리뷰가 없는 모델이에요. 특징은 국내 리뷰와 제조사 정보를 참고했어요.' : `RunRepeat ${s.s}점(${scoreLabel(s.s)})${s.est ? ' — 같은 버전의 리뷰가 없어 참고용 추정치예요' : ' — 실험실 실측 리뷰'} · ${C.name} ${scored.length}개 중 <b style="color:inherit">${rank}위</b>`}</span></li>
@@ -416,6 +414,7 @@ function openShoe(id) {
       <ul class="sumlist"><li><b>👍</b><span>${WHO[s.c]}</span></li></ul>
       <h3>아쉬운 점</h3>
       <ul class="sumlist">${s.cons.map(c => `<li><b>⚠️</b><span>${esc(c)}</span></li>`).join('')}</ul>
+      ${reviewBlock(s)}
 
     </div>`;
   $('#modal').classList.add('on');
@@ -424,17 +423,17 @@ function openShoe(id) {
   sectionize($('#mbox .mbody'));
   document.body.style.overflow = 'hidden';
 }
-/* 실제 러너 리뷰 영상 TOP 5 */
+/* 실제 러너 리뷰 영상 TOP 3 */
 function reviewBlock(s) {
-  const list = (typeof REVIEWS === 'object' && REVIEWS[s.id]) || [];
-  const more = s.lab ? rrUrl(s) : rrSearch(s);
-  return `<h3>실제 러너 리뷰 TOP 5</h3>
+  const list = ((typeof REVIEWS === 'object' && REVIEWS[s.id]) || []).slice(0, 3);
+  const more = 'https://www.youtube.com/results?search_query=' + encodeURIComponent(BRANDS[s.b].ko + ' ' + s.ko + ' 리뷰');
+  return `<h3>실제 러너 리뷰 TOP 3</h3>
     ${list.length ? `<div class="rv-list">${list.map(([id, t, ch, v, k, age], i) => `<a class="rv-item" href="${k === 'S' ? 'https://www.youtube.com/shorts/' + id : 'https://www.youtube.com/watch?v=' + id}" target="_blank" rel="noopener">
       <span class="rv-n">${i + 1}</span>
       <span class="rv-th"><img src="thumbs/${id}.jpg" alt="" loading="lazy"><i>${k === 'S' ? 'Shorts' : '▶'}</i></span>
       <span class="rv-tx"><b>${esc(t)}</b><small>${esc(ch || '')}${ch ? ' · ' : ''}조회수 ${views(v)}${age ? ' · ' + esc(age) : ''}</small></span></a>`).join('')}</div>`
-      : '<p class="rv-empty">아직 이 모델을 다룬 한국어 리뷰 영상이 많지 않아요. RunRepeat의 상세 리뷰를 확인해 보세요.</p>'}
-    <a class="rv-more" href="${more}" target="_blank" rel="noopener">RunRepeat에서 더 많은 리뷰 보기 →</a>`;
+      : '<p class="rv-empty">아직 이 모델을 다룬 한국어 리뷰 영상이 많지 않아요. 유튜브에서 더 많은 리뷰를 찾아보세요.</p>'}
+    <a class="rv-more" href="${more}" target="_blank" rel="noopener">▶ 유튜브에서 리뷰 더 보기</a>`;
 }
 /* 팝업 아래쪽: 제목(h3)마다 색 상자로 묶기 */
 const MSEC = { '핵심 포인트': ['⭐', '#f5a300'], '실제 러너 리뷰': ['▶', '#ff4e45'], '한눈에 보는 요약': ['📋', '#60a5fa'], '성향 그래프': ['📊', '#a78bfa'], '스펙': ['📐', '#34d399'], '이런 러너에게 추천': ['👍', '#22c55e'], '아쉬운 점': ['⚠️', '#f87171'] };
@@ -1206,6 +1205,46 @@ function channelCard([k, n, h, subs, d], i) {
     <span class="ytc-b"><b>${esc(n)}</b><small>${esc(h)} · 구독자 ${subs}만명</small><span>${esc(d)}</span></span>
     <span class="ytc-go">채널 보기 ↗</span></a>`;
 }
+function tipChips(t) {
+  const tabs = Object.keys(TIPS), nTrain = Object.values(TRAIN).reduce((s, v) => s + v.length, 0);
+  return `<div class="chips" style="margin:22px 0 12px">${tabs.map(k => `<button class="chip tchip ${k === t ? 'on' : ''}" style="--tc:${TIP_COLOR[k] || '#64748b'}" onclick="tipPage=1;go('tips-'+TIP_IDS['${k}'])">${k} <small>${TIPS[k].length}</small></button>`).join('')}<button class="chip tchip ${t === '훈련법' ? 'on' : ''}" style="--tc:#f5a300" onclick="tipPage=1;go('tips-train')">훈련법 <small>${nTrain}</small></button></div>`;
+}
+function viewTrain(id) {
+  const I = TRAIN_INFO.find(x => x[0] === id), [, name, sub, col, , G] = I, list = TRAIN[id] || [];
+  const items = list.filter(v => tipType === '전체' || (tipType === '쇼츠') === (v[2] === 'S')).sort((a, b) => b[3] - a[3]);
+  const per = 9, pages = Math.max(1, Math.ceil(items.length / per));
+  tipPage = Math.min(Math.max(1, tipPage), pages);
+  const top = list.slice().sort((x, z) => z[3] - x[3]).slice(0, 3);
+  const chs = chMore ? TIP_CHANNELS : TIP_CHANNELS.slice(0, 3);
+  const vurl = (id2, type) => type === 'S' ? 'https://www.youtube.com/shorts/' + id2 : 'https://www.youtube.com/watch?v=' + id2;
+  app.innerHTML = `
+    <h1 class="sec-title">러닝 팁</h1><p class="sec-sub">대표 러닝 훈련법을 골라 핵심 방법과 조회수가 높은 최신 영상을 확인해 보세요.</p>
+    <section class="ytbox">
+      <div class="ytbox-h"><h2>추천 러닝 유튜버</h2><span>구독자 10만 명 이상 · 2026년 11월 기준</span></div>
+      <div class="ytc-grid">${chs.map(channelCard).join('')}</div>
+      <button class="btn ghost ytc-more" onclick="chMore=!chMore;viewTrain('${id}')">${chMore ? '접기 ↑' : `추천 유튜버 더 보기 (${TIP_CHANNELS.length - 3}개) ↓`}</button>
+    </section>
+    ${tipChips('훈련법')}
+    ${trainRail(id)}
+    <section class="tg" style="--tc:${col}">
+      <div class="tg-guide"><h3>${name} 핵심 가이드 <small>${sub}</small></h3>
+        ${G.map(([hh, p], i) => `<div class="tg-i" style="--i:${i}"><span>${i + 1}</span><div><b>${esc(hh)}</b><p>${esc(p)}</p></div></div>`).join('')}</div>
+      <div class="tg-top"><h3>추천 영상 베스트 3 <small>${typeof DATA_UPDATED === 'string' ? DATA_UPDATED : '26년 11월'} 기준 조회수 순</small></h3>
+        ${top.map(([vid, title, type, v, ch], i) => `<a class="tg-v" style="--i:${i}" href="${vurl(vid, type)}" target="_blank" rel="noopener">
+          <span class="tg-rank">${i + 1}</span><span class="tg-th"><img src="thumbs/${vid}.jpg" alt="" loading="lazy"><i>${type === 'S' ? 'Shorts' : '롱폼'}</i></span>
+          <span class="tg-tx"><b>${esc(title)}</b><small>${esc(ch || '')} · 조회수 ${views(v)}</small></span></a>`).join('') || '<p class="rv-empty">조건에 맞는 영상이 아직 없어요.</p>'}</div>
+    </section>
+    <div class="rtabs" style="margin-bottom:20px">${['전체', '롱폼', '쇼츠'].map(k => `<button class="${k === tipType ? 'on' : ''}" onclick="tipType='${k}';tipPage=1;viewTrain('${id}')">${k} <small style="font-size:13px">${k === '전체' ? list.length : list.filter(v => (k === '쇼츠') === (v[2] === 'S')).length}</small></button>`).join('')}</div>
+    <div class="vgrid">${items.slice((tipPage - 1) * per, tipPage * per).map(([vid, title, type, v, ch, age]) => `<a class="vcard" href="${vurl(vid, type)}" target="_blank" rel="noopener">
+        <div class="thumb"><img src="thumbs/${vid}.jpg" alt="" loading="lazy"><span class="badge ${type === 'S' ? 's' : ''}">${type === 'S' ? '▮ Shorts' : '▶ 롱폼'}</span>${age ? `<span class="age">${age}</span>` : ''}</div>
+        <div class="vb"><b>${esc(title)}</b><span>${ch ? esc(ch) + ' · ' : ''}조회수 ${views(v)} ↗</span></div></a>`).join('')}</div>
+    <div class="pager"><button ${tipPage <= 1 ? 'disabled' : ''} onclick="tipPage--;viewTrain('${id}')">‹</button>
+      <span class="pn"><b>${tipPage}</b> / ${pages}</span>
+      <button ${tipPage >= pages ? 'disabled' : ''} onclick="tipPage++;viewTrain('${id}')">›</button></div>
+    <p style="color:var(--sub);font-size:12px;text-align:center;margin-top:14px">유튜브 조회수 순 검색 · 2026년 11월 수집 · 조회수 100만 회 이상은 최근 2년, 10만 회 이상은 최근 1년 안에 올라온 영상만 넣었어요</p>`;
+  const on = app.querySelector('.tr-card.on'); if (on) on.scrollIntoView({ block: 'nearest', inline: 'center' });
+  window.scrollTo(0, 0);
+}
 function tipGuide(t) {
   const G = TIP_GUIDE[t] || [], top = TIPS[t].slice().sort((x, z) => z[3] - x[3]).slice(0, 3), col = TIP_COLOR[t] || '#64748b';
   return `<section class="tg" style="--tc:${col}">
@@ -1217,7 +1256,15 @@ function tipGuide(t) {
         <span class="tg-tx"><b>${esc(title)}</b><small>${esc(ch || '')} · 조회수 ${views(v)}</small></span></a>`).join('')}</div>
   </section>`;
 }
+/* 훈련법: 카드 레일 + 가이드 + 영상 */
+let trainId = 'lsd';
+function trainRail(cur) {
+  return `<div class="tr-rail" role="tablist">${TRAIN_INFO.map(([id, name, sub, col, path], i) => `<button role="tab" class="tr-card ${id === cur ? 'on' : ''}" style="--tc:${col};--i:${i}" onclick="tipPage=1;go('tips-train-${id}')" aria-selected="${id === cur}">
+      <svg viewBox="0 0 120 40" class="tr-graph" aria-hidden="true"><line x1="2" y1="36" x2="118" y2="36" class="tr-base"/><path d="${path}" pathLength="1" class="tr-line"/></svg>
+      <b>${name}</b><small>${sub}</small><em>${(TRAIN[id] || []).length}개 영상</em></button>`).join('')}</div>`;
+}
 function viewTips(t) {
+  if (/^train/.test(t || '') || t === '훈련법') { trainId = (t || '').split('-')[1] || trainId; if (!TRAIN_INFO.some(x => x[0] === trainId)) trainId = 'lsd'; return viewTrain(trainId); }
   const tabs = Object.keys(TIPS); t = tabs.find(k => TIP_IDS[k] === t) || (TIPS[t] ? t : tabs[0]);
   const items = TIPS[t].filter(v => tipType === '전체' || (tipType === '쇼츠') === (v[2] === 'S')).sort((a, b) => b[3] - a[3]);
   const per = 9, pages = Math.max(1, Math.ceil(items.length / per));
@@ -1230,7 +1277,7 @@ function viewTips(t) {
       <div class="ytc-grid">${chs.map(channelCard).join('')}</div>
       <button class="btn ghost ytc-more" onclick="chMore=!chMore;viewTips('${t}')">${chMore ? '접기 ↑' : `추천 유튜버 더 보기 (${TIP_CHANNELS.length - 3}개) ↓`}</button>
     </section>
-    <div class="chips" style="margin:22px 0 12px">${tabs.map(k => `<button class="chip tchip ${k === t ? 'on' : ''}" style="--tc:${TIP_COLOR[k] || '#64748b'}" onclick="tipPage=1;go('tips-'+TIP_IDS['${k}'])">${k} <small>${TIPS[k].length}</small></button>`).join('')}</div>
+    ${tipChips(t)}
     ${tipGuide(t)}
     <div class="rtabs" style="margin-bottom:20px">${['전체', '롱폼', '쇼츠'].map(k => `<button class="${k === tipType ? 'on' : ''}" onclick="tipType='${k}';tipPage=1;viewTips('${t}')">${k} <small style="font-size:13px">${k === '전체' ? TIPS[t].length : TIPS[t].filter(v => (k === '쇼츠') === (v[2] === 'S')).length}</small></button>`).join('')}</div>
     <div class="vgrid">${items.slice((tipPage - 1) * per, tipPage * per).map(([id, title, type, v, ch, age]) => {

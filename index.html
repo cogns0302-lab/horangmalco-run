@@ -1232,6 +1232,12 @@ p,.sec-sub,.note{text-wrap:pretty}
   @keyframes flagBar{0%,100%{box-shadow:0 0 6px rgba(225,29,72,.5)}50%{box-shadow:0 0 18px rgba(255,77,109,1)}}
 }
 
+/* 라인업 v6: 헤더 중앙 + 목적 칸 넓게 */
+.lu-head,.lu-group{grid-template-columns:190px minmax(0,1fr) minmax(400px,.9fr)!important}
+.lu-head > span:not(.r){text-align:center}
+@media (max-width:1100px){.lu-head,.lu-group{grid-template-columns:160px minmax(0,1fr) minmax(360px,.95fr)!important}}
+@media (max-width:860px){.lu-group{grid-template-columns:1fr!important}}
+
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -1254,6 +1260,46 @@ p,.sec-sub,.note{text-wrap:pretty}
 .rv-more{display:flex;align-items:center;justify-content:center;margin-top:10px;padding:11px;border-radius:12px;background:var(--sc);color:#fff;font-weight:900;font-size:14px;text-decoration:none}
 .rv-more:hover{filter:brightness(1.08)}
 @media (max-width:600px){.rv-item{grid-template-columns:20px 104px 1fr;gap:9px}.rv-th{width:104px}.rv-tx b{font-size:13px}}
+
+/* ===== 지역 메뉴 글씨 가운데 ===== */
+.reg-btn{position:relative;justify-content:center!important;text-align:center}
+.reg-btn > span{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:0}
+.reg-btn > span small{justify-content:center}
+.reg-btn .caret{position:absolute;right:14px;top:50%;margin-top:-4px}
+.reg-all{align-items:center!important;text-align:center;justify-content:center}
+@media (max-width:700px){.reg-btn .caret{right:8px}.reg-btn > span{padding:0 10px}}
+
+/* ===== 마라톤 숫자 상자: 가운데 정렬 + 큰 숫자 ===== */
+.mh-stats div{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:6px;padding:18px 12px!important;min-height:112px}
+.mh-stats b{font-family:'Noto Sans KR',sans-serif!important;font-size:clamp(26px,2.6vw,34px)!important;font-weight:900!important;line-height:1.05!important;letter-spacing:-.02em;color:#fff}
+.mh-stats b small{font-size:15px!important;font-weight:800;margin-left:3px;opacity:.85}
+.mh-stats div > span{font-size:13px!important;font-weight:700;color:#d6d9e0!important;line-height:1.4}
+.mh-stats b span,.mh-stats b .cnt-up{font-size:inherit!important;color:inherit!important;font-weight:inherit!important}
+@media (max-width:760px){.mh-stats div{min-height:92px;padding:14px 8px!important}.mh-stats b{font-size:24px!important}.mh-stats div > span{font-size:12px!important}}
+
+/* ===== 러닝 팁: 훈련법 카드 레일 ===== */
+.tr-rail{display:flex;gap:10px;overflow-x:auto;padding:4px 2px 12px;margin:0 0 14px;scroll-snap-type:x mandatory;scrollbar-width:thin}
+.tr-card{flex:0 0 168px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;background:var(--card);border:1.5px solid var(--line);border-radius:16px;padding:12px 14px 12px;color:var(--ink);cursor:pointer;position:relative;overflow:hidden}
+.tr-card:before{content:"";position:absolute;inset:0;background:linear-gradient(160deg,color-mix(in srgb,var(--tc) 16%,transparent),transparent 60%);pointer-events:none}
+.tr-card b{font-size:16px;font-weight:900;position:relative}
+.tr-card small{font-size:12px;color:var(--sub);position:relative}
+.tr-card em{font-style:normal;font-size:11px;font-weight:800;color:var(--tc);position:relative;margin-top:2px}
+.tr-card.on{border-color:var(--tc);background:color-mix(in srgb,var(--tc) 14%,var(--card));box-shadow:0 8px 24px color-mix(in srgb,var(--tc) 28%,transparent)}
+.tr-card:hover{border-color:var(--tc)}
+.tr-graph{width:100%;height:44px;margin-bottom:4px;position:relative}
+.tr-base{stroke:var(--line);stroke-width:1.5;stroke-dasharray:3 3}
+.tr-line{fill:none;stroke:var(--tc);stroke-width:3.2;stroke-linecap:round;stroke-linejoin:round;filter:drop-shadow(0 0 4px color-mix(in srgb,var(--tc) 60%,transparent))}
+.tg-guide h3 small{font-size:12px;color:var(--sub);font-weight:700}
+@media (prefers-reduced-motion:no-preference){
+  .tr-card{animation:trIn .55s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(var(--i) * 70ms)}
+  @keyframes trIn{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+  .tr-line{stroke-dasharray:1;stroke-dashoffset:1;animation:trDraw 1.3s cubic-bezier(.4,0,.2,1) forwards;animation-delay:calc(.2s + var(--i) * 70ms)}
+  @keyframes trDraw{to{stroke-dashoffset:0}}
+  .tr-card.on .tr-line{animation:trDraw 1.3s cubic-bezier(.4,0,.2,1) forwards,trGlow 2.2s ease-in-out 1.5s infinite}
+  @keyframes trGlow{0%,100%{filter:drop-shadow(0 0 3px color-mix(in srgb,var(--tc) 50%,transparent))}50%{filter:drop-shadow(0 0 10px var(--tc))}}
+  .tr-card:hover .tr-line{animation:trDraw .9s cubic-bezier(.4,0,.2,1) forwards}
+}
+@media (max-width:600px){.tr-card{flex-basis:146px;padding:10px 12px}.tr-card b{font-size:15px}}
 </style>
 </head>
 <body>
@@ -1287,12 +1333,13 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbrad9s"></script>
-<script src="photos.js?v=mwbrad9s"></script>
-<script src="history.js?v=mwbrad9s"></script>
-<script src="marathon.js?v=mwbrad9s"></script>
-<script src="stories.js?v=mwbrad9s"></script>
-<script src="reviews.js?v=mwbrad9s"></script>
-<script src="app.js?v=mwbrad9s"></script>
+<script src="data.js?v=mwbrqah5"></script>
+<script src="photos.js?v=mwbrqah5"></script>
+<script src="history.js?v=mwbrqah5"></script>
+<script src="marathon.js?v=mwbrqah5"></script>
+<script src="stories.js?v=mwbrqah5"></script>
+<script src="reviews.js?v=mwbrqah5"></script>
+<script src="train.js?v=mwbrqah5"></script>
+<script src="app.js?v=mwbrqah5"></script>
 </body>
 </html>
