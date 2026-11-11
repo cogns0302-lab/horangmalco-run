@@ -236,7 +236,7 @@ function recCard(x, i, g) {
     <span class="lu-sc t-${tier(s)}"><b>${s.s}</b><small>점</small></span>
   </button>`;
 }
-function renderRec() {
+function renderRec() { setTimeout(revealObserve, 0);
   const bmi = prof.w / Math.pow(prof.h / 100, 2);
   const type = bmi >= 25 || prof.w >= 85 ? '쿠션·안정성 우선' : bmi < 20.5 ? '경량·반발 우선' : '균형형';
   $('#rec').innerHTML = `
@@ -289,26 +289,47 @@ function rrWhy(s) {
   if (/flexible/i.test(stiff || '')) out.push(['유연한 바닥', 'i']);
   return out;
 }
-/* 점수 + 핵심 특징 패널 */
-function scorePanel(s, B, circ) {
-  const why = rrWhy(s), rank = why.find(w => /^러닝화 전체/.test(w[0])), rest = why.filter(w => w !== rank);
+/* 핵심 특징 (왼쪽) */
+function featPanel(s) {
+  const why = rrWhy(s).filter(w => !/^러닝화 전체/.test(w[0]));
   const basic = [C_NAME(s), s.f, s.d != null ? `드롭 ${s.d}mm` : null].filter(Boolean).map(t => [t, 'i']);
-  const grp = (label, cls, list) => list.length ? `<div class="fgrp ${cls}"><b>${label}</b><div>${list.map(([t]) => `<span>${esc(t)}</span>`).join('')}</div></div>` : '';
+  let n = 0;
+  const grp = (label, cls, list) => list.length ? `<div class="fgrp ${cls}"><b class="mst" style="--i:${n++}">${label}</b><div>${list.map(([t]) => `<span class="mst" style="--i:${n++}">${esc(t)}</span>`).join('')}</div></div>` : '';
+  return `<div class="feat"><h4 class="mst" style="--i:4">핵심 특징</h4>
+    ${grp('강점', 'fg-p', why.filter(w => w[1] === 'p'))}
+    ${grp('아쉬운 점', 'fg-n', why.filter(w => w[1] === 'n'))}
+    ${grp('특징', 'fg-i', [...basic, ...why.filter(w => w[1] === 'i')])}</div>`;
+}
+/* 점수 설명 문장 (오른쪽) */
+const WHY_P = { '반발력 높음': '반발력', '충격 흡수 우수': '충격 흡수', '접지력 좋음': '접지력', '내구성 좋음': '내구성', '통기성 좋음': '통기성' };
+const WHY_N = { '반발력 보통': '보통 수준의 반발력', '반발력 낮음': '낮은 반발력', '충격 흡수 보통': '보통 수준의 충격 흡수', '충격 흡수 약함': '약한 충격 흡수', '접지력 아쉬움': '아쉬운 접지력', '밑창 빨리 닳음': '빨리 닳는 밑창', '앞코 내구성 약함': '약한 앞코 내구성', '뒤꿈치 안감 약함': '약한 뒤꿈치 안감', '통기성 아쉬움': '아쉬운 통기성' };
+function whyText(s, cRank, cTotal) {
+  if (s.s == null) return 'RunRepeat 실험실 리뷰가 아직 없는 모델이라 점수가 없어요. 특징은 제조사 정보와 국내 리뷰를 참고했어요.';
+  if (s.est || !s.lab) return `같은 버전의 RunRepeat 실험실 리뷰가 아직 없어, 이전 버전과 국내 리뷰를 참고한 추정 점수예요. ${C_NAME(s)} 중에서는 ${cTotal}개 중 ${cRank}위예요.`;
+  const w = rrWhy(s), rank = w.find(x => /^러닝화 전체/.test(x[0]));
+  const out = [];
+  if (rank) { const m = rank[0].match(/(\d+)위 · (상위|하위) (\d+)%/); out.push(`RunRepeat가 리뷰한 전체 러닝화 중 <b>${m[1]}위(${m[2]} ${m[3]}%)</b>로 '${scoreLabel(s.s)}' 등급을 받았어요.`); }
+  const pos = w.filter(x => x[1] === 'p' && x !== rank).map(x => WHY_P[x[0]] || (/g$/.test(x[0]) ? `가벼운 무게(${s.w}g)` : null)).filter(Boolean);
+  const neg = w.filter(x => x[1] === 'n' && x !== rank).map(x => WHY_N[x[0]] || (/g$/.test(x[0]) ? `무거운 무게(${s.w}g)` : null)).filter(Boolean);
+  if (pos.length) out.push(`실험실 측정에서 <b>${pos.slice(0, 4).join(' · ')}</b> 항목이 좋게 나와 점수를 끌어올렸어요.`);
+  if (neg.length) out.push(`다만 <b>${neg.slice(0, 3).join(' · ')}</b> 쪽에서 점수가 깎였어요.`);
+  else if (pos.length) out.push('뚜렷한 감점 항목이 없는 고른 성능이에요.');
+  out.push(`같은 ${C_NAME(s)} ${cTotal}개 중에서는 ${cRank}위예요.`);
+  return out.join(' ');
+}
+/* 점수 패널 (오른쪽) */
+function scorePanel(s, B, circ, cRank, cTotal) {
+  const rank = rrWhy(s).find(w => /^러닝화 전체/.test(w[0]));
   const tier = s.s == null ? '미평가' : s.est ? '참고 추정치' : scoreLabel(s.s);
   return `<div class="mh-score">
       <div class="ring"><svg viewBox="0 0 150 150" width="118" height="118"><circle cx="75" cy="75" r="64" stroke="#ffffff26" stroke-width="12" fill="none"/>
-        ${s.s != null ? `<circle cx="75" cy="75" r="64" stroke="${B.accent}" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - s.s / 100)}"/>` : ''}</svg>
-        <div class="rv"><b>${s.s ?? '—'}</b></div></div>
+        ${s.s != null ? `<circle class="ring-v" cx="75" cy="75" r="64" stroke="${B.accent}" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - s.s / 100)}" data-to="${circ * (1 - s.s / 100)}" data-from="${circ}"/>` : ''}</svg>
+        <div class="rv"><b class="cnt" data-to="${s.s ?? ''}">${s.s ?? '—'}</b></div></div>
       <div class="ms-txt"><small>RunRepeat 점수</small><b>${tier}</b>
         ${rank ? `<span class="ms-rank${rank[1] === 'n' ? ' low' : ''}">${rank[0].replace('러닝화 전체 ', '전체 ')}</span>` : `<span class="ms-note">${s.est ? '이전 버전·국내 리뷰 참고' : '실험실 리뷰 없음'}</span>`}</div>
     </div>
-    <div class="feat">
-      <h4>핵심 특징</h4>
-      ${grp('강점', 'fg-p', rest.filter(w => w[1] === 'p'))}
-      ${grp('아쉬운 점', 'fg-n', rest.filter(w => w[1] === 'n'))}
-      ${grp('특징', 'fg-i', [...basic, ...rest.filter(w => w[1] === 'i')])}
-    </div>
-    <p class="rrinfo"><b>RunRepeat란?</b> ${RR_ABOUT}</p>`;
+    <div class="whybox mst" style="--i:6"><h4>왜 이 점수일까?</h4><p>${whyText(s, cRank, cTotal)}</p></div>
+    <p class="rrinfo mst" style="--i:8"><b>RunRepeat란?</b> ${RR_ABOUT}</p>`;
 }
 const C_NAME = s => CATS[s.c].name;
 const RR_ABOUT = '신발을 직접 사서 실험실에서 반으로 자르고 무게·쿠션·반발력·내구성을 측정한 뒤, 실제 러닝 테스트를 더해 100점 만점으로 매기는 세계 최대 러닝화 리뷰 사이트예요.';
@@ -325,12 +346,12 @@ function openShoe(id) {
     <button class="mx" onclick="closeModal()" aria-label="닫기">×</button>
     <div class="mhero mh2" style="--hb:${grad(s.b)}">
       <div class="mh-left">
-        <span class="brandlbl">${blogo(s.b)}${B.name} · ${C.name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
-        <h2>${esc(s.ko)}</h2><div class="mh-en">${esc(s.en)}</div>
-        <div class="head">${esc(s.head)}</div>
-        <div class="mshoe ${hasPhoto(s) ? 'photo' : ''}">${shoeVisual(s, 230)}</div>${hasPhoto(s) ? credit(SHOE_PHOTO[s.id]).replace('class="credit"', 'class="credit lt"') : ''}
+        <span class="brandlbl mst" style="--i:0">${blogo(s.b)}${B.name} · ${C.name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
+        <h2 class="mst" style="--i:1">${esc(s.ko)}</h2><div class="mh-en mst" style="--i:2">${esc(s.en)}</div>
+        <div class="head mst" style="--i:3">${esc(s.head)}</div>
+        ${featPanel(s)}
       </div>
-      <div class="mh-right">${scorePanel(s, B, circ)}</div>
+      <div class="mh-right">${scorePanel(s, B, circ, rank, scored.length)}</div>
     </div>
     <div class="mbody">
       <h3 style="margin-top:0">핵심 포인트 & 장점 3</h3>
@@ -369,7 +390,17 @@ function openShoe(id) {
     </div>`;
   $('#modal').classList.add('on');
   $('#modal').scrollTop = 0;
+  animateScore($('#mbox'));
   document.body.style.overflow = 'hidden';
+}
+function animateScore(root) {
+  const ring = root.querySelector('.ring-v'), num = root.querySelector('.cnt');
+  if (REDUCED || !num || num.dataset.to === '') return;
+  const to = +num.dataset.to, t0 = performance.now(), dur = 1100;
+  if (ring) { ring.style.transition = 'none'; ring.style.strokeDashoffset = ring.dataset.from; ring.getBoundingClientRect(); ring.style.transition = 'stroke-dashoffset 1.1s cubic-bezier(.2,.8,.2,1) .05s'; requestAnimationFrame(() => { ring.style.strokeDashoffset = ring.dataset.to; }); }
+  num.textContent = '0';
+  const step = now => { const p = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - p, 3); num.textContent = Math.round(to * e); if (p < 1) requestAnimationFrame(step); };
+  requestAnimationFrame(step);
 }
 function closeModal() { $('#modal').classList.remove('on'); document.body.style.overflow = ''; }
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
@@ -1160,6 +1191,33 @@ function viewShop() {
 }
 
 /* ---------- 라우터 ---------- */
+/* 페이지 전환: 섹션이 순서대로 떠오름 */
+function pageEnter() {
+  if (REDUCED) return;
+  const kids = [...app.children].slice(0, 14);
+  kids.forEach((el, i) => { el.style.setProperty('--i', i); el.classList.remove('pg-in'); void el.offsetWidth; el.classList.add('pg-in'); });
+  revealObserve();
+}
+/* 스크롤 등장: 카드·행이 화면에 들어올 때 살짝 떠오름 */
+let revIO = null;
+function revealObserve() {
+  if (REDUCED || !('IntersectionObserver' in window)) return;
+  if (!revIO) revIO = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('rvl-in'); revIO.unobserve(e.target); } }), { rootMargin: '0px 0px -6% 0px' });
+  app.querySelectorAll('.lu-group, .card, .vcard, .rcol, .stile, .catsec, .bt3, .ritem, .panel').forEach((el, i) => {
+    if (el.classList.contains('rvl-in')) return;
+    const r = el.getBoundingClientRect();
+    if (r.top < innerHeight * 0.94) { el.classList.add('rvl-in'); return; }
+    el.classList.add('rvl'); el.style.setProperty('--d', (i % 4) * 60 + 'ms'); revIO.observe(el);
+  });
+}
+/* 클릭 반응: 눌리는 느낌 + 퍼지는 링 */
+document.addEventListener('pointerdown', e => {
+  if (REDUCED) return;
+  const t = e.target.closest('button, .btn, .chip, a.stile, .lu-m, .bt3, .ritem, .vcard, .card, #nav a, .seg button');
+  if (!t) return;
+  t.classList.remove('tap'); void t.offsetWidth; t.classList.add('tap');
+  setTimeout(() => t.classList.remove('tap'), 520);
+}, { passive: true });
 function route() {
   closeModal();
   const h = location.hash.slice(1), i = h.indexOf('-'), v = i < 0 ? h : h.slice(0, i), arg = i < 0 ? '' : h.slice(i + 1);
@@ -1172,6 +1230,7 @@ function route() {
   else if (v === 'shop') viewShop();
   else viewHome();
   window.scrollTo(0, 0);
+  pageEnter();
 }
 window.addEventListener('hashchange', route);
 route();

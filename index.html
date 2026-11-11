@@ -888,6 +888,71 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
   .mh2 .mh-right{border-left:0;border-top:1px solid #ffffff22;padding:20px}
   .mh2 h2{font-size:26px}
 }
+
+/* ===== 팝업 v3: 좌 신발+핵심특징 / 우 점수+이유 ===== */
+.mh2 .mh-left .feat{margin-top:10px;padding-top:16px;border-top:1px solid #ffffff22}
+.mh2 .mh-left .head{margin-bottom:4px}
+.whybox{background:#ffffff14;border:1px solid #ffffff22;border-radius:14px;padding:14px 16px}
+.whybox h4{margin:0 0 6px;font-size:14px;font-weight:900}
+.whybox p{margin:0;font-size:13.5px;line-height:1.65;color:#ffffffe0}
+.whybox p b{color:#fff;font-weight:900}
+.mh2 .rrinfo{margin-top:auto}
+
+/* ===== 2) 브랜드 인기 베스트 3: 흰 카드 + 빨간 반짝임 ===== */
+.bt3box{background:#fff!important;color:#111;border:1.5px solid #fecaca!important;position:relative;overflow:hidden;animation:bt3glow 3.2s ease-in-out infinite}
+.bt3box:after{content:"";position:absolute;inset:0;background:linear-gradient(105deg,transparent 35%,rgba(239,68,68,.10) 48%,rgba(255,255,255,.0) 60%);transform:translateX(-100%);animation:bt3sheen 4.5s ease-in-out infinite;pointer-events:none}
+@keyframes bt3glow{0%,100%{box-shadow:0 0 0 0 rgba(239,68,68,0),0 6px 18px rgba(239,68,68,.10)}50%{box-shadow:0 0 0 4px rgba(239,68,68,.16),0 10px 34px rgba(239,68,68,.32)}}
+@keyframes bt3sheen{0%{transform:translateX(-100%)}55%,100%{transform:translateX(100%)}}
+.bt3box .bt3-h h3{color:#dc2626}
+.bt3box .bt3-h span,.bt3box .bt3-note{color:#6b7280}
+.bt3box .bt3{background:#fff7f7;border-color:#fee2e2;color:#111;position:relative;z-index:1}
+.bt3box .bt3:hover{border-color:#ef4444;box-shadow:0 6px 18px rgba(239,68,68,.18)}
+.bt3box .bt3-n{background:#dc2626;color:#fff}
+.bt3box .bt3-tx small{color:#6b7280}
+.bt3box .bt3-h,.bt3box .bt3-note{position:relative;z-index:1}
+
+/* ===== 3) 라인업 정렬: 목적 칸 넓히고 여백 줄이기 ===== */
+.lu-head,.lu-group{grid-template-columns:216px 224px 1fr!important;gap:14px!important;padding-left:18px!important;padding-right:18px!important}
+.lu-head{grid-template-columns:216px 224px 1fr 64px!important}
+.lu-group{padding-top:12px!important;padding-bottom:12px!important}
+.lu-goal{flex-wrap:nowrap!important;gap:5px!important;padding-top:2px}
+.lu-goal span{white-space:nowrap;font-size:13px!important;padding:4px 11px!important}
+.lu-models{gap:6px!important}
+.lu-m{padding:9px 10px 9px 14px!important;gap:10px!important;border-radius:12px!important}
+.lu-txt{gap:1px}
+.lu-txt small{line-height:1.35}
+@media (max-width:1100px){.lu-head,.lu-group{grid-template-columns:200px 214px 1fr!important}.lu-head{grid-template-columns:200px 214px 1fr 60px!important}.lu-cat b{font-size:15px!important}}
+
+/* ===== 4) 점수 색: 80점대도 잘 보이게 ===== */
+.lu-sc.t-a,.score.t-a{background:#16a34a!important;color:#fff!important}
+.lu-sc.t-b,.score.t-b{background:#a3e635!important;color:#1a2e05!important}
+.score.t-b b,.score.t-b small,.lu-sc.t-b b,.lu-sc.t-b small{color:#1a2e05!important}
+.lu-sc.t-c,.score.t-c{background:#e4e4e7!important;color:#18181b!important}
+.score.t-c b,.score.t-c small,.lu-sc.t-c b,.lu-sc.t-c small{color:#18181b!important}
+.lu-sc.t-d,.score.t-d{background:#71717a!important;color:#fff!important}
+.score.t-d b,.lu-sc.t-d b,.lu-sc.t-d small{color:#fff!important}
+
+/* ===== 5·6) 모션 ===== */
+@media (prefers-reduced-motion:no-preference){
+  .pg-in{animation:pgIn .55s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(var(--i,0) * 55ms)}
+  @keyframes pgIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .rvl{opacity:0;transform:translateY(18px)}
+  .rvl.rvl-in{opacity:1;transform:none;transition:opacity .55s ease var(--d,0ms),transform .55s cubic-bezier(.2,.75,.2,1) var(--d,0ms)}
+  .modal.on{animation:mFade .25s ease both}
+  .modal.on #mbox{animation:mPop .42s cubic-bezier(.2,.85,.25,1) both}
+  @keyframes mFade{from{opacity:0}to{opacity:1}}
+  @keyframes mPop{from{opacity:0;transform:translateY(24px) scale(.97)}to{opacity:1;transform:none}}
+  .modal.on .mst{animation:stIn .5s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(120ms + var(--i,0) * 45ms)}
+  @keyframes stIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+  .modal.on .mh-score{animation:stIn .5s cubic-bezier(.2,.75,.2,1) .1s both}
+  .modal.on .pro,.modal.on .sumlist li{animation:stIn .45s ease both}
+  .modal.on .pro:nth-child(2){animation-delay:.08s}.modal.on .pro:nth-child(3){animation-delay:.16s}
+  button,.btn,.chip,a.stile,.lu-m,.bt3,.ritem,.vcard,.card{transition:transform .16s ease,box-shadow .25s ease,border-color .2s ease,background-color .2s ease}
+  button:active,.btn:active,.chip:active,a.stile:active,.lu-m:active,.bt3:active,.ritem:active,.vcard:active,.card:active{transform:scale(.97)}
+  .tap{animation:tapRing .52s ease-out}
+  @keyframes tapRing{from{box-shadow:0 0 0 0 rgba(245,163,0,.55)}to{box-shadow:0 0 0 14px rgba(245,163,0,0)}}
+  .lu-m:hover,.bt3:hover,.ritem:hover{transform:translateY(-2px)}
+}
 </style>
 </head>
 <body>
@@ -919,10 +984,10 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbfqdoh"></script>
-<script src="photos.js?v=mwbfqdoh"></script>
-<script src="history.js?v=mwbfqdoh"></script>
-<script src="marathon.js?v=mwbfqdoh"></script>
-<script src="app.js?v=mwbfqdoh"></script>
+<script src="data.js?v=mwbg8ef0"></script>
+<script src="photos.js?v=mwbg8ef0"></script>
+<script src="history.js?v=mwbg8ef0"></script>
+<script src="marathon.js?v=mwbg8ef0"></script>
+<script src="app.js?v=mwbg8ef0"></script>
 </body>
 </html>
