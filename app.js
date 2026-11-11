@@ -147,12 +147,14 @@ const REC_GROUPS = [
   { k: 'mid', name: '10km ~ 하프', sub: '템포 · 기록 향상', desc: '가볍고 반발력 좋은 데일리·슈퍼트레이너 위주예요. 훈련과 대회를 함께 커버해요.', w: mix(LEVELS['10km'], LEVELS['하프']), col: '#2563eb' },
   { k: 'full', name: '풀코스', sub: '마라톤 완주 · 기록', desc: '42.195km를 버티는 쿠션과 추진력. 카본 레이싱화와 슈퍼트레이너 위주예요.', w: LEVELS['풀코스'], col: '#e11d48' },
 ];
-let prof = { h: 172, w: 68, g: '남성', a: 35, pu: '건강·다이어트' };
+let prof = { h: 172, w: 68, g: '남성', a: 35, pu: '조깅' };
 const PURPOSES = {
-  '건강·다이어트': { up: ['CU', 'MX', 'SB', 'DY'], down: ['FR', 'LR'], note: '꾸준한 조깅에 편한 쿠션' },
+  '조깅': { up: ['CU', 'DY', 'SN'], down: ['FR', 'LR'], note: '편하게 오래 달리는 조깅용 쿠션' },
+  '리커버리(회복)': { up: ['MX', 'CU'], down: ['FR', 'LR', 'CR'], note: '회복주에 좋은 푹신한 쿠션' },
+  '다이어트': { up: ['CU', 'MX', 'SB', 'DY'], down: ['FR', 'LR'], note: '체중 관리 러닝에 편한 쿠션·안정성' },
   '기록 단축': { up: ['FR', 'CR', 'LR', 'ST', 'SN'], down: ['MX', 'SB'], note: '기록 단축을 돕는 반발력' },
-  '대회 완주': { up: ['CR', 'ST', 'SN', 'MX'], down: ['LR'], note: '완주까지 버티는 쿠션·추진력' },
-  '부상 예방': { up: ['SB', 'MX', 'CU'], down: ['FR', 'LR'], note: '관절 부담을 줄이는 안정성·쿠션' },
+  '풀코스': { up: ['CR', 'FR', 'ST', 'MX'], down: ['LR'], note: '42.195km를 버티는 쿠션·추진력' },
+  '하프': { up: ['CR', 'ST', 'SN', 'LR'], down: ['MX', 'SB'], note: '하프 페이스에 맞는 가벼운 반발력' },
 };
 const ageBand = n => n >= 60 ? '60대 이상' : n >= 50 ? '50대' : n >= 40 ? '40대' : n >= 30 ? '30대' : '20대 이하';
 const recMore = {};
@@ -189,8 +191,8 @@ function viewHome() {
   app.innerHTML = `
   <section class="hero">
     <div style="position:relative;z-index:1">
-      <h1>내 몸에 맞는<br><em>목표별 러닝화 베스트 3</em></h1>
-      <p>키 · 몸무게 · 성별 · 나이 · 목적을 입력하면 초보 · 10km~하프 · 풀코스 세 가지 목표별로 RunRepeat 실측 80점 이상 모델 중 베스트 3를 골라드려요.</p>
+      <h1>내 몸에 맞는<br><em>목적별 러닝화 베스트 3</em></h1>
+      <p>키 · 몸무게 · 성별 · 나이 · 달리는 목적을 입력하면 RunRepeat 실측 80점 이상 모델 중 나에게 맞는 베스트 3를 골라드려요.</p>
       <ul><li>RunRepeat 실측 리뷰 80점+ 모델만 추천</li><li>${Object.keys(BRANDS).length}개 브랜드 · ${SHOES.length}개 모델 분석</li><li>체격(BMI) · 나이 · 목적에 맞춰 쿠션·반발·안정성 매칭</li></ul>
     </div>
     <form class="form" onsubmit="event.preventDefault();runRec()">
@@ -204,8 +206,8 @@ function viewHome() {
           <div class="seg" style="--n:2" id="fg">${['남성', '여성'].map(g => `<button type="button" class="${prof.g === g ? 'on' : ''}" onclick="pick('g','${g}',this)">${g}</button>`).join('')}</div></div>
       </div>
       <div class="fl" style="margin-bottom:16px"><label>달리는 목적</label>
-        <div class="seg seg-pu" style="--n:4" id="fp">${Object.keys(PURPOSES).map(k => `<button type="button" class="${prof.pu === k ? 'on' : ''}" onclick="pick('pu','${k}',this)">${k}</button>`).join('')}</div></div>
-      <div class="lvl-note">${REC_GROUPS.map(g => `<span style="--gc:${g.col}">${g.name}</span>`).join('<i>·</i>')} 세 가지 목표를 한 번에 추천해요</div>
+        <div class="seg seg-pu" style="--n:3" id="fp">${Object.keys(PURPOSES).map(k => `<button type="button" class="${prof.pu === k ? 'on' : ''}" onclick="pick('pu','${k}',this)">${k}</button>`).join('')}</div></div>
+      <div class="lvl-note">선택한 목적에 맞는 러닝화 <span style="--gc:#f5a300">베스트 3</span>를 골라드려요</div>
       <button class="btn pri" type="submit">러닝화 추천받기 →</button>
     </form>
   </section>
@@ -215,9 +217,27 @@ function viewHome() {
 function pick(k, v, el) { prof[k] = v; [...el.parentNode.children].forEach(b => b.classList.toggle('on', b === el)); }
 function runRec() {
   prof.h = +$('#fh').value; prof.w = +$('#fw').value; prof.a = +$('#fa').value || prof.a;
-  REC_GROUPS.forEach(g => recMore[g.k] = 0);
+  REC_GROUPS.forEach(g => recMore[g.k] = 0); recMore.pu = 0; recDone = true;
   renderRec();
   $('#rec').scrollIntoView({ behavior: 'smooth' });
+}
+/* 추천받기 결과: 목적 맞춤 베스트 3 + 더 보기 */
+function renderMyRec() {
+  const bmi = prof.w / Math.pow(prof.h / 100, 2);
+  const type = bmi >= 25 || prof.w >= 85 ? '쿠션·안정성 우선' : bmi < 20.5 ? '경량·반발 우선' : '균형형';
+  const W = PU_W[prof.pu] || LEVELS[prof.pu] || LEVELS['10km'];
+  const r = recommend(prof, W, prof.pu), n = recMore.pu || 0, list = [...r.top, ...r.rest.slice(0, n)];
+  const P = PURPOSES[prof.pu];
+  $('#rec').innerHTML = `
+    <div class="rsum"><div>
+      <h2 class="sec-title">🎯 ${prof.pu} 맞춤 러닝화 베스트 3</h2>
+      <div class="pills"><span class="pill">${prof.g}</span><span class="pill">${prof.h}cm · ${prof.w}kg</span><span class="pill">${ageBand(prof.a)}</span><span class="pill t">${prof.pu}</span><span class="pill">BMI ${bmi.toFixed(1)}</span><span class="pill">${type}</span></div>
+    </div><button class="btn ghost" style="font-size:13px" onclick="recDone=false;renderRec();">← 26년 베스트 3 다시 보기</button></div>
+    <section class="rsolo">
+      <p class="rsolo-why">${P ? `<b>${prof.pu}</b>에는 ${P.note}이 중요해요. ` : ''}RunRepeat 점수, 체격(BMI), 나이까지 반영해 브랜드가 겹치지 않게 골랐어요.</p>
+      <div class="rsolo-grid">${list.map((x, i) => recCard(x, i)).join('')}</div>
+      ${n < r.rest.length ? `<button class="btn ghost rc-more rsolo-more" onclick="recMore.pu=${n + 3};renderRec();">추천 더 보기 (+3) ↓</button>` : ''}
+    </section>`;
 }
 /* 브랜드 로고 상자 (신발 그림 대신) */
 const logoBox = b => `<span class="rlogo" style="background:${grad(b)}"><span>${LOGOS.has(b) ? `<img src="logos/${b}.svg" alt="${BRANDS[b].name}">` : `<b>${BRANDS[b].name}</b>`}</span></span>`;
@@ -236,16 +256,25 @@ function recCard(x, i, g) {
     <span class="lu-sc t-${tier(s)}"><b>${s.s}</b><small>점</small></span>
   </button>`;
 }
+/* 목적별 기본 가중치 */
+const PU_W = {
+  '조깅': { CU: 1, DY: .95, SN: .9, MX: .8, SB: .8, ST: .65, CR: .45, LR: .4, FR: .35 },
+  '리커버리(회복)': { MX: 1, CU: .95, SB: .8, DY: .7, SN: .65, ST: .5, CR: .3, FR: .25, LR: .25 },
+  '다이어트': { CU: 1, DY: .95, MX: .9, SB: .9, SN: .75, ST: .55, CR: .35, FR: .3, LR: .3 },
+  '기록 단축': { FR: 1, CR: .95, LR: .9, ST: .85, SN: .8, DY: .55, CU: .5, MX: .35, SB: .35 },
+};
+let recDone = false;
 function renderRec() { setTimeout(revealObserve, 0);
+  if (recDone) return renderMyRec();
   const bmi = prof.w / Math.pow(prof.h / 100, 2);
   const type = bmi >= 25 || prof.w >= 85 ? '쿠션·안정성 우선' : bmi < 20.5 ? '경량·반발 우선' : '균형형';
   $('#rec').innerHTML = `
     <div class="rsum"><div>
-      <h2 class="sec-title">🏆 목표별 베스트 3</h2>
-      <div class="pills"><span class="pill">${prof.g}</span><span class="pill">${prof.h}cm · ${prof.w}kg</span><span class="pill">${ageBand(prof.a)}</span><span class="pill">${prof.pu}</span><span class="pill">BMI ${bmi.toFixed(1)}</span><span class="pill t">${type}</span></div>
+      <h2 class="sec-title">🏆 26년 러닝화 베스트 3</h2>
+      <p class="rsub">RunRepeat 실측 80점 이상 모델 중 초보 · 10km~하프 · 풀코스 목표별로 골랐어요. 위에서 내 정보를 넣으면 나에게 맞는 베스트 3를 찾아드려요.</p>
     </div><span style="color:var(--sub);font-size:13px">카드를 누르면 핵심 포인트를 볼 수 있어요</span></div>
     <div class="rec3">${REC_GROUPS.map(g => {
-      const r = recommend(prof, g.w, g.name), n = recMore[g.k] || 0, list = [...r.top, ...r.rest.slice(0, n)];
+      const r = recommend({ h: 172, w: 68, g: '남성', a: 35, pu: null }, g.w, g.name), n = recMore[g.k] || 0, list = [...r.top, ...r.rest.slice(0, n)];
       return `<section class="rcol" style="--gc:${g.col}">
         <div class="rc-head"><span class="rg-badge">${g.name}</span><b>${g.sub}</b><p>${g.desc}</p></div>
         <div class="rlist">${list.map((x, i) => recCard(x, i, g)).join('')}</div>

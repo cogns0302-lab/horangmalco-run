@@ -843,9 +843,9 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 }
 
 /* ===== 메인 나이·목적 · 러닝 팁 탭 색 ===== */
-.seg-pu{grid-template-columns:repeat(4,1fr)}
+.seg-pu{grid-template-columns:repeat(3,1fr)}
 .seg-pu button{font-size:13px;line-height:1.2;white-space:normal}
-@media (max-width:600px){.seg-pu{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:600px){.seg-pu{grid-template-columns:repeat(3,1fr)}.seg-pu button{font-size:12.5px;padding:0 2px}}
 .tchip{border:1.5px solid var(--tc)!important;color:var(--tc)!important;background:var(--card)!important}
 .tchip small{font-size:11px;font-weight:800;opacity:.75;margin-left:2px}
 .tchip.on{background:var(--tc)!important;color:#fff!important}
@@ -1012,6 +1012,14 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
   .bev .ba-ic{animation:icFloat 3.2s ease-in-out infinite}
   @keyframes icFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 }
+
+/* ===== 메인: 목적 맞춤 결과 ===== */
+.rsub{margin:6px 0 0;color:var(--sub);font-size:14px;line-height:1.55}
+.rsolo{background:var(--card);border:1px solid var(--line);border-top:4px solid var(--tiger);border-radius:18px;padding:18px}
+.rsolo-why{margin:0 0 14px;font-size:14px;color:var(--sub);line-height:1.6}.rsolo-why b{color:var(--ink)}
+.rsolo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.rsolo-more{margin-top:14px;width:100%}
+@media (max-width:900px){.rsolo-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -1043,11 +1051,11 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbgxc4m"></script>
-<script src="photos.js?v=mwbgxc4m"></script>
-<script src="history.js?v=mwbgxc4m"></script>
-<script src="marathon.js?v=mwbgxc4m"></script>
-<script src="stories.js?v=mwbgxc4m"></script>
-<script src="app.js?v=mwbgxc4m"></script>
+<script src="data.js?v=mwbnvgtv"></script>
+<script src="photos.js?v=mwbnvgtv"></script>
+<script src="history.js?v=mwbnvgtv"></script>
+<script src="marathon.js?v=mwbnvgtv"></script>
+<script src="stories.js?v=mwbnvgtv"></script>
+<script src="app.js?v=mwbnvgtv"></script>
 </body>
 </html>
