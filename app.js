@@ -1254,6 +1254,46 @@ function viewShop() {
         <div class="wm">${n}</div><div class="ko">${esc(d)}</div><div class="ds">${u.replace(/^https?:\/\//, '').replace(/\/$/, '')}</div><div class="go">↗</div></a>`).join('')}</div>`;
 }
 
+/* ---------- 러닝화 계급도 ---------- */
+const TIERS = [
+  ['S', 93, 100, '최상위', '#f5a300', '#ffd166'],
+  ['A', 90, 92, '탁월', '#f43f5e', '#fb7185'],
+  ['B', 87, 89, '우수', '#8b5cf6', '#a78bfa'],
+  ['C', 84, 86, '좋음', '#2563eb', '#60a5fa'],
+  ['D', 80, 83, '무난', '#059669', '#34d399'],
+  ['E', 0, 79, '아쉬움', '#52525b', '#a1a1aa'],
+];
+const TIER_GROUPS = [['전체', null], ['레이싱화', ['FR', 'CR', 'LR']], ['슈퍼트레이너', ['ST', 'SN']], ['쿠션·맥스쿠션', ['CU', 'MX']], ['안정화', ['SB']], ['데일리·입문', ['DY']]];
+let tierGroup = '전체';
+function viewTier() {
+  const G = TIER_GROUPS.find(g => g[0] === tierGroup) || TIER_GROUPS[0];
+  const all = SHOES.filter(s => s.lab && s.s != null), pool = all.filter(s => !G[1] || G[1].includes(s.c));
+  const rows = TIERS.map(t => [t, pool.filter(s => s.s >= t[1] && s.s <= t[2]).sort((x, z) => z.s - x.s || (x.w || 999) - (z.w || 999))]);
+  const total = pool.length || 1;
+  app.innerHTML = `
+    <section class="tl-hero">
+      <div class="tl-hero-tx">
+        <span class="tl-eye">RUNREPEAT LAB SCORE · 2026.11</span>
+        <h1>2026 러닝화 계급도</h1>
+        <p>신발을 실험실에서 직접 잘라 측정하는 RunRepeat의 점수로 <b>${all.length}개 모델</b>을 6개 티어로 나눴어요. 신발을 누르면 점수가 나온 이유와 핵심 특징을 볼 수 있어요.</p>
+      </div>
+      <div class="tl-dist" aria-label="티어별 모델 수">
+        ${rows.map(([t, l], i) => `<button class="tl-seg" style="--c1:${t[4]};--c2:${t[5]};--w:${Math.max(l.length / total * 100, l.length ? 6 : 0)}%;--i:${i}" onclick="document.getElementById('tier-${t[0]}').scrollIntoView({behavior:'smooth',block:'center'})" ${l.length ? '' : 'hidden'}><b>${t[0]}</b><span>${l.length}</span></button>`).join('')}
+      </div>
+    </section>
+    <div class="tl-filter">${TIER_GROUPS.map(([g, cs]) => { const n = all.filter(s => !cs || cs.includes(s.c)).length; return `<button class="${g === tierGroup ? 'on' : ''}" onclick="tierGroup='${g}';viewTier()">${g} <small>${n}</small></button>`; }).join('')}</div>
+    <div class="tl-board">
+      ${rows.map(([t, l], ri) => `<section class="tl-row t-${t[0]}" id="tier-${t[0]}" style="--c1:${t[4]};--c2:${t[5]};--r:${ri}">
+        <div class="tl-label"><b>${t[0]}</b><span>${t[3]}</span><small>${t[0] === 'S' ? '93점 이상' : t[0] === 'E' ? '79점 이하' : t[1] + '~' + t[2] + '점'}</small><em>${l.length}개</em></div>
+        <div class="tl-chips">${l.length ? l.map((s, i) => `<button class="tl-chip" style="--i:${Math.min(i, 16)}" onclick="openShoe('${s.id}')" title="${esc(BRANDS[s.b].name)} ${esc(s.ko)} · ${CATS[s.c].name}">
+          <span class="tl-logo">${LOGOS.has(s.b) ? `<img src="logos/${s.b}.svg" alt="${BRANDS[s.b].name}">` : `<b>${BRANDS[s.b].name}</b>`}</span>
+          <span class="tl-name"><b>${esc(s.ko)}</b><small><i style="background:${CATS[s.c].color}"></i>${CATS[s.c].name}</small></span>
+          <span class="tl-sc">${s.s}</span></button>`).join('') : '<p class="tl-empty">이 분류에는 해당 점수대 모델이 없어요</p>'}</div>
+      </section>`).join('')}
+    </div>
+    <p class="note" style="margin-top:14px">점수: RunRepeat 실험실 리뷰(26년 11월 11일 확인) · RunRepeat 리뷰가 없는 모델 ${SHOES.length - all.length}개(중국·한국 브랜드 대부분 등)는 제외했어요 · 같은 점수는 가벼운 순</p>`;
+}
+
 /* ---------- 라우터 ---------- */
 /* 페이지 전환: 섹션이 순서대로 떠오름 */
 function pageEnter() {
@@ -1288,6 +1328,7 @@ function route() {
   document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.v === v));
   if (v === 'history') viewHistory(arg);
   else if (v === 'marathon') viewMarathon(arg);
+  else if (v === 'tier') viewTier();
   else if (v === 'find') viewFind(arg);
   else if (v === 'tips') viewTips(arg);
   else if (v === 'races') viewRaces();
