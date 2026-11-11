@@ -1367,10 +1367,12 @@ function viewTier() {
     <div class="tl-board">
       ${rows.map(([t, l], ri) => `<section class="tl-row t-${t[0]}" id="tier-${t[0]}" style="--c1:${t[4]};--c2:${t[5]};--r:${ri}">
         <div class="tl-label"><b>${t[0]}</b><span>${t[3]}</span><small>${t[0] === 'S' ? '93점 이상' : t[0] === 'E' ? '79점 이하' : t[1] + '~' + t[2] + '점'}</small><em>${l.length}개</em></div>
-        <div class="tl-chips">${l.length ? l.map((s, i) => `<button class="tl-chip" style="--i:${Math.min(i, 16)}" onclick="openShoe('${s.id}')" title="${esc(BRANDS[s.b].name)} ${esc(s.ko)} · ${CATS[s.c].name}">
-          <span class="tl-logo">${LOGOS.has(s.b) ? `<img src="logos/${s.b}.svg" alt="${BRANDS[s.b].name}">` : `<b>${BRANDS[s.b].name}</b>`}</span>
-          <span class="tl-name"><b>${esc(s.ko)}</b><small><i style="background:${CATS[s.c].color}"></i>${CATS[s.c].name}</small></span>
-          <span class="tl-sc">${s.s}</span></button>`).join('') : '<p class="tl-empty">이 분류에는 해당 점수대 모델이 없어요</p>'}</div>
+        <div class="tl-groups">${l.length ? [...new Set(l.map(s => s.s))].map((sc, gi) => { const g = l.filter(s => s.s === sc); return `<div class="tl-sg" style="--g:${gi}">
+          <div class="tl-sgh"><b>${sc}</b><small>점 · ${g.length}개</small></div>
+          <div class="tl-chips">${g.map((s, i) => `<button class="tl-chip" style="--i:${Math.min(i, 16)}" onclick="openShoe('${s.id}')" title="${esc(BRANDS[s.b].name)} ${esc(s.ko)} · ${CATS[s.c].name}">
+            <span class="tl-logo">${LOGOS.has(s.b) ? `<img src="logos/${s.b}.svg" alt="${BRANDS[s.b].name}">` : `<b>${BRANDS[s.b].name}</b>`}</span>
+            <span class="tl-name"><b>${esc(s.ko)}</b><small><i style="background:${CATS[s.c].color}"></i>${CATS[s.c].name}</small></span></button>`).join('')}</div>
+        </div>`; }).join('') : '<p class="tl-empty">이 분류에는 해당 점수대 모델이 없어요</p>'}</div>
       </section>`).join('')}
     </div>
     <p class="note" style="margin-top:14px">점수: RunRepeat 실험실 리뷰 · ${DATA_UPDATED} 기준 · 매달 1일·15일에 RunRepeat 점수·무게·순위를 다시 받고, 한국에 정식 출시된 새 모델을 추가해요 · RunRepeat 리뷰가 없는 모델 ${SHOES.length - all.length}개(중국·한국 브랜드 대부분 등)는 제외했어요 · 같은 점수는 가벼운 순</p>`;
