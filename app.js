@@ -289,7 +289,29 @@ function rrWhy(s) {
   if (/flexible/i.test(stiff || '')) out.push(['유연한 바닥', 'i']);
   return out;
 }
-const RR_ABOUT = 'RunRepeat(런리피트)는 신발을 직접 사서 실험실에서 반으로 자르고 무게·쿠션·반발력·내구성 등을 측정한 뒤, 실제 러닝 테스트를 더해 100점 만점으로 매기는 세계 최대 러닝화 리뷰 사이트예요.';
+/* 점수 + 핵심 특징 패널 */
+function scorePanel(s, B, circ) {
+  const why = rrWhy(s), rank = why.find(w => /^러닝화 전체/.test(w[0])), rest = why.filter(w => w !== rank);
+  const basic = [C_NAME(s), s.f, s.d != null ? `드롭 ${s.d}mm` : null].filter(Boolean).map(t => [t, 'i']);
+  const grp = (label, cls, list) => list.length ? `<div class="fgrp ${cls}"><b>${label}</b><div>${list.map(([t]) => `<span>${esc(t)}</span>`).join('')}</div></div>` : '';
+  const tier = s.s == null ? '미평가' : s.est ? '참고 추정치' : scoreLabel(s.s);
+  return `<div class="mh-score">
+      <div class="ring"><svg viewBox="0 0 150 150" width="118" height="118"><circle cx="75" cy="75" r="64" stroke="#ffffff26" stroke-width="12" fill="none"/>
+        ${s.s != null ? `<circle cx="75" cy="75" r="64" stroke="${B.accent}" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - s.s / 100)}"/>` : ''}</svg>
+        <div class="rv"><b>${s.s ?? '—'}</b></div></div>
+      <div class="ms-txt"><small>RunRepeat 점수</small><b>${tier}</b>
+        ${rank ? `<span class="ms-rank${rank[1] === 'n' ? ' low' : ''}">${rank[0].replace('러닝화 전체 ', '전체 ')}</span>` : `<span class="ms-note">${s.est ? '이전 버전·국내 리뷰 참고' : '실험실 리뷰 없음'}</span>`}</div>
+    </div>
+    <div class="feat">
+      <h4>핵심 특징</h4>
+      ${grp('강점', 'fg-p', rest.filter(w => w[1] === 'p'))}
+      ${grp('아쉬운 점', 'fg-n', rest.filter(w => w[1] === 'n'))}
+      ${grp('특징', 'fg-i', [...basic, ...rest.filter(w => w[1] === 'i')])}
+    </div>
+    <p class="rrinfo"><b>RunRepeat란?</b> ${RR_ABOUT}</p>`;
+}
+const C_NAME = s => CATS[s.c].name;
+const RR_ABOUT = '신발을 직접 사서 실험실에서 반으로 자르고 무게·쿠션·반발력·내구성을 측정한 뒤, 실제 러닝 테스트를 더해 100점 만점으로 매기는 세계 최대 러닝화 리뷰 사이트예요.';
 function openShoe(id) {
   const s = byId[id], B = BRANDS[s.b], C = CATS[s.c];
   const peers = SHOES.filter(x => x.c === s.c);
@@ -301,18 +323,14 @@ function openShoe(id) {
   const reviewed = s.lab;
   $('#mbox').innerHTML = `
     <button class="mx" onclick="closeModal()" aria-label="닫기">×</button>
-    <div class="mhero" style="background:${grad(s.b)}">
-      <div><span class="brandlbl" style="color:#fff9">${blogo(s.b)}${B.name} · ${C.name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
-        <h2>${esc(s.ko)}</h2><div style="opacity:.7;font-weight:600">${esc(s.en)}</div>
+    <div class="mhero mh2" style="--hb:${grad(s.b)}">
+      <div class="mh-left">
+        <span class="brandlbl">${blogo(s.b)}${B.name} · ${C.name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
+        <h2>${esc(s.ko)}</h2><div class="mh-en">${esc(s.en)}</div>
         <div class="head">${esc(s.head)}</div>
-        <div class="mshoe ${hasPhoto(s) ? 'photo' : ''}">${shoeVisual(s, 230)}</div>${hasPhoto(s) ? credit(SHOE_PHOTO[s.id]).replace('class="credit"', 'class="credit lt"') : ''}</div>
-      <div class="ring"><svg width="150" height="150"><circle cx="75" cy="75" r="64" stroke="#ffffff30" stroke-width="12" fill="none"/>
-        ${s.s != null ? `<circle cx="75" cy="75" r="64" stroke="${B.accent}" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - s.s / 100)}"/>` : ''}</svg>
-        <div class="rv"><b>${s.s ?? '—'}</b><small>${s.s == null ? 'RUNREPEAT 미평가' : s.est ? '참고 추정치' : 'RUNREPEAT · ' + scoreLabel(s.s).toUpperCase()}</small></div></div>
-      <div class="rrwhy">
-        ${(() => { const w = rrWhy(s); return w.length ? `<b class="rrwhy-t">이 점수가 나온 이유</b><div class="rrkw">${w.map(([t, c]) => `<span class="k-${c}">${c === 'p' ? '＋' : c === 'n' ? '－' : '·'} ${t}</span>`).join('')}</div>` : `<b class="rrwhy-t">${s.est ? '참고 추정치' : 'RunRepeat 미평가'}</b><p class="rrnote">${s.est ? '같은 버전의 RunRepeat 실험실 리뷰가 아직 없어 이전 버전·국내 리뷰를 참고한 점수예요.' : 'RunRepeat 실험실 리뷰가 아직 없는 모델이에요.'}</p>`; })()}
-        <p class="rrabout">${RR_ABOUT}</p>
+        <div class="mshoe ${hasPhoto(s) ? 'photo' : ''}">${shoeVisual(s, 230)}</div>${hasPhoto(s) ? credit(SHOE_PHOTO[s.id]).replace('class="credit"', 'class="credit lt"') : ''}
       </div>
+      <div class="mh-right">${scorePanel(s, B, circ)}</div>
     </div>
     <div class="mbody">
       <h3 style="margin-top:0">핵심 포인트 & 장점 3</h3>

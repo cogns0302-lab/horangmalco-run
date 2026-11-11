@@ -854,23 +854,39 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tchip:not(.on){color:color-mix(in srgb,var(--tc) 55%,#fff)!important}}
 :root[data-theme="dark"] .tchip:not(.on){color:color-mix(in srgb,var(--tc) 55%,#fff)!important}
 
-/* ===== 상세 팝업: 점수 이유 ===== */
-.mhero{grid-template-columns:1fr 260px!important;align-items:start!important}
-.mhero .ring{grid-column:2;grid-row:1}
-.mhero .rrwhy{grid-column:2;grid-row:2;margin-top:-6px}
-.mhero > div:first-child{grid-row:1 / span 2}
-.rrwhy-t{display:block;font-size:12.5px;font-weight:900;letter-spacing:.02em;margin-bottom:8px;text-align:center}
-.rrkw{display:flex;flex-wrap:wrap;gap:5px;justify-content:center}
-.rrkw span{font-size:12px;font-weight:800;padding:4px 9px;border-radius:99px;background:#ffffff1f;border:1px solid #ffffff33;color:#fff;white-space:nowrap}
-.rrkw .k-p{background:#16a34a;border-color:#16a34a}
-.rrkw .k-n{background:#b91c1c;border-color:#b91c1c}
-.rrnote{font-size:12.5px;opacity:.85;margin:0;text-align:center}
-.rrabout{font-size:11.5px;line-height:1.5;opacity:.75;margin:10px 0 0;text-align:center}
-@media (max-width:700px){
-  .mhero{grid-template-columns:1fr!important}
-  .mhero > div:first-child{grid-row:auto}
-  .mhero .ring,.mhero .rrwhy{grid-column:1;grid-row:auto}
-  .mhero .rrwhy{margin-top:0}
+/* ===== 상세 팝업 상단 v2: 좌 신발 | 우 점수 ===== */
+#mbox .mh2{display:grid;grid-template-columns:1fr 1fr;gap:0;padding:0;align-items:stretch;background:var(--hb);color:#fff}
+.mh2 .mh-left{padding:30px 30px 28px;display:flex;flex-direction:column;gap:6px;min-width:0}
+.mh2 .brandlbl{color:#ffffffb3!important}
+.mh2 h2{margin:6px 0 0;font-size:30px;line-height:1.2}
+.mh2 .mh-en{opacity:.7;font-weight:700;font-size:14px}
+.mh2 .head{margin:4px 0 14px}
+.mh2 .mshoe{margin-top:auto}
+.mh2 .mh-right{padding:28px 28px 24px;background:rgba(0,0,0,.22);border-left:1px solid #ffffff22;display:flex;flex-direction:column;gap:16px;min-width:0}
+.mh-score{display:flex;align-items:center;gap:18px}
+.mh-score .ring{width:118px;height:118px;flex:none;justify-self:auto;margin:0}
+.mh-score .ring .rv b{font-size:42px}
+.ms-txt{display:flex;flex-direction:column;align-items:flex-start;gap:3px}
+.ms-txt small{font-size:12px;font-weight:700;opacity:.7;letter-spacing:.04em}
+.ms-txt b{font-size:24px;font-weight:900;line-height:1.1}
+.ms-rank{margin-top:6px;background:#ffc233;color:#1a1612;font-size:12.5px;font-weight:900;padding:4px 10px;border-radius:99px}
+.ms-rank.low{background:#ffffff2a;color:#fff}
+.ms-note{margin-top:6px;font-size:12px;opacity:.75}
+.feat h4{margin:0 0 10px;font-size:14px;font-weight:900;letter-spacing:.02em}
+.fgrp{display:grid;grid-template-columns:68px 1fr;gap:8px;align-items:start;margin-top:8px}
+.fgrp > b{font-size:12px;font-weight:900;padding-top:5px}
+.fgrp > div{display:flex;flex-wrap:wrap;gap:6px}
+.fgrp span{font-size:12.5px;font-weight:700;padding:4px 10px;border-radius:99px;border:1px solid;line-height:1.35}
+.fgrp.fg-p > b{color:#86efac}.fgrp.fg-p span{background:#22c55e26;border-color:#4ade8066;color:#dcfce7}
+.fgrp.fg-n > b{color:#fca5a5}.fgrp.fg-n span{background:#ef444426;border-color:#f8717166;color:#fee2e2}
+.fgrp.fg-i > b{color:#93c5fd}.fgrp.fg-i span{background:#60a5fa1f;border-color:#93c5fd55;color:#e0ecff}
+.rrinfo{margin:auto 0 0;font-size:12px;line-height:1.55;color:#ffffffb3;background:#ffffff10;border:1px solid #ffffff1a;border-radius:12px;padding:10px 12px}
+.rrinfo b{color:#fff;font-weight:900;margin-right:2px}
+@media (max-width:760px){
+  #mbox .mh2{grid-template-columns:1fr}
+  .mh2 .mh-left{padding:24px 20px 18px}
+  .mh2 .mh-right{border-left:0;border-top:1px solid #ffffff22;padding:20px}
+  .mh2 h2{font-size:26px}
 }
 </style>
 </head>
@@ -903,10 +919,10 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbff1pf"></script>
-<script src="photos.js?v=mwbff1pf"></script>
-<script src="history.js?v=mwbff1pf"></script>
-<script src="marathon.js?v=mwbff1pf"></script>
-<script src="app.js?v=mwbff1pf"></script>
+<script src="data.js?v=mwbfqdoh"></script>
+<script src="photos.js?v=mwbfqdoh"></script>
+<script src="history.js?v=mwbfqdoh"></script>
+<script src="marathon.js?v=mwbfqdoh"></script>
+<script src="app.js?v=mwbfqdoh"></script>
 </body>
 </html>
