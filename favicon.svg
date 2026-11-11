@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><defs><linearGradient id="tgf" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd23f"/><stop offset="1" stop-color="#f28c00"/></linearGradient></defs>
+  <circle cx="13" cy="15" r="9" fill="#f5a300"/><circle cx="51" cy="15" r="9" fill="#f5a300"/><circle cx="13" cy="15" r="4.5" fill="#fff4dc"/><circle cx="51" cy="15" r="4.5" fill="#fff4dc"/>
+  <ellipse cx="32" cy="36" rx="26" ry="24" fill="url(#tgf)"/>
+  <path d="M32 13 l-3.5 8 l3.5 3.5 l3.5 -3.5 z" fill="#1a1612"/><path d="M21 16 q3 6 7 7 M43 16 q-3 6 -7 7" stroke="#1a1612" stroke-width="3" fill="none" stroke-linecap="round"/>
+  <path d="M6 31 h9 M7 38.5 h8 M58 31 h-9 M57 38.5 h-8" stroke="#1a1612" stroke-width="3" stroke-linecap="round"/>
+  <ellipse cx="32" cy="46" rx="14" ry="10.5" fill="#fff4dc"/><circle cx="22.5" cy="32" r="3.4" fill="#1a1612"/><circle cx="41.5" cy="32" r="3.4" fill="#1a1612"/>
+  <path d="M27 40 h10 l-5 5.5 z" fill="#1a1612"/><path d="M32 45.5 v3 M32 48.5 q-4 3 -7 0 M32 48.5 q4 3 7 0" stroke="#1a1612" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
