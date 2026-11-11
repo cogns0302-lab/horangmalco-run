@@ -380,9 +380,9 @@ function openShoe(id) {
         <div class="head mst" style="--i:3">${esc(s.head)}</div>
         ${featPanel(s)}
       <div class="mact mh-act mst" style="--i:14">
-        ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat 리뷰·실제 사진 보기 ↗</a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat에서 찾아보기 ↗</a>`}
-        <a class="btn act-g" href="https://search.shopping.naver.com/search/all?query=${encodeURIComponent(B.ko + ' ' + s.ko)}" target="_blank" rel="noopener">네이버 실제 사진·최저가 ↗</a>
-        <a class="btn act-g" href="${B.site}" target="_blank" rel="noopener">${B.ko} 공식몰</a>
+        ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 리뷰</span> ↗</a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 검색</span> ↗</a>`}
+        <a class="btn act-g" href="https://search.shopping.naver.com/search/all?query=${encodeURIComponent(B.ko + ' ' + s.ko)}" target="_blank" rel="noopener">네이버 최저가 ↗</a>
+        <a class="btn act-g act-shop" href="${B.site}" target="_blank" rel="noopener" aria-label="${B.ko} 공식몰">${blogo(s.b)}공식몰</a>
       </div>
       </div>
       <div class="mh-right">${scorePanel(s, B, circ, rank, scored.length)}</div>
