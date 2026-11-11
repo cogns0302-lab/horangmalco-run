@@ -1165,6 +1165,23 @@ p,.sec-sub,.note{text-wrap:pretty}
   .lu-cat{position:static!important}
   .lu-goal{flex-wrap:wrap!important}
 }
+
+/* ===== 팝업: 점수 이유 요약 + 버튼 왼쪽 배치 ===== */
+.why-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:9px}
+.why-list li{display:grid;grid-template-columns:22px 74px 1fr;gap:8px;align-items:start;font-size:13.5px;line-height:1.5}
+.why-list .wy-i{font-size:13px;font-weight:900;text-align:center;line-height:1.5}
+.why-list .wy-k{font-size:12px;font-weight:900;opacity:.75;padding-top:1px;white-space:nowrap}
+.why-list .wy-v{color:#fff}.why-list .wy-v b{font-weight:900}
+.why-list .r-up .wy-i{color:#86efac}.why-list .r-down .wy-i{color:#fca5a5}.why-list .r-down .wy-v{color:#fee2e2}
+.why-list .r-rank .wy-v b{color:#ffc233}
+.mh-act{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px;padding-top:16px;border-top:1px solid #ffffff22}
+.mh-act .btn{font-size:13px;padding:9px 14px;border-radius:12px;font-weight:900;text-decoration:none;display:inline-flex;align-items:center;gap:6px;white-space:nowrap}
+.mh-act .act-p{background:#ffc233;color:#1a1612;border:0}
+.mh-act .act-g{background:#ffffff1a;color:#fff;border:1px solid #ffffff40}
+.mh-act .act-g:hover{background:#ffffff2e}
+.mh-act .act-p{flex:1 1 100%;justify-content:center;padding:11px 14px}
+.mh-act .act-g{flex:1 1 0;justify-content:center}
+@media (max-width:760px){.why-list li{grid-template-columns:20px 70px 1fr}.mh-act .btn{flex:1 1 auto;justify-content:center}}
 </style>
 </head>
 <body>
@@ -1197,11 +1214,11 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbpfaqq"></script>
-<script src="photos.js?v=mwbpfaqq"></script>
-<script src="history.js?v=mwbpfaqq"></script>
-<script src="marathon.js?v=mwbpfaqq"></script>
-<script src="stories.js?v=mwbpfaqq"></script>
-<script src="app.js?v=mwbpfaqq"></script>
+<script src="data.js?v=mwbpomeb"></script>
+<script src="photos.js?v=mwbpomeb"></script>
+<script src="history.js?v=mwbpomeb"></script>
+<script src="marathon.js?v=mwbpomeb"></script>
+<script src="stories.js?v=mwbpomeb"></script>
+<script src="app.js?v=mwbpomeb"></script>
 </body>
 </html>

@@ -333,18 +333,18 @@ function featPanel(s) {
 const WHY_P = { '반발력 높음': '반발력', '충격 흡수 우수': '충격 흡수', '접지력 좋음': '접지력', '내구성 좋음': '내구성', '통기성 좋음': '통기성' };
 const WHY_N = { '반발력 보통': '보통 수준의 반발력', '반발력 낮음': '낮은 반발력', '충격 흡수 보통': '보통 수준의 충격 흡수', '충격 흡수 약함': '약한 충격 흡수', '접지력 아쉬움': '아쉬운 접지력', '밑창 빨리 닳음': '빨리 닳는 밑창', '앞코 내구성 약함': '약한 앞코 내구성', '뒤꿈치 안감 약함': '약한 뒤꿈치 안감', '통기성 아쉬움': '아쉬운 통기성' };
 function whyText(s, cRank, cTotal) {
-  if (s.s == null) return 'RunRepeat 실험실 리뷰가 아직 없는 모델이라 점수가 없어요. 특징은 제조사 정보와 국내 리뷰를 참고했어요.';
-  if (s.est || !s.lab) return `같은 버전의 RunRepeat 실험실 리뷰가 아직 없어, 이전 버전과 국내 리뷰를 참고한 추정 점수예요. ${C_NAME(s)} 중에서는 ${cTotal}개 중 ${cRank}위예요.`;
+  const li = (ic, k, v, cls = '') => `<li class="${cls}"><span class="wy-i">${ic}</span><span class="wy-k">${k}</span><span class="wy-v">${v}</span></li>`;
+  if (s.s == null) return `<ul class="why-list">${li('ⓘ', '점수', 'RunRepeat 실험실 리뷰 없음')}${li('📝', '참고 자료', '제조사 정보 · 국내 리뷰')}</ul>`;
+  if (s.est || !s.lab) return `<ul class="why-list">${li('ⓘ', '점수', '이전 버전 · 국내 리뷰 기반 추정치')}${li('🥇', '같은 종류', `${C_NAME(s)} ${cTotal}개 중 <b>${cRank}위</b>`, 'r-cat')}</ul>`;
   const w = rrWhy(s), rank = w.find(x => /^러닝화 전체/.test(x[0]));
-  const out = [];
-  if (rank) { const m = rank[0].match(/(\d+)위 · (상위|하위) (\d+)%/); out.push(`RunRepeat가 리뷰한 전체 러닝화 중 <b>${m[1]}위(${m[2]} ${m[3]}%)</b>로 '${scoreLabel(s.s)}' 등급을 받았어요.`); }
   const pos = w.filter(x => x[1] === 'p' && x !== rank).map(x => WHY_P[x[0]] || (/g$/.test(x[0]) ? `가벼운 무게(${s.w}g)` : null)).filter(Boolean);
   const neg = w.filter(x => x[1] === 'n' && x !== rank).map(x => WHY_N[x[0]] || (/g$/.test(x[0]) ? `무거운 무게(${s.w}g)` : null)).filter(Boolean);
-  if (pos.length) out.push(`실험실 측정에서 <b>${pos.slice(0, 4).join(' · ')}</b> 항목이 좋게 나와 점수를 끌어올렸어요.`);
-  if (neg.length) out.push(`다만 <b>${neg.slice(0, 3).join(' · ')}</b> 쪽에서 점수가 깎였어요.`);
-  else if (pos.length) out.push('뚜렷한 감점 항목이 없는 고른 성능이에요.');
-  out.push(`같은 ${C_NAME(s)} ${cTotal}개 중에서는 ${cRank}위예요.`);
-  return out.join(' ');
+  const rows = [];
+  if (rank) { const m = rank[0].match(/(\d+)위 · (상위|하위) (\d+)%/); rows.push(li('🏆', '전체 순위', `RunRepeat 리뷰 전체 러닝화 중 <b>${m[1]}위</b> (${m[2]} ${m[3]}%) · ${scoreLabel(s.s)}`, 'r-rank')); }
+  rows.push(li('▲', '최상급 항목', pos.length ? `<b>${pos.slice(0, 5).join(' · ')}</b>` : '뚜렷한 강점 없음', 'r-up'));
+  rows.push(li('▼', '감점 항목', neg.length ? neg.slice(0, 4).join(' · ') : '뚜렷한 감점 없음', 'r-down'));
+  rows.push(li('🥇', '같은 종류', `${C_NAME(s)} ${cTotal}개 중 <b>${cRank}위</b>`, 'r-cat'));
+  return `<ul class="why-list">${rows.join('')}</ul>`;
 }
 /* 점수 패널 (오른쪽) */
 function scorePanel(s, B, circ, cRank, cTotal) {
@@ -357,7 +357,7 @@ function scorePanel(s, B, circ, cRank, cTotal) {
       <div class="ms-txt"><small>RunRepeat 점수</small><b>${tier}</b>
         ${rank ? `<span class="ms-rank${rank[1] === 'n' ? ' low' : ''}">${rank[0].replace('러닝화 전체 ', '전체 ')}</span>` : `<span class="ms-note">${s.est ? '이전 버전·국내 리뷰 참고' : '실험실 리뷰 없음'}</span>`}</div>
     </div>
-    <div class="whybox mst" style="--i:6"><h4>왜 이 점수일까?</h4><p>${whyText(s, cRank, cTotal)}</p></div>
+    <div class="whybox mst" style="--i:6"><h4>왜 이 점수일까?</h4>${whyText(s, cRank, cTotal)}</div>
     <p class="rrinfo mst" style="--i:8"><b>RunRepeat란?</b> ${RR_ABOUT}</p>`;
 }
 const C_NAME = s => CATS[s.c].name;
@@ -379,6 +379,11 @@ function openShoe(id) {
         <h2 class="mst" style="--i:1">${esc(s.ko)}</h2><div class="mh-en mst" style="--i:2">${esc(s.en)}</div>
         <div class="head mst" style="--i:3">${esc(s.head)}</div>
         ${featPanel(s)}
+      <div class="mact mh-act mst" style="--i:14">
+        ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat 리뷰·실제 사진 보기 ↗</a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat에서 찾아보기 ↗</a>`}
+        <a class="btn act-g" href="https://search.shopping.naver.com/search/all?query=${encodeURIComponent(B.ko + ' ' + s.ko)}" target="_blank" rel="noopener">네이버 실제 사진·최저가 ↗</a>
+        <a class="btn act-g" href="${B.site}" target="_blank" rel="noopener">${B.ko} 공식몰</a>
+      </div>
       </div>
       <div class="mh-right">${scorePanel(s, B, circ, rank, scored.length)}</div>
     </div>
@@ -411,11 +416,6 @@ function openShoe(id) {
       <h3>아쉬운 점</h3>
       <ul class="sumlist">${s.cons.map(c => `<li><b>⚠️</b><span>${esc(c)}</span></li>`).join('')}</ul>
 
-      <div class="mact">
-        ${reviewed ? `<a class="btn pri" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat 리뷰·실제 사진 보기 ↗</a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat에서 찾아보기 ↗</a>`}
-        <a class="btn ghost" href="https://search.shopping.naver.com/search/all?query=${encodeURIComponent(B.ko + ' ' + s.ko)}" target="_blank" rel="noopener">네이버 실제 사진·최저가 ↗</a>
-        <a class="btn ghost" href="${B.site}" target="_blank" rel="noopener">${B.ko} 공식몰</a>
-      </div>
     </div>`;
   $('#modal').classList.add('on');
   $('#modal').scrollTop = 0;
