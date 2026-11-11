@@ -835,6 +835,18 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
   .sgrid .stile.multi .wm{font-size:22px!important}
   .bt3box{padding:14px}
 }
+
+/* ===== 메인 나이·목적 · 러닝 팁 탭 색 ===== */
+.seg-pu{grid-template-columns:repeat(4,1fr)}
+.seg-pu button{font-size:13px;line-height:1.2;white-space:normal}
+@media (max-width:600px){.seg-pu{grid-template-columns:repeat(2,1fr)}}
+.tchip{border:1.5px solid var(--tc)!important;color:var(--tc)!important;background:var(--card)!important}
+.tchip small{font-size:11px;font-weight:800;opacity:.75;margin-left:2px}
+.tchip.on{background:var(--tc)!important;color:#fff!important}
+.tchip:hover{background:color-mix(in srgb,var(--tc) 14%,var(--card))!important}
+.tchip.on:hover{background:var(--tc)!important}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tchip:not(.on){color:color-mix(in srgb,var(--tc) 55%,#fff)!important}}
+:root[data-theme="dark"] .tchip:not(.on){color:color-mix(in srgb,var(--tc) 55%,#fff)!important}
 </style>
 </head>
 <body>

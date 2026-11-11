@@ -147,7 +147,14 @@ const REC_GROUPS = [
   { k: 'mid', name: '10km ~ 하프', sub: '템포 · 기록 향상', desc: '가볍고 반발력 좋은 데일리·슈퍼트레이너 위주예요. 훈련과 대회를 함께 커버해요.', w: mix(LEVELS['10km'], LEVELS['하프']), col: '#2563eb' },
   { k: 'full', name: '풀코스', sub: '마라톤 완주 · 기록', desc: '42.195km를 버티는 쿠션과 추진력. 카본 레이싱화와 슈퍼트레이너 위주예요.', w: LEVELS['풀코스'], col: '#e11d48' },
 ];
-let prof = { h: 172, w: 68, g: '남성' };
+let prof = { h: 172, w: 68, g: '남성', a: 35, pu: '건강·다이어트' };
+const PURPOSES = {
+  '건강·다이어트': { up: ['CU', 'MX', 'SB', 'DY'], down: ['FR', 'LR'], note: '꾸준한 조깅에 편한 쿠션' },
+  '기록 단축': { up: ['FR', 'CR', 'LR', 'ST', 'SN'], down: ['MX', 'SB'], note: '기록 단축을 돕는 반발력' },
+  '대회 완주': { up: ['CR', 'ST', 'SN', 'MX'], down: ['LR'], note: '완주까지 버티는 쿠션·추진력' },
+  '부상 예방': { up: ['SB', 'MX', 'CU'], down: ['FR', 'LR'], note: '관절 부담을 줄이는 안정성·쿠션' },
+};
+const ageBand = n => n >= 60 ? '60대 이상' : n >= 50 ? '50대' : n >= 40 ? '40대' : n >= 30 ? '30대' : '20대 이하';
 const recMore = {};
 
 function recommend(p, W, label) {
@@ -163,6 +170,11 @@ function recommend(p, W, label) {
     }
     if (light && ['LR', 'CR', 'SN'].includes(s.c)) { fit += .05; notes.push('가벼운 체격에 맞는 경량 반발'); }
     if (p.g === '여성' && s.w > 290) fit -= .05;
+    const P = PURPOSES[p.pu];
+    if (P) { if (P.up.includes(s.c)) { fit += .22; notes.unshift(P.note); } if (P.down.includes(s.c)) fit -= .3; }
+    if (p.a >= 50) { if (['MX', 'CU', 'SB'].includes(s.c)) { fit += .18; notes.unshift(ageBand(p.a) + ' 관절을 지켜주는 쿠션'); } if (['LR', 'FR', 'ST'].includes(s.c)) fit -= .15; }
+    else if (p.a >= 40) { if (['MX', 'CU', 'SB'].includes(s.c)) fit += .08; }
+    else if (p.a < 30 && ['SN', 'ST', 'LR', 'CR'].includes(s.c)) fit += .06;
     if (label === '초보' && s.c === 'SB') notes.push('초보 부상 예방에 좋은 안정화');
     const total = s.s / 100 * .6 + fit * .4 + (s.bs ? .03 : 0);
     const why = `<b>${label}</b> 러너에게 맞는 ${CATS[s.c].name}${notes.length ? ' · ' + notes[0] : ''}`;
@@ -178,16 +190,21 @@ function viewHome() {
   <section class="hero">
     <div style="position:relative;z-index:1">
       <h1>내 몸에 맞는<br><em>목표별 러닝화 베스트 3</em></h1>
-      <p>키 · 몸무게 · 성별을 입력하면 초보 · 10km~하프 · 풀코스 세 가지 목표별로 RunRepeat 실측 80점 이상 모델 중 베스트 3를 골라드려요.</p>
-      <ul><li>RunRepeat 실측 리뷰 80점+ 모델만 추천</li><li>${Object.keys(BRANDS).length}개 브랜드 · ${SHOES.length}개 모델 분석</li><li>체격(BMI)과 목표 거리에 맞춰 쿠션·반발·안정성 매칭</li></ul>
+      <p>키 · 몸무게 · 성별 · 나이 · 목적을 입력하면 초보 · 10km~하프 · 풀코스 세 가지 목표별로 RunRepeat 실측 80점 이상 모델 중 베스트 3를 골라드려요.</p>
+      <ul><li>RunRepeat 실측 리뷰 80점+ 모델만 추천</li><li>${Object.keys(BRANDS).length}개 브랜드 · ${SHOES.length}개 모델 분석</li><li>체격(BMI) · 나이 · 목적에 맞춰 쿠션·반발·안정성 매칭</li></ul>
     </div>
     <form class="form" onsubmit="event.preventDefault();runRec()">
       <div class="frow">
         <div class="fl"><label for="fh">키</label><div class="inp"><input id="fh" type="number" min="130" max="215" value="${prof.h}" required><span>cm</span></div></div>
         <div class="fl"><label for="fw">몸무게</label><div class="inp"><input id="fw" type="number" min="30" max="160" value="${prof.w}" required><span>kg</span></div></div>
       </div>
-      <div class="fl" style="margin-bottom:16px"><label>성별</label>
-        <div class="seg" style="--n:2" id="fg">${['남성', '여성'].map(g => `<button type="button" class="${prof.g === g ? 'on' : ''}" onclick="pick('g','${g}',this)">${g}</button>`).join('')}</div></div>
+      <div class="frow">
+        <div class="fl"><label for="fa">나이</label><div class="inp"><input id="fa" type="number" min="10" max="90" value="${prof.a}" required><span>세</span></div></div>
+        <div class="fl"><label>성별</label>
+          <div class="seg" style="--n:2" id="fg">${['남성', '여성'].map(g => `<button type="button" class="${prof.g === g ? 'on' : ''}" onclick="pick('g','${g}',this)">${g}</button>`).join('')}</div></div>
+      </div>
+      <div class="fl" style="margin-bottom:16px"><label>달리는 목적</label>
+        <div class="seg seg-pu" style="--n:4" id="fp">${Object.keys(PURPOSES).map(k => `<button type="button" class="${prof.pu === k ? 'on' : ''}" onclick="pick('pu','${k}',this)">${k}</button>`).join('')}</div></div>
       <div class="lvl-note">${REC_GROUPS.map(g => `<span style="--gc:${g.col}">${g.name}</span>`).join('<i>·</i>')} 세 가지 목표를 한 번에 추천해요</div>
       <button class="btn pri" type="submit">러닝화 추천받기 →</button>
     </form>
@@ -197,7 +214,7 @@ function viewHome() {
 }
 function pick(k, v, el) { prof[k] = v; [...el.parentNode.children].forEach(b => b.classList.toggle('on', b === el)); }
 function runRec() {
-  prof.h = +$('#fh').value; prof.w = +$('#fw').value;
+  prof.h = +$('#fh').value; prof.w = +$('#fw').value; prof.a = +$('#fa').value || prof.a;
   REC_GROUPS.forEach(g => recMore[g.k] = 0);
   renderRec();
   $('#rec').scrollIntoView({ behavior: 'smooth' });
@@ -225,7 +242,7 @@ function renderRec() {
   $('#rec').innerHTML = `
     <div class="rsum"><div>
       <h2 class="sec-title">🏆 목표별 베스트 3</h2>
-      <div class="pills"><span class="pill">${prof.g}</span><span class="pill">${prof.h}cm · ${prof.w}kg</span><span class="pill">BMI ${bmi.toFixed(1)}</span><span class="pill t">${type}</span></div>
+      <div class="pills"><span class="pill">${prof.g}</span><span class="pill">${prof.h}cm · ${prof.w}kg</span><span class="pill">${ageBand(prof.a)}</span><span class="pill">${prof.pu}</span><span class="pill">BMI ${bmi.toFixed(1)}</span><span class="pill t">${type}</span></div>
     </div><span style="color:var(--sub);font-size:13px">카드를 누르면 핵심 포인트를 볼 수 있어요</span></div>
     <div class="rec3">${REC_GROUPS.map(g => {
       const r = recommend(prof, g.w, g.name), n = recMore[g.k] || 0, list = [...r.top, ...r.rest.slice(0, n)];
@@ -1005,7 +1022,8 @@ function viewMarJapan() {
 const TIP_COL = { '스트레칭': ['#0f766e', '#14b8a6'], '초보': ['#1d4ed8', '#60a5fa'], '10km': ['#7c3aed', '#a78bfa'], '하프': ['#c2410c', '#fb923c'], '풀코스': ['#be123c', '#fb7185'], '서브3': ['#111827', '#f5a300'] };
 let tipPage = 1, tipType = '전체';
 function views(m) { return m >= 10000 ? (m / 10000).toFixed(1).replace(/\.0$/, '') + '억회' : m >= 1 ? Math.round(m).toLocaleString() + '만회' : Math.round(m * 10000).toLocaleString() + '회'; }
-const TIP_IDS = { '정보': 'info', '초보': 'beginner', '10km': '10k', '하프': 'half', '풀코스': 'full', '서브3': 'sub3' };
+const TIP_IDS = { '정보': 'info', '슬로우 조깅': 'slow', '초보': 'beginner', '10km': '10k', '하프': 'half', '풀코스': 'full', '서브3': 'sub3' };
+const TIP_COLOR = { '정보': '#0284c7', '슬로우 조깅': '#0d9488', '초보': '#16a34a', '10km': '#2563eb', '하프': '#ea580c', '풀코스': '#e11d48', '서브3': '#7c3aed' };
 let chMore = false;
 function channelCard([k, n, h, subs, d], i) {
   return `<a class="ytc ${i < 3 ? 'top' : ''}" href="https://www.youtube.com/${h}" target="_blank" rel="noopener">
@@ -1027,7 +1045,7 @@ function viewTips(t) {
       <div class="ytc-grid">${chs.map(channelCard).join('')}</div>
       <button class="btn ghost ytc-more" onclick="chMore=!chMore;viewTips('${t}')">${chMore ? '접기 ↑' : `추천 유튜버 더 보기 (${TIP_CHANNELS.length - 3}개) ↓`}</button>
     </section>
-    <div class="chips" style="margin:22px 0 12px">${tabs.map(k => `<button class="chip ${k === t ? 'on' : ''}" onclick="tipPage=1;go('tips-'+TIP_IDS['${k}'])">${k}</button>`).join('')}</div>
+    <div class="chips" style="margin:22px 0 12px">${tabs.map(k => `<button class="chip tchip ${k === t ? 'on' : ''}" style="--tc:${TIP_COLOR[k] || '#64748b'}" onclick="tipPage=1;go('tips-'+TIP_IDS['${k}'])">${k} <small>${TIPS[k].length}</small></button>`).join('')}</div>
     <div class="rtabs" style="margin-bottom:20px">${['전체', '롱폼', '쇼츠'].map(k => `<button class="${k === tipType ? 'on' : ''}" onclick="tipType='${k}';tipPage=1;viewTips('${t}')">${k} <small style="font-size:13px">${k === '전체' ? TIPS[t].length : TIPS[t].filter(v => (k === '쇼츠') === (v[2] === 'S')).length}</small></button>`).join('')}</div>
     <div class="vgrid">${items.slice((tipPage - 1) * per, tipPage * per).map(([id, title, type, v, ch, age]) => {
       const shorts = type === 'S';
