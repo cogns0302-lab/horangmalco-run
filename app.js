@@ -658,23 +658,59 @@ function brandCharts(b) {
     options: { maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { min: 75, max: 95, grid: { color: tok('--line') } }, x: { grid: { display: false } } } } }));
 }
 
+/* 연도별 사건 카드: 사진이 없으면 브랜드 색 카드 + 아이콘 */
+const EV_ICON = t => /창립|설립|창업|출발|시작|출범/.test(t) ? '🏁' : /인수|합병|편입|합작/.test(t) ? '🤝' : /상장|매출/.test(t) ? '📈' : /기록|우승|올림픽|금메달|점화|1위/.test(t) ? '🏆' : /슬로건|리브랜딩|패션/.test(t) ? '✨' : '👟';
+function evPhoto(b, y, t) { const m = (EV_PHOTO[b] || []).find(([yy, kw]) => yy === y && (!kw || t.includes(kw))); return m && PHOTOS[m[2]] ? m[2] : null; }
+const fmtLen = s => s ? `${Math.floor(s / 60)}분 ${String(s % 60).padStart(2, '0')}초` : '';
+const fmtViews = n => n >= 10000 ? `${(n / 10000).toFixed(n >= 100000 ? 0 : 1)}만회` : `${(n || 0).toLocaleString()}회`;
 function viewBrandHistory(b) {
   const B = BRANDS[b], R = REVENUE[b], K = (KILLERS[b] || []).slice().sort((a, z) => a[0] - z[0]);
+  const ST = STORIES[b] || { tag: '', video: '', stats: [], ch: [] }, VM = VMETA[b], V = B.videos[0];
   const list = SHOES.filter(s => s.b === b);
   const cats = CAT_ORDER.filter(c => list.some(s => s.c === c));
   const first = R && R.s[0], last = R && R.s[R.s.length - 1];
+  const hist = B.history.slice().sort((x, z) => x[0] - z[0]);
   app.innerHTML = `
     <h1 class="sec-title">러닝화의 역사 · ${B.ko}</h1>
-    <p class="sec-sub">${B.ko}의 큰 사건, 매출, 킬러 모델을 한눈에 정리했어요.</p>
+    <p class="sec-sub">${B.ko}의 탄생 이야기, 연도별 사건, 매출과 킬러 모델을 한눈에 정리했어요.</p>
     ${histMenu(b)}
     <div class="bhero" style="background:${grad(b)}">
       <div><h2>${blogo(b, 'big')}${B.name}</h2><div style="font-weight:700;opacity:.85">${B.ko} · ${B.country}</div>
+        <p class="bh-tag">“${esc(ST.tag)}”</p>
         <div class="facts"><div><small>창립</small><b>${B.founded}년</b></div><div><small>창업자</small><b>${B.founder}</b></div>
           <div><small>본사</small><b>${B.hq}</b></div><div><small>${R ? `최근 매출 (${last[0]})` : '연 매출(근사)'}</small><b>${R ? `${last[1].toLocaleString()}${R.unit}` : (B.revenue ? `약 ${+(B.revenue * 10).toFixed(1)}억 달러` : '비공개')}</b></div></div></div>
-      <div><a class="video" href="https://www.youtube.com/watch?v=${B.videos[0][0]}" target="_blank" rel="noopener" aria-label="${esc(B.videos[0][1])} 유튜브에서 보기">
-          <img src="thumbs/${B.videos[0][0]}.jpg" alt=""><span class="vplay"><svg width="22" height="24" viewBox="0 0 22 24"><path d="M0 0L22 12L0 24Z" fill="#fff"/></svg></span></a>
-        <div style="font-size:13px;margin-top:8px;opacity:.85">▶ ${esc(B.videos[0][1])} · ${esc(B.videos[0][2])} · 유튜브에서 열기 ↗</div></div>
+      <div class="bh-video">${V ? `<a class="video" href="https://www.youtube.com/watch?v=${V[0]}" target="_blank" rel="noopener" aria-label="${esc(V[1])} 유튜브에서 보기">
+          <img src="thumbs/${V[0]}.jpg" alt=""><span class="vplay"><svg width="22" height="24" viewBox="0 0 22 24"><path d="M0 0L22 12L0 24Z" fill="#fff"/></svg></span>${VM && VM[0] ? `<span class="vlen">${fmtLen(VM[0])}</span>` : ''}</a>
+        <div class="vinfo"><b>${esc(V[1])}</b>
+          <div class="vmeta"><span>${esc(V[2])}</span>${VM ? `<span>조회수 ${fmtViews(VM[2])}</span><span>${VM[1]} 업로드</span>` : ''}</div>
+          <p>${esc(ST.video)}</p>
+          <a class="vgo" href="https://www.youtube.com/watch?v=${V[0]}" target="_blank" rel="noopener">유튜브에서 보기 ↗</a></div>` : ''}</div>
     </div>
+
+    ${ST.ch.length ? `<h2 class="h2">${B.ko} 브랜드 스토리</h2>
+    <div class="bs-stats">${ST.stats.map(([n, d], i) => `<div class="bs-stat" style="--i:${i}"><b>${esc(n)}</b><span>${esc(d)}</span></div>`).join('')}</div>
+    <div class="story" style="--bc:${DARKS.includes(B.grad[1]) ? '#f5a300' : B.grad[1]}">
+      ${ST.ch.map(([y, t, txt, ph], i) => `<article class="sch ${i % 2 ? 'r' : ''} ${ph && PHOTOS[ph] ? '' : 'noph'}">
+        <div class="sch-dot"><span>${y}</span></div>
+        <div class="sch-card">
+          ${ph && PHOTOS[ph] ? `<figure class="sch-ph"><img src="${photoSrc(ph)}" alt="${esc(t)}" loading="lazy">${credit(ph)}</figure>` : ''}
+          <div class="sch-tx"><span class="sch-n">CHAPTER ${i + 1} · ${y}</span><h3>${esc(t)}</h3><p>${esc(txt)}</p></div>
+        </div></article>`).join('')}
+    </div>` : ''}
+
+    <h2 class="h2">타임라인으로 보는 ${B.ko}</h2>
+    ${photoTimeline([...hist.map(([y, t], i) => [y, t, evPhoto(b, y, t), B.grad[1] === '#1e293b' || B.grad[1] === '#3f3f46' || B.grad[1] === '#334155' ? '#8a8f9a' : B.grad[1], 'bev-' + i]),
+      ...K.map(([y, n, d, ph], i) => [y, '킬러 모델 · ' + n, ph, '#f5a300', 'km-' + i])].sort((a, z) => a[0] - z[0]), 'jumpTo')}
+
+    <h2 class="h2">연도별 사건</h2>
+    <div class="ev-grid bev">${hist.map(([y, t], i) => { const ph = evPhoto(b, y, t);
+      return `<article class="evc" id="bev-${i}">${ph ? `<div class="ph"><img src="${photoSrc(ph)}" alt="${esc(t)}" loading="lazy"></div>` : `<div class="ph bev-art" style="background:${grad(b)}"><span class="ba-logo">${LOGOS.has(b) ? `<img src="logos/${b}.svg" alt="">` : `<b>${B.name}</b>`}</span><span class="ba-ic">${EV_ICON(t)}</span></div>`}
+        <div class="eb"><span class="ey" style="color:${DARKS.includes(B.grad[1]) ? 'var(--tiger-d)' : B.grad[1]}">${y}</span><h4>${esc(t)}</h4>${ph ? credit(ph) : ''}</div></article>`; }).join('')}</div>
+
+    ${K.length ? `<h2 class="h2">킬러 모델</h2>
+    <div class="kgrid">${K.map(([y, n, d, ph], i) => `<article class="kc" id="km-${i}">
+      <div class="ph">${ph && PHOTOS[ph] ? `<img src="${photoSrc(ph)}" alt="${esc(n)}" loading="lazy">` : `<div class="noph" style="background:${grad(b)}">${shoeSVG(b, 200)}</div>`}<span class="ky">${y}</span></div>
+      <div class="eb"><h4>${esc(n)}</h4><p>${esc(d)}</p>${ph && PHOTOS[ph] ? credit(ph) : ''}</div></article>`).join('')}</div>` : ''}
 
     <div class="cgrid">
       <div class="panel"><h3>${R ? `매출 추이 (${R.unit})` : list.some(x => x.s != null) ? 'RunRepeat 점수 (수록 모델)' : '모델별 무게 (제조사 공시)'}</h3>
@@ -683,17 +719,9 @@ function viewBrandHistory(b) {
       <div class="panel"><h3>현재 라인업 구성</h3><p class="note">이 사이트 수록 ${list.length}개 모델 · 용도별</p><div class="cbox"><canvas id="cline"></canvas></div></div>
     </div>
 
-    ${K.length ? `<h2 class="h2">킬러 모델</h2>
-    <div class="kgrid">${K.map(([y, n, d, ph], i) => `<article class="kc" id="km-${i}">
-      <div class="ph">${ph ? `<img src="${photoSrc(ph)}" alt="${esc(n)}" loading="lazy">` : `<div class="noph" style="background:${grad(b)}">${shoeSVG(b, 200)}</div>`}<span class="ky">${y}</span></div>
-      <div class="eb"><h4>${esc(n)}</h4><p>${esc(d)}</p>${ph ? credit(ph) : ''}</div></article>`).join('')}</div>` : ''}
-
-    <h2 class="h2">연도별 주요 사건</h2>
-    ${photoTimeline([...B.history.map(([y, t]) => [y, t, null, B.grad[1] === '#1e293b' || B.grad[1] === '#3f3f46' || B.grad[1] === '#334155' ? '#8a8f9a' : B.grad[1], null]),
-      ...K.map(([y, n, d, ph], i) => [y, '킬러 모델 · ' + n, ph, '#f5a300', 'km-' + i])].sort((a, z) => a[0] - z[0]), 'jumpTo')}
-
     <h2 class="h2">${B.ko} 관련 한국어 영상</h2>
     <div class="vgrid">${B.videos.map(v => vidCard(v[0], v[1], v[2], v[3])).join('')}</div>`;
+  storyMotion();
   motion();
   if (!chartBase()) return;
   const col = DARKS.includes(B.grad[1]) ? '#f5a300' : B.grad[1];
@@ -706,6 +734,13 @@ function viewBrandHistory(b) {
     options: { maintainAspectRatio: false, cutout: '55%', plugins: { legend: { position: 'right', labels: { boxWidth: 12, font: { size: 11 } } } } } }));
 }
 
+/* ---------- 브랜드 스토리 모션 ---------- */
+function storyMotion() {
+  const els = [...app.querySelectorAll('.sch, .bs-stat')];
+  if (REDUCED || !('IntersectionObserver' in window)) { els.forEach(e => e.classList.add('in')); return; }
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); } }), { rootMargin: '0px 0px -12% 0px' });
+  els.forEach(e => { e.classList.add('sm'); io.observe(e); });
+}
 /* ---------- 모션 그래픽 공통 ---------- */
 const REDUCED = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 function fmtCount(v, f) { return f === 'time' ? fmtSec(v) : f === 'dec1' ? v.toFixed(1) : f === 'dec3' ? v.toFixed(3) : Math.round(v).toLocaleString(); }

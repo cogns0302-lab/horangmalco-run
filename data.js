@@ -17,7 +17,7 @@ const CATS = {
 };
 
 const REGIONS = [
-  ['asia', '아시아', ['asics', 'mizuno', 'lining', 'anta', 'xtep', 'd361', 'prospecs', 'fila']],
+  ['asia', '아시아', ['prospecs', 'fila', 'asics', 'mizuno', 'lining', 'anta', 'xtep', 'd361']],
   ['europe', '유럽', ['adidas', 'puma', 'on', 'salomon', 'hoka']],
   ['usa', '미국', ['nike', 'nb', 'brooks', 'saucony', 'ua']],
 ];
