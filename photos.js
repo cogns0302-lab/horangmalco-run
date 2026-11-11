@@ -151,4 +151,9 @@ Object.assign(PHOTOS, {
   nike_term: ["Nike Terminator.jpg", "CC0", "LeDroider"],
   boost_mid: ["Adidas Boost Material in focus on Adidas Sesame-Trace Green NMD R1s.jpg", "CC BY-SA 4.0", "Bn.andrsn"],
   puma_nitro4: ["Four Puma AG footwear 23 January 2025 Nitro PWRTAPE1.jpg", "CC BY-SA 4.0", "Wikimedia Commons"],
+  boston1968: ["Ambrose Burfoot crosses finish line at 1968 Boston Marathon.jpg", "Public domain", "Fred Keenan"],
+  leebj2: ["제3회 및 제8회 코카-콜라 체육대상 최우수선수상 수상자 이봉주.jpg", "CC BY-SA 3.0", "acrofan.com"],
+  boston_finish: ["BOSTON MARATHON FINISH LINE (19640796408).jpg", "CC BY 2.0", "Bill Morrow from Tucson, AZ, US"],
+  seoul_mar4: ["Korea-Seoul International Marathon-04.jpg", "CC BY-SA 2.0", "hojusaram"],
+  seoul_mar2: ["Korea-Seoul International Marathon-02.jpg", "CC BY-SA 2.0", "hojusaram"],
 });

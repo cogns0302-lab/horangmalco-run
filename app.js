@@ -1058,7 +1058,7 @@ function viewMarKorea() {
   const kr = toSec('2:07:20'), jp = toSec('2:04:55'), cn = toSec('2:05:58');
   const byMonth = {}; RACES.forEach(r => { const m = r[1].slice(0, 7); if (r[1] >= '2026-11-10') byMonth[m] = (byMonth[m] || 0) + 1; });
   const months = Object.keys(byMonth).sort();
-  const kTimeline = [[1935, '손기정 세계기록', 'sohn'], [1936, '손기정 금 · 남승룡 동', 'nam'], [1947, '서윤복 보스턴 세계기록', 'suh'], [1950, '보스턴 1·2·3위 석권', null], [1992, '황영조 바르셀로나 금', 'hwang'], [1996, '이봉주 애틀랜타 은', 'leebj'], [2000, '이봉주 2:07:20 한국기록', null], [2001, '이봉주 보스턴 우승', null], [2018, '김도연 2:25:41 여자 한국기록', null], [2026, '한국기록 26년째 그대로', null]];
+  const kTimeline = [[1935, '손기정 세계기록', 'sohn'], [1936, '손기정 금 · 남승룡 동', 'nam'], [1947, '서윤복 보스턴 세계기록', 'suh'], [1950, '보스턴 1·2·3위 석권', 'boston1968'], [1992, '황영조 바르셀로나 금', 'hwang'], [1996, '이봉주 애틀랜타 은', 'leebj'], [2000, '이봉주 2:07:20 한국기록', 'leebj2'], [2001, '이봉주 보스턴 우승', 'boston_finish'], [2018, '김도연 2:25:41 여자 한국기록', 'seoul_mar4'], [2026, '한국기록 26년째 그대로', 'seoul_mar2']];
   app.innerHTML = `
     <section class="mhero2 kr">
       <div class="mh-copy"><span class="eyebrow">무너진 한국 · KOREA</span>
@@ -1075,6 +1075,7 @@ function viewMarKorea() {
 
     <h2 class="h2">1. 한국 마라톤의 영광과 정체</h2>
     ${photoTimeline(kTimeline.map(([y, t, ph], i) => [y, t, ph, y >= 2002 ? '#64748b' : '#e11d48', null]), 'jumpTo')}
+    <p class="note tl-cr">타임라인 사진: ${kTimeline.filter(v => v[2] && PHOTOS[v[2]]).map(([y, , ph]) => `${y} ${credit(ph)}`).join(' · ')}</p>
     <div class="cgrid" style="margin-top:16px">
       <div class="panel wide"><h3>국가기록 보유자들이 함께 뛴다면? (남자)</h3><p class="note">결승선까지 남은 거리로 보면 격차가 더 실감 나요</p>${raceViz('m')}</div>
       <div class="panel wide"><h3>아시아 3국 남자 국가기록 변천</h3><p class="note">한국이 2000년에 멈춘 사이 일본은 6번, 중국은 4번 기록을 새로 썼어요 · 출처: 각국 국가기록</p><div class="cbox"><canvas id="casia"></canvas></div></div>
