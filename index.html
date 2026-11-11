@@ -1109,6 +1109,43 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 @media (prefers-reduced-motion:no-preference){
   .tg-i,.tg-v{animation:stIn .5s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(var(--i) * 90ms + .1s)}
 }
+
+/* ===== 전체 줄바꿈: 한국어 단어 단위로 ===== */
+body{word-break:keep-all;overflow-wrap:break-word}
+h1,h2,h3,h4,.sec-title,.bh-tag,.tl-hero h1{text-wrap:balance}
+p,.sec-sub,.note{text-wrap:pretty}
+
+/* ===== 브랜드 소개 영역 정렬 ===== */
+.bhero{align-items:stretch}
+.bh-left{display:flex;flex-direction:column;gap:14px}
+.bh-head{display:flex;align-items:center;gap:14px}
+.bh-head .blogo.big{margin:0;height:56px;width:96px;border-radius:12px;padding:7px 10px;vertical-align:0}
+.bh-head h2{margin:0;font-size:42px;line-height:1;letter-spacing:-.02em}
+.bh-head span{display:block;margin-top:6px;font-weight:700;opacity:.85;font-size:14px}
+.bh-tag{margin:0;font-size:18px;font-weight:800;line-height:1.55;padding-left:14px;border-left:3px solid #ffffff80}
+.bhero .facts{flex:1;margin-top:0;grid-auto-rows:1fr}
+.bhero .facts div{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:4px;padding:14px 12px}
+.bhero .facts small{font-size:12.5px}
+.bhero .facts b{font-size:18px;line-height:1.35}
+@media (max-width:760px){.bh-head h2{font-size:32px}.bh-head .blogo.big{height:46px;width:80px}.bh-tag{font-size:16px}}
+
+/* ===== 빈 여백 정리 ===== */
+.hero{align-items:center}
+.hero h1{font-size:clamp(30px,3.4vw,42px)}
+.hero p{font-size:15.5px;line-height:1.7}
+.hero ul{gap:10px;font-size:15px}
+.cgrid{align-items:stretch}
+.cgrid > .panel{display:flex;flex-direction:column}
+.cgrid > .panel > .cbox{flex:1 1 auto;height:auto;min-height:280px}
+.cgrid > .panel > .note{margin-bottom:8px}
+.cgrid > .panel > .alt{flex:1 1 auto;height:auto;min-height:250px}
+.cgrid > .panel > .hbars{flex:1 1 auto;display:flex;flex-direction:column;justify-content:space-evenly;gap:14px}
+
+/* ===== 지역 메뉴: 지역 3개에 맞춰 3칸 ===== */
+.regionbar{grid-template-columns:repeat(3,1fr)}
+.regionbar.hist{grid-template-columns:1.1fr repeat(3,1fr)}
+@media (max-width:900px){.regionbar.hist{grid-template-columns:repeat(3,1fr)}.regionbar.hist .reg-all{grid-column:1/-1}}
+@media (max-width:700px){.regionbar,.regionbar.hist{grid-template-columns:repeat(3,minmax(0,1fr))}.regionbar .reg-btn{padding:10px 10px;gap:4px}.regionbar .reg-btn b{font-size:15px}.regionbar .reg-btn small{font-size:11px}.regionbar .reg-btn svg{width:14px;flex:none}}
 </style>
 </head>
 <body>
@@ -1141,11 +1178,11 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbp3eez"></script>
-<script src="photos.js?v=mwbp3eez"></script>
-<script src="history.js?v=mwbp3eez"></script>
-<script src="marathon.js?v=mwbp3eez"></script>
-<script src="stories.js?v=mwbp3eez"></script>
-<script src="app.js?v=mwbp3eez"></script>
+<script src="data.js?v=mwbp90ym"></script>
+<script src="photos.js?v=mwbp90ym"></script>
+<script src="history.js?v=mwbp90ym"></script>
+<script src="marathon.js?v=mwbp90ym"></script>
+<script src="stories.js?v=mwbp90ym"></script>
+<script src="app.js?v=mwbp90ym"></script>
 </body>
 </html>
