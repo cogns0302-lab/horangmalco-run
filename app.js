@@ -461,11 +461,12 @@ function lineup(b) {
   const list = SHOES.filter(s => s.b === b);
   const cats = CAT_ORDER.filter(c => list.some(s => s.c === c));
   return `<div class="lineup" role="table" aria-label="${BRANDS[b].name} 라인업">
-    <div class="lu-head" role="row"><span role="columnheader">종류</span><span role="columnheader">목적</span><span role="columnheader">모델명 &amp; 특징</span><span role="columnheader" class="r">점수</span></div>
+    <div class="lu-head" role="row"><span role="columnheader">종류</span><span role="columnheader">목적</span><span role="columnheader">특징</span><span role="columnheader">모델명</span><span role="columnheader" class="r">점수</span></div>
     ${cats.map(c => { const ms = list.filter(s => s.c === c).sort((a, z) => sc(z) - sc(a));
       return `<div class="lu-group" role="row" style="--cc:${CATS[c].color}">
         <div class="lu-cat"><i></i><div><b>${CATS[c].name}</b><small>${CATS[c].use}</small></div></div>
         <div class="lu-goal">${CAT_GOALS[c].map(g => `<span style="--gc:${GOAL_COLOR[g] || '#64748b'}">${g}</span>`).join('')}</div>
+        <p class="lu-desc">${CATS[c].desc}</p>
         <div class="lu-models">${ms.map(s => `<button class="lu-m" onclick="openShoe('${s.id}')">
           <span class="lu-txt"><b>${esc(s.ko)}${s.bs ? '<em>BEST</em>' : ''}</b><small>${esc(s.head)}</small>
             <span class="lu-spec">${[s.w ? s.w + 'g' : '', s.d != null ? '드롭 ' + s.d + 'mm' : '', priceTxt(s)].filter(Boolean).join(' · ')}</span></span>
@@ -512,10 +513,7 @@ function viewFind(b) {
       <button class="shoe ${hasPhoto(fs_) ? 'photo' : ''}" onclick="openShoe('${fs_.id}')" aria-label="${esc(fs_.ko)} 자세히 보기">${shoeVisual(fs_, 300)}<span class="fl">FLAGSHIP · ${esc(fs_.ko)} · ${priceTxt(fs_)}</span></button>
       <div class="stk"><span>${list.length} SHOES</span><span>${best.s != null ? `WHAT'S BEST? → ${esc(best.ko)}` : `${B.country} 브랜드`}</span></div>
     </div>
-    ${lineup(b)}
-    ${CAT_ORDER.filter(c => list.some(s => s.c === c)).map(c => `
-      <section class="catsec"><div class="cathead"><span class="catchip" style="background:${CATS[c].color};font-size:13px">${c}</span><h3>${CATS[c].name}</h3><span class="use">${CATS[c].use}</span><p>${CATS[c].desc}</p></div>
-      <div class="grid">${list.filter(s => s.c === c).sort((a, z) => sc(z) - sc(a)).map(s => card(s)).join('')}</div></section>`).join('')}`;
+    ${lineup(b)}`;
 }
 
 /* ---------- 러닝화 역사 ---------- */

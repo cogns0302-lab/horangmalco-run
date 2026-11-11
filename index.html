@@ -1146,6 +1146,25 @@ p,.sec-sub,.note{text-wrap:pretty}
 .regionbar.hist{grid-template-columns:1.1fr repeat(3,1fr)}
 @media (max-width:900px){.regionbar.hist{grid-template-columns:repeat(3,1fr)}.regionbar.hist .reg-all{grid-column:1/-1}}
 @media (max-width:700px){.regionbar,.regionbar.hist{grid-template-columns:repeat(3,minmax(0,1fr))}.regionbar .reg-btn{padding:10px 10px;gap:4px}.regionbar .reg-btn b{font-size:15px}.regionbar .reg-btn small{font-size:11px}.regionbar .reg-btn svg{width:14px;flex:none}}
+
+/* ===== 라인업 v4: 종류 | 목적 | 특징 | 모델 ===== */
+.lu-head,.lu-group{grid-template-columns:180px 196px minmax(0,.85fr) minmax(0,1.15fr)!important;gap:16px!important}
+.lu-head{grid-template-columns:180px 196px minmax(0,.85fr) minmax(0,1.15fr)!important;position:relative}
+.lu-head > span.r{position:absolute;right:48px;top:16px}
+.lu-desc{margin:0;font-size:13.5px;line-height:1.65;color:var(--sub);padding-top:1px}
+.lu-models .lu-m{padding:8px 10px 8px 12px!important}
+.lu-models .lu-txt small{font-size:13px!important}
+@media (max-width:1100px){
+  .lu-head,.lu-group{grid-template-columns:150px 180px minmax(0,.8fr) minmax(0,1.2fr)!important;gap:12px!important}
+  .lu-head{grid-template-columns:150px 180px minmax(0,.8fr) minmax(0,1.2fr)!important}
+  .lu-goal{flex-wrap:wrap!important}
+}
+@media (max-width:860px){
+  .lu-head{display:none!important}
+  .lu-group{grid-template-columns:1fr!important;gap:8px!important}
+  .lu-cat{position:static!important}
+  .lu-goal{flex-wrap:wrap!important}
+}
 </style>
 </head>
 <body>
@@ -1178,11 +1197,11 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbp90ym"></script>
-<script src="photos.js?v=mwbp90ym"></script>
-<script src="history.js?v=mwbp90ym"></script>
-<script src="marathon.js?v=mwbp90ym"></script>
-<script src="stories.js?v=mwbp90ym"></script>
-<script src="app.js?v=mwbp90ym"></script>
+<script src="data.js?v=mwbpfaqq"></script>
+<script src="photos.js?v=mwbpfaqq"></script>
+<script src="history.js?v=mwbpfaqq"></script>
+<script src="marathon.js?v=mwbpfaqq"></script>
+<script src="stories.js?v=mwbpfaqq"></script>
+<script src="app.js?v=mwbpfaqq"></script>
 </body>
 </html>
