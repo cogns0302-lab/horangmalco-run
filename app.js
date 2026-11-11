@@ -1171,6 +1171,17 @@ function channelCard([k, n, h, subs, d], i) {
     <span class="ytc-b"><b>${esc(n)}</b><small>${esc(h)} · 구독자 ${subs}만명</small><span>${esc(d)}</span></span>
     <span class="ytc-go">채널 보기 ↗</span></a>`;
 }
+function tipGuide(t) {
+  const G = TIP_GUIDE[t] || [], top = TIPS[t].slice().sort((x, z) => z[3] - x[3]).slice(0, 3), col = TIP_COLOR[t] || '#64748b';
+  return `<section class="tg" style="--tc:${col}">
+    <div class="tg-guide"><h3>${t} 핵심 가이드</h3>
+      ${G.map(([h, p], i) => `<div class="tg-i" style="--i:${i}"><span>${i + 1}</span><div><b>${esc(h)}</b><p>${esc(p)}</p></div></div>`).join('')}</div>
+    <div class="tg-top"><h3>추천 영상 베스트 3 <small>${typeof DATA_UPDATED === 'string' ? DATA_UPDATED : '26년 11월'} 기준 조회수 순</small></h3>
+      ${top.map(([id, title, type, v, ch, age], i) => `<a class="tg-v" style="--i:${i}" href="${type === 'S' ? 'https://www.youtube.com/shorts/' + id : 'https://www.youtube.com/watch?v=' + id}" target="_blank" rel="noopener">
+        <span class="tg-rank">${i + 1}</span><span class="tg-th"><img src="thumbs/${id}.jpg" alt="" loading="lazy"><i>${type === 'S' ? 'Shorts' : '롱폼'}</i></span>
+        <span class="tg-tx"><b>${esc(title)}</b><small>${esc(ch || '')} · 조회수 ${views(v)}</small></span></a>`).join('')}</div>
+  </section>`;
+}
 function viewTips(t) {
   const tabs = Object.keys(TIPS); t = tabs.find(k => TIP_IDS[k] === t) || (TIPS[t] ? t : tabs[0]);
   const items = TIPS[t].filter(v => tipType === '전체' || (tipType === '쇼츠') === (v[2] === 'S')).sort((a, b) => b[3] - a[3]);
@@ -1185,6 +1196,7 @@ function viewTips(t) {
       <button class="btn ghost ytc-more" onclick="chMore=!chMore;viewTips('${t}')">${chMore ? '접기 ↑' : `추천 유튜버 더 보기 (${TIP_CHANNELS.length - 3}개) ↓`}</button>
     </section>
     <div class="chips" style="margin:22px 0 12px">${tabs.map(k => `<button class="chip tchip ${k === t ? 'on' : ''}" style="--tc:${TIP_COLOR[k] || '#64748b'}" onclick="tipPage=1;go('tips-'+TIP_IDS['${k}'])">${k} <small>${TIPS[k].length}</small></button>`).join('')}</div>
+    ${tipGuide(t)}
     <div class="rtabs" style="margin-bottom:20px">${['전체', '롱폼', '쇼츠'].map(k => `<button class="${k === tipType ? 'on' : ''}" onclick="tipType='${k}';tipPage=1;viewTips('${t}')">${k} <small style="font-size:13px">${k === '전체' ? TIPS[t].length : TIPS[t].filter(v => (k === '쇼츠') === (v[2] === 'S')).length}</small></button>`).join('')}</div>
     <div class="vgrid">${items.slice((tipPage - 1) * per, tipPage * per).map(([id, title, type, v, ch, age]) => {
       const shorts = type === 'S';
@@ -1247,11 +1259,7 @@ function viewShop() {
       <a class="stile" href="${B.site}" target="_blank" rel="noopener" style="background:${grad(k)}">
         
         <div class="logo-badge">${LOGOS.has(k) ? `<img src="logos/${k}.svg" alt="${B.name} 로고">` : `<span class="lb-txt">${B.name}</span>`}</div>
-        <div class="ko">${B.ko} 공식몰</div><div class="ds">${B.site.replace(/^https?:\/\//, '').replace(/\/$/, '')}</div><div class="go">↗</div></a>`).join('')}</div>`).join('')}
-    <h3 class="shop-reg">공식 판매 · 멀티 스토어</h3>
-    <div class="sgrid">${SHOPS.map(([n, u, d, c]) => `
-      <a class="stile multi" href="${u}" target="_blank" rel="noopener" style="background:linear-gradient(135deg,${c},#111)">
-        <div class="wm">${n}</div><div class="ko">${esc(d)}</div><div class="ds">${u.replace(/^https?:\/\//, '').replace(/\/$/, '')}</div><div class="go">↗</div></a>`).join('')}</div>`;
+        <div class="ko">${B.ko} 공식몰</div><div class="ds">${B.site.replace(/^https?:\/\//, '').replace(/\/$/, '')}</div><div class="go">↗</div></a>`).join('')}</div>`).join('')}`;
 }
 
 /* ---------- 러닝화 계급도 ---------- */
@@ -1263,7 +1271,7 @@ const TIERS = [
   ['D', 80, 83, '무난', '#059669', '#34d399'],
   ['E', 0, 79, '아쉬움', '#52525b', '#a1a1aa'],
 ];
-const TIER_GROUPS = [['전체', null], ['레이싱화', ['FR', 'CR', 'LR']], ['슈퍼트레이너', ['ST', 'SN']], ['쿠션·맥스쿠션', ['CU', 'MX']], ['안정화', ['SB']], ['데일리·입문', ['DY']]];
+const TIER_GROUPS = [['전체', null], ['레이싱화', ['FR', 'CR', 'LR']], ['템포화', ['ST', 'SN']], ['중립화', ['CU']], ['맥스쿠션', ['MX']], ['안정화', ['SB']], ['입문화', ['DY']]];
 let tierGroup = '전체';
 function viewTier() {
   const G = TIER_GROUPS.find(g => g[0] === tierGroup) || TIER_GROUPS[0];
