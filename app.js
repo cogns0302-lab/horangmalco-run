@@ -380,8 +380,8 @@ function openShoe(id) {
         <div class="head mst" style="--i:3">${esc(s.head)}</div>
         ${featPanel(s)}
       <div class="mact mh-act mst" style="--i:14">
-        ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 리뷰</span> ↗</a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 검색</span> ↗</a>`}
-        <a class="btn act-g" href="https://search.shopping.naver.com/search/all?query=${encodeURIComponent(B.ko + ' ' + s.ko)}" target="_blank" rel="noopener">네이버 최저가 ↗</a>
+        ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 리뷰</span></a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 검색</span></a>`}
+        <a class="btn act-g" href="https://search.shopping.naver.com/search/all?query=${encodeURIComponent(B.ko + ' ' + s.ko)}" target="_blank" rel="noopener">네이버 최저가</a>
         <a class="btn act-g act-shop" href="${B.site}" target="_blank" rel="noopener" aria-label="${B.ko} 공식몰">${blogo(s.b)}공식몰</a>
       </div>
       </div>
@@ -483,12 +483,14 @@ function lineup(b) {
   const list = SHOES.filter(s => s.b === b);
   const cats = CAT_ORDER.filter(c => list.some(s => s.c === c));
   return `<div class="lineup" role="table" aria-label="${BRANDS[b].name} 라인업">
-    <div class="lu-head" role="row"><span role="columnheader">종류</span><span role="columnheader">목적</span><span role="columnheader">특징</span><span role="columnheader">모델명</span><span role="columnheader" class="r">점수</span></div>
+    <div class="lu-head" role="row"><span role="columnheader">종류</span><span role="columnheader">목적 &amp; 특징</span><span role="columnheader">모델명</span><span role="columnheader" class="r">점수</span></div>
     ${cats.map(c => { const ms = list.filter(s => s.c === c).sort((a, z) => sc(z) - sc(a));
-      return `<div class="lu-group" role="row" style="--cc:${CATS[c].color}">
+      return `<div class="lu-group ${c === 'FR' ? 'lu-flag' : ''}" role="row" style="--cc:${CATS[c].color}">
         <div class="lu-cat"><i></i><div><b>${CATS[c].name}</b><small>${CATS[c].use}</small></div></div>
-        <div class="lu-goal">${CAT_GOALS[c].map(g => `<span style="--gc:${GOAL_COLOR[g] || '#64748b'}">${g}</span>`).join('')}</div>
-        <p class="lu-desc">${CATS[c].desc}</p>
+        <div class="lu-gd">
+          <div class="lu-goal">${CAT_GOALS[c].map(g => `<span style="--gc:${GOAL_COLOR[g] || '#64748b'}">${g}</span>`).join('')}</div>
+          <p class="lu-desc">${CATS[c].desc}</p>
+        </div>
         <div class="lu-models">${ms.map(s => `<button class="lu-m" onclick="openShoe('${s.id}')">
           <span class="lu-txt"><b>${esc(s.ko)}${s.bs ? '<em>BEST</em>' : ''}</b><small>${esc(s.head)}</small>
             <span class="lu-spec">${[s.w ? s.w + 'g' : '', s.d != null ? '드롭 ' + s.d + 'mm' : '', priceTxt(s)].filter(Boolean).join(' · ')}</span></span>
@@ -1304,7 +1306,7 @@ function viewTier() {
         <span class="tl-eye">RUNREPEAT LAB SCORE</span>
         <h1>2026 러닝화 계급도</h1>
         <p>신발을 실험실에서 직접 잘라 측정하는 RunRepeat의 점수로 <b>${all.length}개 모델</b>을 6개 티어로 나눴어요. 신발을 누르면 점수가 나온 이유와 핵심 특징을 볼 수 있어요.</p>
-        <div class="tl-upd"><span>📅 <b>${DATA_UPDATED}</b> 기준 최신 모델</span><span>🔄 매달 1일 자동 업데이트</span></div>
+        <div class="tl-upd"><span>📅 <b>${DATA_UPDATED}</b> 기준 최신 모델</span><span>🔄 매달 1일·15일 자동 업데이트</span></div>
       </div>
       <div class="tl-dist" aria-label="티어별 모델 수">
         ${rows.map(([t, l], i) => `<button class="tl-seg" style="--c1:${t[4]};--c2:${t[5]};--w:${Math.max(l.length / total * 100, l.length ? 6 : 0)}%;--i:${i}" onclick="document.getElementById('tier-${t[0]}').scrollIntoView({behavior:'smooth',block:'center'})" ${l.length ? '' : 'hidden'}><b>${t[0]}</b><span>${l.length}</span></button>`).join('')}
@@ -1320,7 +1322,7 @@ function viewTier() {
           <span class="tl-sc">${s.s}</span></button>`).join('') : '<p class="tl-empty">이 분류에는 해당 점수대 모델이 없어요</p>'}</div>
       </section>`).join('')}
     </div>
-    <p class="note" style="margin-top:14px">점수: RunRepeat 실험실 리뷰 · ${DATA_UPDATED} 기준 · 매달 1일 오전 9시에 RunRepeat 점수·무게·순위를 자동으로 다시 받아 업데이트해요 · RunRepeat 리뷰가 없는 모델 ${SHOES.length - all.length}개(중국·한국 브랜드 대부분 등)는 제외했어요 · 같은 점수는 가벼운 순</p>`;
+    <p class="note" style="margin-top:14px">점수: RunRepeat 실험실 리뷰 · ${DATA_UPDATED} 기준 · 매달 1일·15일에 RunRepeat 점수·무게·순위를 다시 받고, 한국에 정식 출시된 새 모델을 추가해요 · RunRepeat 리뷰가 없는 모델 ${SHOES.length - all.length}개(중국·한국 브랜드 대부분 등)는 제외했어요 · 같은 점수는 가벼운 순</p>`;
 }
 
 /* ---------- 라우터 ---------- */
@@ -1367,4 +1369,18 @@ function route() {
   pageEnter();
 }
 window.addEventListener('hashchange', route);
+/* ---------- 방문자 수: 무료 카운터(Abacus) · 같은 브라우저는 하루 1회만 집계 ---------- */
+async function visitCounter() {
+  const t = document.getElementById('vc-t'), all = document.getElementById('vc-a'); if (!t || !all) return;
+  const ns = 'horangmalco-run', day = new Date(Date.now() + 9 * 3600e3).toISOString().slice(0, 10).replace(/-/g, '');
+  let seen = null; try { seen = localStorage.getItem('hm-visit'); } catch (e) {}
+  const act = (seen === day || /^(localhost|127.0.0.1)$/.test(location.hostname)) ? 'get' : 'hit';
+  const call = key => fetch(`https://abacus.jasoncameron.dev/${act}/${ns}/${key}`).then(r => r.ok ? r.json() : { value: 0 }).catch(() => null);
+  const [d, tot] = await Promise.all([call('d' + day), call('total')]);
+  if (!d && !tot) { document.getElementById('vc').hidden = true; return; }
+  if (act === 'hit') try { localStorage.setItem('hm-visit', day); } catch (e) {}
+  const fmt = n => Math.max(0, +n || 0).toLocaleString('en-US');
+  t.textContent = fmt(d && d.value); all.textContent = fmt(tot && tot.value);
+}
 route();
+visitCounter();

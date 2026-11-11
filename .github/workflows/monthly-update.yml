@@ -1,10 +1,10 @@
-# 매달 1일 오전 9시(한국 시간)에 RunRepeat 점수를 다시 받아 사이트를 업데이트합니다.
+# 매달 1일·15일 오전 9시(한국 시간)에 RunRepeat 점수를 다시 받아 사이트를 업데이트합니다.
 # Actions 탭에서 "Run workflow" 버튼으로 언제든 직접 실행할 수도 있어요.
-name: 매달 러닝화 점수 업데이트
+name: 월 2회 러닝화 점수 업데이트
 
 on:
   schedule:
-    - cron: '0 0 1 * *'
+    - cron: '0 0 1,15 * *'
   workflow_dispatch:
 
 permissions:

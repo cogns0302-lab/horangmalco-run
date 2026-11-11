@@ -1208,6 +1208,36 @@ p,.sec-sub,.note{text-wrap:pretty}
 .msec .sumlist{margin:0}
 .msec-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:760px){.msec-pair{grid-template-columns:1fr}.mbody > .msec,.msec-pair > .msec{padding:14px}}
+
+/* ===== 라인업 v5: 종류 | 목적 & 특징 | 모델명 ===== */
+.lu-head,.lu-group{grid-template-columns:190px minmax(0,.78fr) minmax(0,1.22fr)!important;gap:18px!important}
+.lu-head{grid-template-columns:190px minmax(0,.78fr) minmax(0,1.22fr)!important}
+.lu-gd{display:flex;flex-direction:column;gap:8px;min-width:0}
+.lu-gd .lu-goal{padding-top:0}
+.lu-gd .lu-desc{font-size:13.5px;line-height:1.6}
+@media (max-width:1100px){.lu-head,.lu-group{grid-template-columns:160px minmax(0,.8fr) minmax(0,1.2fr)!important}}
+@media (max-width:860px){.lu-group{grid-template-columns:1fr!important}}
+/* 플래그십 레이싱화: 빨간 빛 + 큰 글씨 */
+.lu-flag{position:relative;background:linear-gradient(90deg,rgba(225,29,72,.12),transparent 60%)}
+.lu-flag .lu-cat b{font-size:19px!important;color:#ff4d6d}
+.lu-flag .lu-cat i{background:#e11d48;box-shadow:0 0 12px rgba(225,29,72,.8)}
+.lu-flag .lu-txt b{font-size:18px!important}
+.lu-flag .lu-m{border-color:rgba(225,29,72,.55)!important}
+@media (prefers-reduced-motion:no-preference){
+  .lu-flag{animation:flagGlow 2.8s ease-in-out infinite}
+  @keyframes flagGlow{0%,100%{box-shadow:inset 0 0 0 1px rgba(225,29,72,.25),inset 0 0 24px rgba(225,29,72,.08)}50%{box-shadow:inset 0 0 0 1.5px rgba(225,29,72,.7),inset 0 0 46px rgba(225,29,72,.22)}}
+  .lu-flag .lu-m{animation:flagCard 2.8s ease-in-out infinite}
+  @keyframes flagCard{0%,100%{box-shadow:0 0 0 0 rgba(225,29,72,0)}50%{box-shadow:0 0 18px 2px rgba(225,29,72,.45)}}
+  .lu-flag .lu-cat i{animation:flagBar 2.8s ease-in-out infinite}
+  @keyframes flagBar{0%,100%{box-shadow:0 0 6px rgba(225,29,72,.5)}50%{box-shadow:0 0 18px rgba(255,77,109,1)}}
+}
+
+/* ===== 방문자 수 (오른쪽 위) ===== */
+.vc{margin-left:auto;display:flex;gap:6px;flex:none}
+.vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
+.vc small{font-size:9.5px;font-weight:900;letter-spacing:.12em;color:var(--navy-sub)}
+.vc b{font-size:15px;font-weight:900;color:#ffc233;font-variant-numeric:tabular-nums}
+@media (max-width:760px){.hbar{flex-wrap:wrap;height:auto;padding:8px 0 6px;row-gap:6px;column-gap:12px}.vc{order:2;gap:4px}.vc span{min-width:52px;padding:3px 7px}.vc small{font-size:8.5px;letter-spacing:.06em}.vc b{font-size:13px}nav.top{order:3;flex:1 1 100%}}
 </style>
 </head>
 <body>
@@ -1229,6 +1259,7 @@ p,.sec-sub,.note{text-wrap:pretty}
       <a data-v="races" href="#races">대회</a>
       <a data-v="shop" href="#shop">구매 사이트</a>
     </nav>
+    <div class="vc" id="vc" aria-label="방문자 수"><span><small>TODAY</small><b id="vc-t">–</b></span><span><small>TOTAL</small><b id="vc-a">–</b></span></div>
   </div>
 </header>
 
@@ -1240,11 +1271,11 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbpy0js"></script>
-<script src="photos.js?v=mwbpy0js"></script>
-<script src="history.js?v=mwbpy0js"></script>
-<script src="marathon.js?v=mwbpy0js"></script>
-<script src="stories.js?v=mwbpy0js"></script>
-<script src="app.js?v=mwbpy0js"></script>
+<script src="data.js?v=mwbqssyp"></script>
+<script src="photos.js?v=mwbqssyp"></script>
+<script src="history.js?v=mwbqssyp"></script>
+<script src="marathon.js?v=mwbqssyp"></script>
+<script src="stories.js?v=mwbqssyp"></script>
+<script src="app.js?v=mwbqssyp"></script>
 </body>
 </html>
