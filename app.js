@@ -1273,9 +1273,10 @@ function viewTier() {
   app.innerHTML = `
     <section class="tl-hero">
       <div class="tl-hero-tx">
-        <span class="tl-eye">RUNREPEAT LAB SCORE · 2026.11</span>
+        <span class="tl-eye">RUNREPEAT LAB SCORE</span>
         <h1>2026 러닝화 계급도</h1>
         <p>신발을 실험실에서 직접 잘라 측정하는 RunRepeat의 점수로 <b>${all.length}개 모델</b>을 6개 티어로 나눴어요. 신발을 누르면 점수가 나온 이유와 핵심 특징을 볼 수 있어요.</p>
+        <div class="tl-upd"><span>📅 <b>${DATA_UPDATED}</b> 기준 최신 모델</span><span>🔄 매달 1일 자동 업데이트</span></div>
       </div>
       <div class="tl-dist" aria-label="티어별 모델 수">
         ${rows.map(([t, l], i) => `<button class="tl-seg" style="--c1:${t[4]};--c2:${t[5]};--w:${Math.max(l.length / total * 100, l.length ? 6 : 0)}%;--i:${i}" onclick="document.getElementById('tier-${t[0]}').scrollIntoView({behavior:'smooth',block:'center'})" ${l.length ? '' : 'hidden'}><b>${t[0]}</b><span>${l.length}</span></button>`).join('')}
@@ -1291,7 +1292,7 @@ function viewTier() {
           <span class="tl-sc">${s.s}</span></button>`).join('') : '<p class="tl-empty">이 분류에는 해당 점수대 모델이 없어요</p>'}</div>
       </section>`).join('')}
     </div>
-    <p class="note" style="margin-top:14px">점수: RunRepeat 실험실 리뷰(26년 11월 11일 확인) · RunRepeat 리뷰가 없는 모델 ${SHOES.length - all.length}개(중국·한국 브랜드 대부분 등)는 제외했어요 · 같은 점수는 가벼운 순</p>`;
+    <p class="note" style="margin-top:14px">점수: RunRepeat 실험실 리뷰 · ${DATA_UPDATED} 기준 · 매달 1일 오전 9시에 RunRepeat 점수·무게·순위를 자동으로 다시 받아 업데이트해요 · RunRepeat 리뷰가 없는 모델 ${SHOES.length - all.length}개(중국·한국 브랜드 대부분 등)는 제외했어요 · 같은 점수는 가벼운 순</p>`;
 }
 
 /* ---------- 라우터 ---------- */

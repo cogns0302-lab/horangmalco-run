@@ -1,0 +1,36 @@
+# 매달 1일 오전 9시(한국 시간)에 RunRepeat 점수를 다시 받아 사이트를 업데이트합니다.
+# Actions 탭에서 "Run workflow" 버튼으로 언제든 직접 실행할 수도 있어요.
+name: 매달 러닝화 점수 업데이트
+
+on:
+  schedule:
+    - cron: '0 0 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: RunRepeat 점수 다시 받기
+        run: node tools/update-scores.js
+      - name: 바뀐 내용 저장
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          sed -i -E "s/(src=\"(data|photos|history|marathon|stories|app)\.js\?v=)[a-z0-9]+/\1$(date +%s)/g" index.html
+          git add -A
+          if git diff --cached --quiet; then echo "바뀐 점이 없어요"; exit 0; fi
+          git commit -m "매달 자동 업데이트: RunRepeat 점수 ($(TZ=Asia/Seoul date +%Y-%m))"
+          git push
+      - name: 사이트 다시 배포
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh api -X POST "repos/${{ github.repository }}/pages/builds" || true
