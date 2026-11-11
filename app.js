@@ -390,6 +390,7 @@ function openShoe(id) {
     <div class="mbody">
       <h3 style="margin-top:0">핵심 포인트 & 장점 3</h3>
       <div class="pros">${s.pros.map((p, i) => `<div class="pro"><div class="n">${i + 1}</div><p>${esc(p)}</p></div>`).join('')}</div>
+      ${reviewBlock(s)}
 
       <h3>한눈에 보는 요약</h3>
       <ul class="sumlist">
@@ -423,8 +424,20 @@ function openShoe(id) {
   sectionize($('#mbox .mbody'));
   document.body.style.overflow = 'hidden';
 }
+/* 실제 러너 리뷰 영상 TOP 5 */
+function reviewBlock(s) {
+  const list = (typeof REVIEWS === 'object' && REVIEWS[s.id]) || [];
+  const more = s.lab ? rrUrl(s) : rrSearch(s);
+  return `<h3>실제 러너 리뷰 TOP 5</h3>
+    ${list.length ? `<div class="rv-list">${list.map(([id, t, ch, v, k, age], i) => `<a class="rv-item" href="${k === 'S' ? 'https://www.youtube.com/shorts/' + id : 'https://www.youtube.com/watch?v=' + id}" target="_blank" rel="noopener">
+      <span class="rv-n">${i + 1}</span>
+      <span class="rv-th"><img src="thumbs/${id}.jpg" alt="" loading="lazy"><i>${k === 'S' ? 'Shorts' : '▶'}</i></span>
+      <span class="rv-tx"><b>${esc(t)}</b><small>${esc(ch || '')}${ch ? ' · ' : ''}조회수 ${views(v)}${age ? ' · ' + esc(age) : ''}</small></span></a>`).join('')}</div>`
+      : '<p class="rv-empty">아직 이 모델을 다룬 한국어 리뷰 영상이 많지 않아요. RunRepeat의 상세 리뷰를 확인해 보세요.</p>'}
+    <a class="rv-more" href="${more}" target="_blank" rel="noopener">RunRepeat에서 더 많은 리뷰 보기 →</a>`;
+}
 /* 팝업 아래쪽: 제목(h3)마다 색 상자로 묶기 */
-const MSEC = { '핵심 포인트': ['⭐', '#f5a300'], '한눈에 보는 요약': ['📋', '#60a5fa'], '성향 그래프': ['📊', '#a78bfa'], '스펙': ['📐', '#34d399'], '이런 러너에게 추천': ['👍', '#22c55e'], '아쉬운 점': ['⚠️', '#f87171'] };
+const MSEC = { '핵심 포인트': ['⭐', '#f5a300'], '실제 러너 리뷰': ['▶', '#ff4e45'], '한눈에 보는 요약': ['📋', '#60a5fa'], '성향 그래프': ['📊', '#a78bfa'], '스펙': ['📐', '#34d399'], '이런 러너에게 추천': ['👍', '#22c55e'], '아쉬운 점': ['⚠️', '#f87171'] };
 function sectionize(body) {
   if (!body) return;
   const kids = [...body.children], secs = [];
