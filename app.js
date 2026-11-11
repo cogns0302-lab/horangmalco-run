@@ -420,7 +420,29 @@ function openShoe(id) {
   $('#modal').classList.add('on');
   $('#modal').scrollTop = 0;
   animateScore($('#mbox'));
+  sectionize($('#mbox .mbody'));
   document.body.style.overflow = 'hidden';
+}
+/* 팝업 아래쪽: 제목(h3)마다 색 상자로 묶기 */
+const MSEC = { '핵심 포인트': ['⭐', '#f5a300'], '한눈에 보는 요약': ['📋', '#60a5fa'], '성향 그래프': ['📊', '#a78bfa'], '스펙': ['📐', '#34d399'], '이런 러너에게 추천': ['👍', '#22c55e'], '아쉬운 점': ['⚠️', '#f87171'] };
+function sectionize(body) {
+  if (!body) return;
+  const kids = [...body.children], secs = [];
+  let cur = null;
+  for (const el of kids) {
+    if (el.tagName === 'H3') {
+      const key = Object.keys(MSEC).find(k => el.textContent.startsWith(k)) || '';
+      const [ic, col] = MSEC[key] || ['•', '#a1a1aa'];
+      cur = document.createElement('section'); cur.className = 'msec'; cur.style.setProperty('--sc', col);
+      el.style.margin = ''; el.insertAdjacentHTML('afterbegin', `<span class="msec-ic">${ic}</span>`);
+      body.insertBefore(cur, el); cur.appendChild(el); secs.push(cur);
+    } else if (cur && !el.classList.contains('msec')) cur.appendChild(el);
+  }
+  const n = secs.length;
+  if (n >= 2 && /추천/.test(secs[n - 2].textContent) && /아쉬운/.test(secs[n - 1].firstChild.textContent)) {
+    const pair = document.createElement('div'); pair.className = 'msec-pair';
+    body.insertBefore(pair, secs[n - 2]); pair.appendChild(secs[n - 2]); pair.appendChild(secs[n - 1]);
+  }
 }
 function animateScore(root) {
   const ring = root.querySelector('.ring-v'), num = root.querySelector('.cnt');

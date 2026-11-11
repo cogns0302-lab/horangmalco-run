@@ -1194,6 +1194,20 @@ p,.sec-sub,.note{text-wrap:pretty}
 .mh-act .btn,.mh-act .act-p,.mh-act .act-g{flex:1 1 0!important;min-width:0;justify-content:center;padding:10px 6px!important;font-size:13px;white-space:nowrap}
 .mh-act .act-shop .blogo{height:18px;width:30px;margin:0 2px 0 0;vertical-align:0;border-radius:5px}
 @media (max-width:420px){.mh-x{display:none}.mh-act .btn{font-size:12px;padding:10px 4px!important}.mh-act .act-shop .blogo{width:26px;height:16px}}
+
+/* ===== 팝업 아래쪽 파트 구분 ===== */
+.mbody{display:flex;flex-direction:column;gap:14px}
+.mbody > .msec,.msec-pair > .msec{position:relative;background:color-mix(in srgb,var(--sc) 7%,var(--card));border:1px solid color-mix(in srgb,var(--sc) 30%,var(--line));border-radius:18px;padding:16px 18px 18px;overflow:hidden}
+.msec:before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:var(--sc)}
+.msec > h3{margin:0 0 12px!important;font-size:16px;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--ink);padding-bottom:10px;border-bottom:1px dashed color-mix(in srgb,var(--sc) 40%,var(--line))}
+.msec-ic{display:inline-flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:9px;background:color-mix(in srgb,var(--sc) 22%,transparent);font-size:15px}
+.msec .pro,.msec .sumlist li,.msec .spec{background:var(--bg)!important}
+.msec .pro .n{background:var(--sc)!important;color:#1a1612!important}
+.msec .sumlist li b{color:var(--sc)}
+.msec .bar i{background:var(--sc)!important}
+.msec .sumlist{margin:0}
+.msec-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media (max-width:760px){.msec-pair{grid-template-columns:1fr}.mbody > .msec,.msec-pair > .msec{padding:14px}}
 </style>
 </head>
 <body>
@@ -1226,11 +1240,11 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwbpul0m"></script>
-<script src="photos.js?v=mwbpul0m"></script>
-<script src="history.js?v=mwbpul0m"></script>
-<script src="marathon.js?v=mwbpul0m"></script>
-<script src="stories.js?v=mwbpul0m"></script>
-<script src="app.js?v=mwbpul0m"></script>
+<script src="data.js?v=mwbpy0js"></script>
+<script src="photos.js?v=mwbpy0js"></script>
+<script src="history.js?v=mwbpy0js"></script>
+<script src="marathon.js?v=mwbpy0js"></script>
+<script src="stories.js?v=mwbpy0js"></script>
+<script src="app.js?v=mwbpy0js"></script>
 </body>
 </html>
