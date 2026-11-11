@@ -268,6 +268,28 @@ const WHO = {
   DY: '첫 러닝화를 찾는 입문자, 가성비 데일리를 원하는 러너',
 };
 function avg(arr) { return arr.length ? arr.reduce((a, b) => a + b, 0) / arr.length : 0; }
+/* 점수 이유 키워드: RunRepeat 실측 항목 → [문구, 'p'(장점)|'n'(약점)|'i'(특징)] */
+function rrWhy(s) {
+  const k = s.rr && RR_KW[s.rr]; if (!k || !s.lab) return [];
+  const [shock, energy, traction, light, soft, toebox, heelpad, outsole, breath, stiff, rocker, plate, arch, rank] = k;
+  const hi = v => /High/.test(v || ''), lo = v => /Low/.test(v || '');
+  const out = [];
+  if (rank) { const [n, tb, pc] = rank.split(' '); out.push([`러닝화 전체 ${n}위 · ${tb === 'Top' ? '상위' : '하위'} ${pc}%`, tb === 'Top' && +pc <= 30 ? 'p' : tb === 'Top' ? 'i' : 'n']); }
+  if (hi(energy)) out.push(['반발력 높음', 'p']); else if (lo(energy)) out.push(['반발력 낮음', 'n']); else if (s.s < 85) out.push(['반발력 보통', 'n']);
+  if (hi(shock)) out.push(['충격 흡수 우수', 'p']); else if (lo(shock)) out.push(['충격 흡수 약함', 'n']); else if (s.s < 85) out.push(['충격 흡수 보통', 'n']);
+  if (s.w) { if (s.w < 220) out.push([`초경량 ${s.w}g`, 'p']); else if (s.w < 250 || light === '✓') out.push([`가벼움 ${s.w}g`, 'p']); else if (s.w > 300) out.push([`무거운 편 ${s.w}g`, 'n']); }
+  if (hi(traction)) out.push(['접지력 좋음', 'p']); else if (lo(traction)) out.push(['접지력 아쉬움', 'n']);
+  if (outsole === 'Good' && toebox !== 'Bad' && heelpad !== 'Bad') out.push(['내구성 좋음', 'p']);
+  else { if (outsole === 'Bad') out.push(['밑창 빨리 닳음', 'n']); if (toebox === 'Bad') out.push(['앞코 내구성 약함', 'n']); if (heelpad === 'Bad') out.push(['뒤꿈치 안감 약함', 'n']); }
+  if (breath === 'Breathable') out.push(['통기성 좋음', 'p']); else if (breath === 'Warm') out.push(['통기성 아쉬움', 'n']);
+  if (/soft/i.test(soft || '')) out.push(['부드러운 쿠션', 'i']); else if (/firm/i.test(soft || '')) out.push(['단단한 미드솔', 'i']);
+  if (plate) out.push(['카본 플레이트', 'i']);
+  if (rocker === '✓') out.push(['로커 형상 · 부드러운 굴림', 'i']);
+  if (arch && arch !== 'Neutral') out.push(['안정화 구조', 'i']);
+  if (/flexible/i.test(stiff || '')) out.push(['유연한 바닥', 'i']);
+  return out;
+}
+const RR_ABOUT = 'RunRepeat(런리피트)는 신발을 직접 사서 실험실에서 반으로 자르고 무게·쿠션·반발력·내구성 등을 측정한 뒤, 실제 러닝 테스트를 더해 100점 만점으로 매기는 세계 최대 러닝화 리뷰 사이트예요.';
 function openShoe(id) {
   const s = byId[id], B = BRANDS[s.b], C = CATS[s.c];
   const peers = SHOES.filter(x => x.c === s.c);
@@ -287,6 +309,10 @@ function openShoe(id) {
       <div class="ring"><svg width="150" height="150"><circle cx="75" cy="75" r="64" stroke="#ffffff30" stroke-width="12" fill="none"/>
         ${s.s != null ? `<circle cx="75" cy="75" r="64" stroke="${B.accent}" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${circ * (1 - s.s / 100)}"/>` : ''}</svg>
         <div class="rv"><b>${s.s ?? '—'}</b><small>${s.s == null ? 'RUNREPEAT 미평가' : s.est ? '참고 추정치' : 'RUNREPEAT · ' + scoreLabel(s.s).toUpperCase()}</small></div></div>
+      <div class="rrwhy">
+        ${(() => { const w = rrWhy(s); return w.length ? `<b class="rrwhy-t">이 점수가 나온 이유</b><div class="rrkw">${w.map(([t, c]) => `<span class="k-${c}">${c === 'p' ? '＋' : c === 'n' ? '－' : '·'} ${t}</span>`).join('')}</div>` : `<b class="rrwhy-t">${s.est ? '참고 추정치' : 'RunRepeat 미평가'}</b><p class="rrnote">${s.est ? '같은 버전의 RunRepeat 실험실 리뷰가 아직 없어 이전 버전·국내 리뷰를 참고한 점수예요.' : 'RunRepeat 실험실 리뷰가 아직 없는 모델이에요.'}</p>`; })()}
+        <p class="rrabout">${RR_ABOUT}</p>
+      </div>
     </div>
     <div class="mbody">
       <h3 style="margin-top:0">핵심 포인트 & 장점 3</h3>
