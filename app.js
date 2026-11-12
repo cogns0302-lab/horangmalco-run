@@ -115,7 +115,8 @@ const tagsOf = s => [s.w ? `${s.w}g` : '', s.d != null ? `드롭 ${s.d}mm` : '',
 
 /* 점수·가격 표시 (RunRepeat 미평가 모델 대응) */
 const sc = s => s.s ?? 0;
-const priceTxt = s => s.p ? won(s.p) : s.usd ? `해외 정가 $${s.usd}` : '국내 정가 미정';
+const krm = s => typeof KR_MARKET === 'object' && KR_MARKET[s.id];
+const priceTxt = s => s.p ? won(s.p) : s.usd ? `해외 정가 ${s.usd}` : krm(s) ? `국내 판매가 ${krm(s)[0].toLocaleString('ko-KR')}원` : '국내 정가 미정';
 const scoreTag = s => s.s == null ? '미평가' : s.est ? '추정치' : 'RunRepeat';
 const tier = s => s.s == null ? 'n' : s.s >= 90 ? 'a' : s.s >= 85 ? 'b' : s.s >= 80 ? 'c' : 'd';
 
@@ -412,7 +413,7 @@ function openShoe(id) {
         <span class="brandlbl mst" style="--i:0">${blogo(s.b)}${B.name} · ${C.name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
         <h2 class="mst" style="--i:1">${esc(s.ko)}</h2><div class="mh-en mst" style="--i:2">${esc(s.en)}</div>
         <div class="head mst" style="--i:3">${esc(s.head)}</div>
-        <div class="mh-price mst" style="--i:3"><span>${s.p ? "공식 가격" : "해외 공식 가격"}</span><b>${s.p ? won(s.p) : s.usd ? "$" + s.usd : "미공개"}</b>${!s.p && !s.usd ? "<small>중국 내수 모델이라 해외 공식 정가가 없어요</small>" : ""}</div>
+        <div class="mh-price mst" style="--i:3"><span>${s.p ? "공식 가격" : s.usd ? "해외 공식 가격" : krm(s) ? "국내 판매가" : "공식 가격"}</span><b>${s.p ? won(s.p) : s.usd ? "$" + s.usd : krm(s) ? krm(s)[0].toLocaleString("ko-KR") + "원" : "미공개"}</b>${!s.p && !s.usd && krm(s) ? "<small>" + krm(s)[1] + " · 26년 11월</small>" : ""}</div>
         ${featPanel(s)}
       <div class="mact mh-act mst" style="--i:14">
         ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 리뷰</span></a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 검색</span></a>`}
