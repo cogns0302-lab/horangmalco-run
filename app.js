@@ -127,7 +127,7 @@ function card(s, why) {
     <div class="cb">
       <span class="brandlbl">${blogo(s.b)}${BRANDS[s.b].name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
       <h4>${esc(s.ko)}</h4>
-      <span class="catchip" style="background:${C.color}">${C.name}</span>
+      <span class="cat-row"><span class="catchip" style="background:${C.color}">${C.name}</span>${ftChips(s)}</span>
       <div class="tags">${tagsOf(s).map(t => `<span class="tag">${esc(t)}</span>`).join('')}</div>
       ${why ? `<div class="why">${why}</div>` : ''}
       <div class="price">${priceTxt(s)}</div>
@@ -147,7 +147,23 @@ const REC_GROUPS = [
   { k: 'mid', name: '10km ~ 하프', sub: '템포 · 기록 향상', desc: '가볍고 반발력 좋은 데일리·슈퍼트레이너 위주예요. 훈련과 대회를 함께 커버해요.', w: mix(LEVELS['10km'], LEVELS['하프']), col: '#2563eb' },
   { k: 'full', name: '풀코스', sub: '마라톤 완주 · 기록', desc: '42.195km를 버티는 쿠션과 추진력. 카본 레이싱화와 슈퍼트레이너 위주예요.', w: LEVELS['풀코스'], col: '#e11d48' },
 ];
-let prof = { h: 172, w: 68, g: '남성', a: 35, pu: '조깅' };
+let prof = { h: 172, w: 68, g: '남성', a: 35, pu: '조깅', ft: '일반' };
+/* 족형: RunRepeat 실측 발볼(FOOT) 기준 키워드 */
+const FOOT_TYPES = { '일반': '', '평발': '평발', '넓은 발볼': '넓은 발볼', '칼발': '칼발' };
+const FT_COLOR = { '넓은 발볼': '#0891b2', '칼발': '#7c3aed', '평발': '#c2410c' };
+function footTags(s) {
+  const F = typeof FOOT === 'object' && FOOT[s.id], out = [];
+  if (F && (/[WX]/.test(F[0]) || F[1] === 'W' || F[2] === 'W')) out.push('넓은 발볼');
+  if (F && ((F[1] === 'N' && !/[WX]/.test(F[0])) || /N/.test(F[0]))) out.push('칼발');
+  if ((F && F[3]) || s.c === 'SB') out.push('평발');
+  return out;
+}
+const ftChips = s => footTags(s).map(t => `<span class="ftag" style="--fc:${FT_COLOR[t]}">${t === '칼발' ? '칼발(좁은 발볼)' : t}</span>`).join('');
+function widthOpts(s) {
+  const F = typeof FOOT === 'object' && FOOT[s.id]; if (!F || !/[NWX]/.test(F[0])) return null;
+  const M = { N: 'B', D: 'D', W: '2E', X: '4E' }, Wm = { N: '2A', D: 'B', W: 'D', X: '2E' };
+  return { m: [...F[0]].map(c => M[c]), w: [...F[0]].map(c => Wm[c]) };
+}
 const PURPOSES = {
   '조깅': { up: ['CU', 'DY', 'SN'], down: ['FR', 'LR'], note: '편하게 오래 달리는 조깅용 쿠션' },
   '리커버리(회복)': { up: ['MX', 'CU'], down: ['FR', 'LR', 'CR'], note: '회복주에 좋은 푹신한 쿠션' },
@@ -162,7 +178,7 @@ const recMore = {};
 function recommend(p, W, label) {
   const bmi = p.w / Math.pow(p.h / 100, 2);
   const heavy = bmi >= 25 || p.w >= 85, light = bmi < 20.5;
-  const list = SHOES.filter(s => s.s >= 80 && !s.est).map(s => {
+  let list = SHOES.filter(s => s.s >= 80 && !s.est).map(s => {
     let fit = W[s.c] ?? .5;
     const notes = [];
     if (heavy) {
@@ -182,6 +198,11 @@ function recommend(p, W, label) {
     const why = `<b>${label}</b> 러너에게 맞는 ${CATS[s.c].name}${notes.length ? ' · ' + notes[0] : ''}`;
     return { s, total, why };
   }).sort((a, b) => b.total - a.total);
+  if (p.ft && FOOT_TYPES[p.ft]) {
+    const ok = list.filter(r => footTags(r.s).includes(FOOT_TYPES[p.ft]));
+    ok.forEach(r => { r.why += ` · <b>${p.ft}</b> 적합`; });
+    if (ok.length >= 3) list = ok;
+  }
   const top = [], seen = new Set();
   for (const r of list) { if (top.length < 3 && !seen.has(r.s.b)) { top.push(r); seen.add(r.s.b); } }
   return { bmi, heavy, light, top, rest: list.filter(r => !top.includes(r)) };
@@ -192,7 +213,7 @@ function viewHome() {
   <section class="hero">
     <div style="position:relative;z-index:1">
       <h1>내 몸에 맞는<br><em>목적별 러닝화 베스트 3</em></h1>
-      <p>키 · 몸무게 · 성별 · 나이 · 달리는 목적을 입력하면 RunRepeat 실측 80점 이상 모델 중 나에게 맞는 베스트 3를 골라드려요.</p>
+      <p>키 · 몸무게 · 성별 · 나이 · 족형 · 달리는 목적을 입력하면 RunRepeat 실측 80점 이상 모델 중 나에게 맞는 베스트 3를 골라드려요.</p>
       <ul><li>RunRepeat 실측 리뷰 80점+ 모델만 추천</li><li>${Object.keys(BRANDS).length}개 브랜드 · ${SHOES.length}개 모델 분석</li><li>체격(BMI) · 나이 · 목적에 맞춰 쿠션·반발·안정성 매칭</li></ul>
     </div>
     <form class="form" onsubmit="event.preventDefault();runRec()">
@@ -205,6 +226,8 @@ function viewHome() {
         <div class="fl"><label>성별</label>
           <div class="seg" style="--n:2" id="fg">${['남성', '여성'].map(g => `<button type="button" class="${prof.g === g ? 'on' : ''}" onclick="pick('g','${g}',this)">${g}</button>`).join('')}</div></div>
       </div>
+      <div class="fl fl-ft"><div class="fl-h"><label>족형</label><button type="button" class="fw-open" onclick="openFootGuide()">📏 발볼 기준보기</button></div>
+        <div class="seg seg-ft" style="--n:4" id="fft">${Object.keys(FOOT_TYPES).map(k => `<button type="button" class="${prof.ft === k ? 'on' : ''}" onclick="pick('ft','${k}',this)">${k}</button>`).join('')}</div></div>
       <div class="fl" style="margin-bottom:16px"><label>달리는 목적</label>
         <div class="seg seg-pu" style="--n:3" id="fp">${Object.keys(PURPOSES).map(k => `<button type="button" class="${prof.pu === k ? 'on' : ''}" onclick="pick('pu','${k}',this)">${k}</button>`).join('')}</div></div>
       <div class="lvl-note">선택한 목적에 맞는 러닝화 <span style="--gc:#f5a300">베스트 3</span>를 골라드려요</div>
@@ -231,10 +254,10 @@ function renderMyRec() {
   $('#rec').innerHTML = `
     <div class="rsum"><div>
       <h2 class="sec-title">🎯 ${prof.pu} 맞춤 러닝화 베스트 3</h2>
-      <div class="pills"><span class="pill">${prof.g}</span><span class="pill">${prof.h}cm · ${prof.w}kg</span><span class="pill">${ageBand(prof.a)}</span><span class="pill t">${prof.pu}</span><span class="pill">BMI ${bmi.toFixed(1)}</span><span class="pill">${type}</span></div>
+      <div class="pills"><span class="pill">${prof.g}</span><span class="pill">${prof.h}cm · ${prof.w}kg</span><span class="pill">${ageBand(prof.a)}</span><span class="pill t">${prof.pu}</span>${prof.ft !== '일반' ? `<span class="pill t">${prof.ft}</span>` : ''}<span class="pill">BMI ${bmi.toFixed(1)}</span><span class="pill">${type}</span></div>
     </div><button class="btn ghost" style="font-size:13px" onclick="recDone=false;renderRec();">← 26년 베스트 3 다시 보기</button></div>
     <section class="rsolo">
-      <p class="rsolo-why">${P ? `<b>${prof.pu}</b>에는 ${P.note}이 중요해요. ` : ''}RunRepeat 점수, 체격(BMI), 나이까지 반영해 브랜드가 겹치지 않게 골랐어요.</p>
+      <p class="rsolo-why">${P ? `<b>${prof.pu}</b>에는 ${P.note}이 중요해요. ` : ''}${prof.ft !== '일반' ? `<b>${prof.ft}</b>에 맞는 신발(RunRepeat 실측 발볼·지지 기준)만 추렸어요. ` : ''}RunRepeat 점수, 체격(BMI), 나이까지 반영해 브랜드가 겹치지 않게 골랐어요.</p>
       <div class="rsolo-grid">${list.map((x, i) => recCard(x, i)).join('')}</div>
       ${n < r.rest.length ? `<button class="btn ghost rc-more rsolo-more" onclick="recMore.pu=${n + 3};renderRec();">추천 더 보기 (+3) ↓</button>` : ''}
     </section>`;
@@ -249,7 +272,7 @@ function recCard(x, i, g) {
     <span class="rbody">
       <span class="rbrand">${BRANDS[s.b].name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
       <b class="rname">${esc(s.ko)}</b>
-      <span class="catchip" style="background:${C.color}">${C.name}</span>
+      <span class="cat-row"><span class="catchip" style="background:${C.color}">${C.name}</span>${ftChips(s)}</span>
       <span class="rhead">${esc(s.head)}</span>
       <span class="rmeta">${tagsOf(s).join(' · ')} · <b>${priceTxt(s)}</b></span>
     </span>
@@ -327,7 +350,9 @@ function featPanel(s) {
   return `<div class="feat"><h4 class="mst" style="--i:4">핵심 특징</h4>
     ${grp('강점', 'fg-p', why.filter(w => w[1] === 'p'))}
     ${grp('아쉬운 점', 'fg-n', why.filter(w => w[1] === 'n'))}
-    ${grp('특징', 'fg-i', [...basic, ...why.filter(w => w[1] === 'i')])}</div>`;
+    ${grp('특징', 'fg-i', [...basic, ...why.filter(w => w[1] === 'i')])}
+    ${footTags(s).length ? grp('족형', 'fg-f', footTags(s).map(t => [t === '칼발' ? '칼발(좁은 발볼) OK' : t === '평발' ? '평발 · 과내전 지지' : '넓은 발볼 OK'])) : ''}
+    ${(o => o ? `<div class="fw-opt mst" style="--i:${n++}"><b>발볼 옵션</b><div><span><i>남성</i>${o.m.join(' · ')}</span><span><i>여성</i>${o.w.join(' · ')}</span></div><small>RunRepeat 기준 해외 출시 폭이에요. 국내 판매처에 따라 와이드 버전이 없을 수 있어요.</small></div>` : '')(widthOpts(s))}</div>`;
 }
 /* 점수 설명 문장 (오른쪽) */
 const WHY_P = { '반발력 높음': '반발력', '충격 흡수 우수': '충격 흡수', '접지력 좋음': '접지력', '내구성 좋음': '내구성', '통기성 좋음': '통기성' };
@@ -1437,3 +1462,49 @@ async function visitCounter() {
 }
 route();
 visitCounter();
+
+/* ---------- 발볼 기준보기 ---------- */
+function footGrade(g, len, wid) {
+  const r = wid / len, T = g === '여성' ? [[.345, '좁음', '2A'], [.375, '보통', 'B'], [.40, '넓음', 'D'], [9, '매우 넓음', '2E']] : [[.355, '좁음', 'B'], [.385, '보통', 'D'], [.41, '넓음', '2E'], [9, '매우 넓음', '4E']];
+  const t = T.find(x => r < x[0]); return { r, name: t[1], grade: t[2], ft: t[1] === '좁음' ? '칼발' : /넓음/.test(t[1]) ? '넓은 발볼' : '일반' };
+}
+function calcFoot() {
+  const on = document.querySelector('#fwg .on'), g = on ? on.textContent : prof.g, len = +$('#fwl').value, wid = +$('#fwd').value, out = $('#fwr');
+  if (!(len > 150 && len < 340 && wid > 60 && wid < 150)) { out.innerHTML = '<p class="fw-hint">발길이(150~340mm)와 발볼 너비(60~150mm)를 넣어 주세요.</p>'; return; }
+  const r = footGrade(g, len, wid);
+  out.innerHTML = `<div class="fw-res"><div><small>내 발볼</small><b>${r.name}</b></div><div><small>추천 발볼 등급</small><b>${r.grade}</b></div><div><small>발볼 비율</small><b>${(r.r * 100).toFixed(1)}%</b></div></div>
+    <button class="btn ${r.ft !== '일반' ? 'pri' : 'ghost'} fw-apply" onclick="applyFoot('${r.ft}')">족형을 '${r.ft}'(으)로 선택하고 닫기</button>`;
+}
+function applyFoot(ft) { prof.ft = ft; document.querySelectorAll('#fft button').forEach(b => b.classList.toggle('on', b.textContent === ft)); closeFootGuide(); }
+function closeFootGuide() { const m = $('#fwm'); if (m) { m.remove(); document.body.style.overflow = ''; } }
+function openFootGuide() {
+  closeFootGuide();
+  const row = (k, m, w, d) => `<tr><th>${k}</th><td><b>${m}</b></td><td><b>${w}</b></td><td>${d}</td></tr>`;
+  document.body.insertAdjacentHTML('beforeend', `<div class="modal on fwm" id="fwm" onclick="if(event.target===this)closeFootGuide()"><div class="fw-box" role="dialog" aria-label="발볼 기준">
+    <button class="fw-x" onclick="closeFootGuide()" aria-label="닫기">✕</button>
+    <h2>📏 발볼 기준보기</h2><p class="fw-sub">러닝화 발볼은 알파벳(폭 등급)으로 표기해요. 같은 발볼이라도 남성과 여성 표기가 한 칸씩 달라요.</p>
+    <section class="fw-sec"><h3>남자 · 여자 발볼 기준</h3>
+      <table class="fw-tb"><thead><tr><th>발볼</th><th>남성</th><th>여성</th><th>이런 분께</th></tr></thead><tbody>
+        ${row('좁음', 'B', '2A', '칼발 · 발이 얇고 길쭉함')}${row('보통', 'D', 'B', '대부분 러닝화의 기본 폭')}${row('넓음', '2E', 'D', '발볼이 넓거나 발등이 높음')}${row('매우 넓음', '4E', '2E', '보통 신발이 새끼발가락을 누름')}
+      </tbody></table>
+      <p class="fw-note">한국인은 서양인보다 발볼이 넓은 편이라 2E(와이드)가 잘 맞는 경우가 많아요. 같은 등급도 브랜드마다 실제 폭이 조금씩 달라요.</p></section>
+    <section class="fw-sec"><h3>발볼 측정법</h3><ol class="fw-steps">
+      <li><b>저녁에, 양말을 신고</b><span>발은 하루 중 저녁에 가장 커요. 달릴 때 신는 양말을 신어요.</span></li>
+      <li><b>종이 위에 서서 발 테두리 그리기</b><span>체중을 실어 바르게 서고, 펜을 세워 발 모양을 따라 그려요.</span></li>
+      <li><b>발길이 재기</b><span>뒤꿈치 끝부터 가장 긴 발가락 끝까지의 직선 길이(mm)예요.</span></li>
+      <li><b>발볼 너비 재기</b><span>엄지발가락 뿌리 관절과 새끼발가락 뿌리 관절 사이, 가장 넓은 폭(mm)이에요.</span></li>
+      <li><b>큰 발 기준으로</b><span>양발을 모두 재고 더 큰 쪽 숫자를 써요.</span></li></ol></section>
+    <section class="fw-sec"><h3>내 추천 발볼 등급 계산</h3>
+      <div class="fw-calc"><div class="seg" style="--n:2" id="fwg">${['남성', '여성'].map(g => `<button type="button" class="${prof.g === g ? 'on' : ''}" onclick="[...this.parentNode.children].forEach(b=>b.classList.toggle('on',b===this));calcFoot()">${g}</button>`).join('')}</div>
+        <div class="inp"><input id="fwl" type="number" placeholder="발길이" min="150" max="340" oninput="calcFoot()"><span>mm</span></div>
+        <div class="inp"><input id="fwd" type="number" placeholder="발볼 너비" min="60" max="150" oninput="calcFoot()"><span>mm</span></div></div>
+      <div id="fwr"><p class="fw-hint">발길이와 발볼 너비를 넣으면 추천 등급이 나와요. (예: 남성 270mm · 100mm → 보통 D)</p></div>
+      <p class="fw-note">발볼 비율(발볼 너비 ÷ 발길이)로 계산한 참고용 근사치예요. 정확한 핏은 매장에서 신어 보고 확인하세요.</p></section>
+    <section class="fw-sec"><h3>족형별 고르는 법</h3><div class="fw-types">
+      <div style="--fc:#0891b2"><b>넓은 발볼</b><p>2E·4E 와이드 버전이 있거나 앞코가 넓은 모델을 고르세요. 사이즈를 올리기보다 폭을 넓히는 게 좋아요.</p></div>
+      <div style="--fc:#7c3aed"><b>칼발</b><p>앞코가 좁고 발을 단단히 잡아 주는 모델이 잘 맞아요. 넓은 신발은 발이 안에서 미끄러져요.</p></div>
+      <div style="--fc:#c2410c"><b>평발</b><p>발 안쪽 아치가 무너지기 쉬워요. 안쪽을 받쳐 주는 안정화(과내전 지지)를 고르세요.</p></div></div></section>
+  </div></div>`);
+  document.body.style.overflow = 'hidden';
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeFootGuide(); });
