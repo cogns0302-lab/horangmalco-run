@@ -1439,6 +1439,82 @@ function viewTips(t) {
 
 /* ---------- 대회 ---------- */
 let rs = { tab: '전체', m: '', r: '', e: '', page: 1 };
+/* ---------- 대회: 국내 · 해외 가이드 ---------- */
+const RG_NAT = { KEN: '케냐', ETH: '에티오피아', TAN: '탄자니아', ERI: '에리트레아', KOR: '한국', CHN: '중국', ROU: '루마니아', GBR: '영국', NED: '네덜란드', RSA: '남아공', USA: '미국', JPN: '일본' };
+const RG_TYPE = { f: ['평지', '#22c55e'], u: ['오르막', '#ef4444'], d: ['내리막', '#3b82f6'], r: ['기복', '#f59e0b'] };
+function raceTabs(cur) {
+  return `<nav class="rg-tabs" aria-label="대회 메뉴">${[['', '📅 대회 일정'], ['kr', '🇰🇷 국내 대회'], ['world', '🌍 해외 대회']].map(([k, n]) => `<button class="${k === cur ? 'on' : ''}" onclick="go('${k ? 'races-' + k : 'races'}')">${n}</button>`).join('')}</nav>`;
+}
+/* 코스 고도 개략도: 구간 종류(평지·오르막·내리막·기복)로 그린 프로필 + 달리는 점 */
+function courseViz(r) {
+  const W = 1000, H = 120, pts = [];
+  let y = 60;
+  for (let k = 0; k <= 42.2; k += 0.4) {
+    const seg = r.course.find(s => k >= s[0] && k <= s[1]) || r.course[r.course.length - 1];
+    const len = Math.max(1, seg[1] - seg[0]);
+    if (seg[2] === 'u') y -= 34 / len * 0.4; else if (seg[2] === 'd') y += 30 / len * 0.4; else if (seg[2] === 'r') y += Math.sin(k * 1.3) * 1.6;
+    y = Math.max(14, Math.min(100, y));
+    pts.push([k / 42.2 * W, y]);
+  }
+  const d = 'M' + pts.map(p => p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' L');
+  const area = d + ` L${W} ${H} L0 ${H} Z`;
+  return `<div class="rg-course draw">
+    <div class="rg-cs-h"><b>코스 분석</b><span>${r.stat.map(([k, v]) => `<em>${k} <b>${v}</b></em>`).join('')}</span></div>
+    <div class="rg-pscroll"><div class="rg-pw"><svg viewBox="0 0 ${W} ${H + 12}" class="rg-prof" aria-label="${esc(r.name)} 코스 개략도">
+      <defs><linearGradient id="rgg-${r.id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${r.col}" stop-opacity=".55"/><stop offset="1" stop-color="${r.col}" stop-opacity="0"/></linearGradient></defs>
+      ${r.course.map(s => `<rect x="${s[0] / 42.2 * W}" y="${H + 4}" width="${(s[1] - s[0]) / 42.2 * W}" height="6" rx="3" fill="${RG_TYPE[s[2]][1]}"/>`).join('')}
+      <path d="${area}" fill="url(#rgg-${r.id})" class="rg-area"/>
+      <path class="d" d="${d}" fill="none" stroke="${r.col}" stroke-width="3" stroke-linecap="round"/>
+      <circle r="6" class="rg-runner" fill="#fff" stroke="${r.col}" stroke-width="3" style="offset-path:path('${d}')"/>
+      ${r.marks.map(([k]) => { const x = Math.min(W - 4, Math.max(4, k / 42.2 * W)); return `<line class="rg-mk" x1="${x}" y1="8" x2="${x}" y2="${H}" />`; }).join('')}
+    </svg><div class="rg-mks">${r.marks.map(([k, n]) => `<span style="left:${k / 42.2 * 100}%" class="${k < 3 ? 'st' : k > 40 ? 'en' : ''}">${n}<small>${k}km</small></span>`).join('')}</div></div></div>
+    <ul class="rg-segs">${r.course.map(s => `<li style="--sc:${RG_TYPE[s[2]][1]}"><span>${s[0]}–${s[1]}km</span><i>${RG_TYPE[s[2]][0]}</i>${s[3]}</li>`).join('')}</ul>
+    <p class="note">구간 정보로 그린 개략도예요 · 정확한 고도표는 대회 공식 코스맵을 확인하세요</p></div>`;
+}
+function raceTopList(list, sex) {
+  const best = toSec(list[0][0]);
+  return `<ol class="rg-top">${list.map(([t, n, c, y], i) => `<li style="--i:${i}"><span class="rk-no">${i + 1}</span><span class="rg-tn"><b>${n}</b><small>${RG_NAT[c] || c} · ${y}</small></span><span class="rg-tb"><i style="--w:${100 - (toSec(t) - best) / 6}%"></i></span><b class="rg-tt">${t}</b></li>`).join('')}</ol>`;
+}
+function raceCard(r, i) {
+  return `<article class="rg-card" id="rg-${r.id}" style="--rc:${r.col};--i:${i}">
+    <header class="rg-hero ${r.photo && PHOTOS[r.photo] ? 'ph' : ''}">
+      ${r.photo && PHOTOS[r.photo] ? `<img src="${photoSrc(r.photo)}" alt="" loading="lazy">${credit(r.photo)}` : ''}
+      <div class="rg-ht"><span class="rg-en">${r.en}</span><h3>${r.name}</h3>
+        <div class="rg-chips">${[r.since ? r.since + '년 시작' : '', r.month, r.label, r.size].filter(Boolean).map(x => `<span>${x}</span>`).join('')}</div></div>
+      ${r.url ? `<a class="rg-go" href="${r.url}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}
+    </header>
+    <div class="rg-body">
+      ${(side => `<div class="rg-why ${side ? '' : 'full'}"><h4>${r.top || r.cr ? '이 대회가 특별한 이유' : '왜 어려울까?'}</h4><ul>${r.why.map(w => `<li>${w}</li>`).join('')}</ul></div>${side ? `<div class="rg-side">${side}</div>` : ''}`)([
+        r.cr ? `<div class="rg-cr">${r.cr.map(([t, n, c, y], j) => t ? `<div><span>${j ? '여자' : '남자'} 대회 기록</span><b>${t}</b><small>${n} · ${RG_NAT[c] || c} · ${y}</small></div>` : '').join('')}</div>` : '',
+        (r.most && r.most.length) || r.hall ? `<div class="rg-hall"><h4>명예의 전당 · 최다 우승</h4><div>${(r.most || []).map(([n, g, k, note]) => `<span class="rg-hc"><i>${g}</i><b>${n}</b><em>${k}회 우승</em><small>${note}</small></span>`).join('')}${(r.hall || []).map(([n, note]) => `<span class="rg-hc star"><i>★</i><b>${n}</b><small>${note}</small></span>`).join('')}</div></div>` : ''].join(''))}
+      ${r.top ? `<div class="rg-recs"><div><h4>남자 역대 우승 기록 TOP 5</h4>${raceTopList(r.top.m)}</div><div><h4>여자 역대 우승 기록 TOP 5</h4>${raceTopList(r.top.w)}</div></div>` : ''}
+      ${courseViz(r)}
+    </div></article>`;
+}
+function raceSection(id, title, sub, list) {
+  return `<section class="rg-sec" id="${id}"><h2 class="h2">${title}${sub ? ` <small>${sub}</small>` : ''}</h2>${list.map(raceCard).join('')}</section>`;
+}
+function raceHowto(list) {
+  return `<div class="rg-how">${list.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div>`;
+}
+function viewRaceGuide(sub) {
+  const G = RACE_GUIDE[sub], kr = sub === 'kr';
+  const secs = kr ? [['rg-major', '🏆 3대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-how', '📝 접수 방법']]
+    : [['rg-major', '🌍 세계 8대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-rec', '✈️ 추천 대회'], ['rg-how', '📝 접수 방법']];
+  app.innerHTML = `
+    <h1 class="sec-title">대회</h1><p class="sec-sub">${kr ? '국내 대표 마라톤의 역사와 역대 기록, 코스를 한눈에 정리했어요.' : '세계 8대 메이저부터 극한 대회, 한국 러너 추천 대회까지 정리했어요.'} 기록은 ${RANK_ASOF} 기준이에요.</p>
+    ${raceTabs(sub)}
+    <nav class="rk-sub">${secs.map(([id, n]) => `<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${n}</button>`).join('')}</nav>
+    ${!kr ? `<div class="rg-maj8">${G.major.map((r, i) => `<button style="--rc:${r.col};--i:${i}" onclick="document.getElementById('rg-${r.id}').scrollIntoView({behavior:'smooth',block:'start'})"><b>${r.name.replace(' 마라톤', '')}</b><small>${r.month}${r.id === 'capetown' ? ' · 후보' : ''}</small></button>`).join('')}</div>` : ''}
+    ${raceSection('rg-major', kr ? '국내 3대 메이저 마라톤' : '세계 8대 메이저 마라톤', kr ? '서울(동아) · 춘천 · JTBC 서울' : '월드 마라톤 메이저 7개 + 8번째 후보 케이프타운', G.major)}
+    ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
+    ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
+    ${!kr ? `<section class="rg-sec" id="rg-rec"><h2 class="h2">한국 러너 추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
+      <div class="rg-rec">${G.recommend.map(([n, m, d, c], i) => `<article style="--rc:${c};--i:${i}"><b>${n}</b><span>${m}</span><p>${d}</p></article>`).join('')}</div></section>` : ''}
+    <section class="rg-sec" id="rg-how"><h2 class="h2">${kr ? '국내 대회 접수 방법' : '해외 대회 접수 방법'}</h2>${raceHowto(G.howto)}</section>
+    <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
+  motion();
+}
 function viewRaces() {
   const all = RACES.map(([n, d, r, p, ev, url, st, no]) => ({ n, d: new Date(d + 'T00:00:00'), ds: d, r, p, ev, url, st, no })).filter(x => x.d >= TODAY).sort((a, z) => a.d - z.d);
   const months = [...new Set(all.map(x => x.ds.slice(0, 7)))];
@@ -1455,6 +1531,7 @@ function viewRaces() {
   const sel = (k, label, opts, fmtO = o => o) => `<select class="${rs[k] ? 'act' : ''}" onchange="rs.${k}=this.value;rs.page=1;viewRaces()"><option value="">${label}</option>${opts.map(o => `<option value="${o}" ${rs[k] === o ? 'selected' : ''}>${fmtO(o)}</option>`).join('')}</select>`;
   app.innerHTML = `
     <h1 class="sec-title">대회</h1><p class="sec-sub">월별 · 지역 · 종목으로 다가오는 러닝 대회를 찾아보세요. 카드를 누르면 대회 홈페이지로 연결됩니다.</p>
+    ${raceTabs("")}
     <div class="panel">
       <div class="rtabs">${['전체', '현재접수중', '온라인'].map(t => `<button class="${rs.tab === t ? 'on' : ''}" onclick="rs.tab='${t}';rs.page=1;viewRaces()">${t}</button>`).join('')}</div>
       <div class="rfil"><button class="reset" title="초기화" onclick="rs={tab:'전체',m:'',r:'',e:'',page:1};viewRaces()">↻</button>
@@ -1568,7 +1645,7 @@ function route() {
   else if (v === 'tier') viewTier();
   else if (v === 'find') viewFind(arg);
   else if (v === 'tips') viewTips(arg);
-  else if (v === 'races') viewRaces();
+  else if (v === 'races') (arg ? viewRaceGuide(arg) : viewRaces());
   else if (v === 'shop') viewShop();
   else viewHome();
   window.scrollTo(0, 0);
