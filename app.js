@@ -306,6 +306,15 @@ function renderRec() { setTimeout(revealObserve, 0);
     }).join('')}</div>`;
 }
 
+/* 공식몰: 모델 상품·소개 페이지 → 없으면 공식몰 검색 → 그래도 없으면 브랜드 공식 사이트 */
+const SHOP_SEARCH = { nike: 'https://www.nike.com/kr/w?q=', adidas: 'https://www.adidas.co.kr/search?q=', asics: 'https://www.asics.co.kr/goods/search?search_text=', nb: 'https://www.nbkorea.com/product/searchResult.action?schWord=', saucony: 'https://www.saucony.co.kr/product/search.html?keyword=', ua: 'https://www.underarmour.co.kr/ko-kr/search/?q=', puma: 'https://kr.puma.com/kr/ko/search?q=' };
+const KR_SHOP = ['nike.com/kr', '.co.kr', 'kr.puma', 'on.com/ko-kr', 'prospecs.com', 'kor.mizuno'];
+function shopLink(s) {
+  const u = typeof SHOP === 'object' && SHOP[s.id], B = BRANDS[s.b];
+  if (u) return KR_SHOP.some(k => u.includes(k)) ? [u, '공식몰', '공식몰 ' + s.ko + ' 페이지'] : [u, '해외 공식몰', '국내 공식 온라인몰이 없어 해외 공식 페이지로 연결해요'];
+  if (SHOP_SEARCH[s.b]) return [SHOP_SEARCH[s.b] + encodeURIComponent(s.ko), '공식몰 검색', '공식몰에 모델 페이지가 없어 공식몰 검색 결과로 연결해요'];
+  return [B.site, '공식 사이트', '모델별 판매 페이지가 없어 브랜드 공식 사이트로 연결해요'];
+}
 /* ---------- 상세 모달 ---------- */
 const METER = {
   cush: { FR: 4, CR: 4, LR: 2, ST: 4, SN: 4, MX: 5, CU: 4, SB: 4, DY: 3 },
@@ -407,7 +416,7 @@ function openShoe(id) {
       <div class="mact mh-act mst" style="--i:14">
         ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 리뷰</span></a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 검색</span></a>`}
         <a class="btn act-g" href="https://search.shopping.naver.com/search/all?query=${encodeURIComponent(B.ko + ' ' + s.ko)}" target="_blank" rel="noopener">네이버 최저가</a>
-        <a class="btn act-g act-shop" href="${B.site}" target="_blank" rel="noopener" aria-label="${B.ko} 공식몰">${blogo(s.b)}공식몰</a>
+        ${(L => `<a class="btn act-g act-shop" href="${L[0]}" target="_blank" rel="noopener" aria-label="${B.ko} ${esc(s.ko)} ${L[1]}" title="${L[2]}">${blogo(s.b)}${L[1]}</a>`)(shopLink(s))}
       </div>
       </div>
       <div class="mh-right">${scorePanel(s, B, circ, rank, scored.length)}</div>
