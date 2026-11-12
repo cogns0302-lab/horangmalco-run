@@ -5,7 +5,7 @@ const TODAY = new Date('2026-11-10T00:00:00');
 const won = p => p ? p.toLocaleString('ko-KR') + ',000원' : '국내 정가 미정';
 const esc = s => String(s).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const CAT_ORDER = ['FR', 'CR', 'LR', 'ST', 'SN', 'MX', 'CU', 'SB', 'DY'];
-const RR_BRAND = { nb: 'new-balance', ua: 'under-armour', salomon: 'salomon' };
+const RR_BRAND = { nb: 'new-balance', ua: 'under-armour', salomon: 'salomon', decathlon: 'kiprun' };
 const byId = Object.fromEntries(SHOES.map(s => [s.id, s]));
 let charts = [];
 
@@ -102,7 +102,7 @@ function sceneSVG(kind, w = 170) {
 }
 function shoeVisual(s) { return `<span class="cvis"><span class="cv-logo">${LOGOS.has(s.b) ? `<img src="logos/${s.b}.svg" alt="${BRANDS[s.b].name}">` : `<b>${BRANDS[s.b].name}</b>`}</span></span>`; }
 const flagship = b => SHOES.filter(s => s.b === b && s.c === 'FR').sort((a, z) => (z.p || 0) - (a.p || 0))[0] || SHOES.filter(s => s.b === b).sort((a, z) => (z.p || 0) - (a.p || 0))[0];
-const LOGOS = new Set(['hoka', 'nike', 'adidas', 'asics', 'nb', 'puma', 'saucony', 'mizuno', 'brooks', 'on', 'lining', 'anta', 'xtep', 'd361', 'prospecs', 'fila', 'ua', 'salomon']);
+const LOGOS = new Set(['hoka', 'nike', 'adidas', 'asics', 'nb', 'puma', 'saucony', 'mizuno', 'brooks', 'on', 'lining', 'anta', 'xtep', 'd361', 'prospecs', 'fila', 'ua', 'salomon', 'decathlon']);
 const blogo = (k, cls = '') => LOGOS.has(k) ? `<span class="blogo ${cls}"><img src="logos/${k}.svg" alt=""></span>` : `<span class="blogo txt ${cls}">${BRANDS[k].name}</span>`;
 const CAT_GOALS = { FR: ['풀코스', '하프', 'PB'], CR: ['풀코스', '하프', '대회'], LR: ['5km', '10km', '하프'], ST: ['템포', 'LSD', '하프'], SN: ['조깅', '템포', '롱런'], MX: ['회복', 'LSD', '롱런'], CU: ['조깅', '롱런', '회복'], SB: ['입문', '조깅', '과내전'], DY: ['입문', '조깅', '10km'] };
 
@@ -116,7 +116,7 @@ const tagsOf = s => [s.w ? `${s.w}g` : '', s.d != null ? `드롭 ${s.d}mm` : '',
 /* 점수·가격 표시 (RunRepeat 미평가 모델 대응) */
 const sc = s => s.s ?? 0;
 const krm = s => typeof KR_MARKET === 'object' && KR_MARKET[s.id];
-const priceTxt = s => s.p ? won(s.p) : s.usd ? `해외 정가 ${s.usd}` : krm(s) ? `국내 판매가 ${krm(s)[0].toLocaleString('ko-KR')}원` : '국내 정가 미정';
+const priceTxt = s => s.p ? won(s.p) : s.usd ? `해외 정가 $${s.usd}` : krm(s) ? `국내 판매가 ${krm(s)[0].toLocaleString('ko-KR')}원` : '국내 정가 미정';
 const scoreTag = s => s.s == null ? '미평가' : s.est ? '추정치' : 'RunRepeat';
 const tier = s => s.s == null ? 'n' : s.s >= 90 ? 'a' : s.s >= 85 ? 'b' : s.s >= 80 ? 'c' : 'd';
 
@@ -308,7 +308,7 @@ function renderRec() { setTimeout(revealObserve, 0);
 }
 
 /* 공식몰: 모델 상품·소개 페이지 → 없으면 공식몰 검색 → 그래도 없으면 브랜드 공식 사이트 */
-const SHOP_SEARCH = { nike: 'https://www.nike.com/kr/w?q=', adidas: 'https://www.adidas.co.kr/search?q=', asics: 'https://www.asics.co.kr/goods/search?search_text=', nb: 'https://www.nbkorea.com/product/searchResult.action?schWord=', saucony: 'https://www.saucony.co.kr/product/search.html?keyword=', ua: 'https://www.underarmour.co.kr/ko-kr/search/?q=', puma: 'https://kr.puma.com/kr/ko/search?q=' };
+const SHOP_SEARCH = { nike: 'https://www.nike.com/kr/w?q=', adidas: 'https://www.adidas.co.kr/search?q=', asics: 'https://www.asics.co.kr/goods/search?search_text=', nb: 'https://www.nbkorea.com/product/searchResult.action?schWord=', saucony: 'https://www.saucony.co.kr/product/search.html?keyword=', ua: 'https://www.underarmour.co.kr/ko-kr/search/?q=', puma: 'https://kr.puma.com/kr/ko/search?q=', decathlon: 'https://www.decathlon.co.kr/search?Ntt=' };
 const KR_SHOP = ['nike.com/kr', '.co.kr', 'kr.puma', 'on.com/ko-kr', 'prospecs.com', 'kor.mizuno'];
 function shopLink(s) {
   const u = typeof SHOP === 'object' && SHOP[s.id], B = BRANDS[s.b];

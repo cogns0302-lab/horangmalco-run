@@ -68,7 +68,7 @@ async function newestList(slug) {
 
   /* 새 버전 후보: 브랜드별 최신 목록 중 아직 없는 모델 */
   const known = new Set(paths);
-  const brands = ['nike', 'adidas', 'asics', 'hoka', 'new-balance', 'puma', 'saucony', 'mizuno', 'brooks', 'on', 'under-armour', 'salomon'];
+  const brands = ['nike', 'adidas', 'asics', 'hoka', 'new-balance', 'puma', 'saucony', 'mizuno', 'brooks', 'on', 'under-armour', 'salomon', 'kiprun'];
   const fresh = [];
   for (const b of brands) { for (const [p, n] of await newestList(b)) if (!known.has(p) && !/gtx|trail|easyon|waterproof/i.test(p)) fresh.push(`${n}  https://runrepeat.com${p}`); await sleep(1500); }
 
