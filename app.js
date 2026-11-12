@@ -379,6 +379,9 @@ function whyText(s, cRank, cTotal) {
   rows.push(li('▲', '최상급 항목', pos.length ? `<b>${pos.slice(0, 5).join(' · ')}</b>` : '뚜렷한 강점 없음', 'r-up'));
   rows.push(li('▼', '감점 항목', neg.length ? neg.slice(0, 4).join(' · ') : '뚜렷한 감점 없음', 'r-down'));
   rows.push(li('🥇', '같은 종류', `${C_NAME(s)} ${cTotal}개 중 <b>${cRank}위</b>`, 'r-cat'));
+  const same = SHOES.filter(x => x.c === s.c && x.p), ap = same.length ? same.reduce((t, x) => t + x.p, 0) / same.length : 0;
+  if (s.p && ap) rows.push(li('💰', '가격 비교', `${won(s.p)} · 같은 종류 평균(${won(Math.round(ap))})보다 <b>${s.p <= ap ? Math.round(ap - s.p).toLocaleString('ko-KR') + ',000원 저렴' : Math.round(s.p - ap).toLocaleString('ko-KR') + ',000원 비쌈'}</b>`, 'r-price'));
+  rows.push(li('🏃', '추천 러너', WHO[s.c], 'r-who'));
   return `<ul class="why-list">${rows.join('')}</ul>`;
 }
 /* 점수 패널 (오른쪽) */
@@ -411,9 +414,8 @@ function openShoe(id) {
     <div class="mhero mh2" style="--hb:${grad(s.b)}">
       <div class="mh-left">
         <span class="brandlbl mst" style="--i:0">${blogo(s.b)}${B.name} · ${C.name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
-        <h2 class="mst" style="--i:1">${esc(s.ko)}</h2><div class="mh-en mst" style="--i:2">${esc(s.en)}</div>
+        <h2 class="mst" style="--i:1">${esc(s.ko)}<span class="mh-pr">${s.p ? won(s.p) : s.usd ? "해외 정가 $" + s.usd : krm(s) ? krm(s)[0].toLocaleString("ko-KR") + "원" : "가격 미공개"}</span></h2><div class="mh-en mst" style="--i:2">${esc(s.en)}${!s.p && !s.usd && krm(s) ? `<span class="mh-prn">국내 판매가 · ${krm(s)[1]}</span>` : ""}</div>
         <div class="head mst" style="--i:3">${esc(s.head)}</div>
-        <div class="mh-price mst" style="--i:3"><span>${s.p ? "공식 가격" : s.usd ? "해외 공식 가격" : krm(s) ? "국내 판매가" : "공식 가격"}</span><b>${s.p ? won(s.p) : s.usd ? "$" + s.usd : krm(s) ? krm(s)[0].toLocaleString("ko-KR") + "원" : "미공개"}</b>${!s.p && !s.usd && krm(s) ? "<small>" + krm(s)[1] + " · 26년 11월</small>" : ""}</div>
         ${featPanel(s)}
       <div class="mact mh-act mst" style="--i:14">
         ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 리뷰</span></a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 검색</span></a>`}
