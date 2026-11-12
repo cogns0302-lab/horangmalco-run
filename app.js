@@ -1404,7 +1404,7 @@ function viewTier() {
       ${rows.map(([t, l], ri) => `<section class="tl-row t-${t[0]}" id="tier-${t[0]}" style="--c1:${t[4]};--c2:${t[5]};--r:${ri}">
         <div class="tl-label"><b>${t[0]}</b><span>${t[3]}</span><small>${t[0] === 'S' ? '93점 이상' : t[0] === 'E' ? '79점 이하' : t[1] + '~' + t[2] + '점'}</small><em>${l.length}개</em></div>
         <div class="tl-groups">${l.length ? [...new Set(l.map(s => s.s))].map((sc, gi) => { const g = l.filter(s => s.s === sc); return `<div class="tl-sg" style="--g:${gi}">
-          <div class="tl-sgh"><b>${sc}</b><small>점 · ${g.length}개</small></div>
+          <div class="tl-sgh"><b>${sc}<i>점</i></b><small>${g.length}개</small></div>
           <div class="tl-chips">${g.map((s, i) => `<button class="tl-chip" style="--i:${Math.min(i, 16)}" onclick="openShoe('${s.id}')" title="${esc(BRANDS[s.b].name)} ${esc(s.ko)} · ${CATS[s.c].name}">
             <span class="tl-logo">${LOGOS.has(s.b) ? `<img src="logos/${s.b}.svg" alt="${BRANDS[s.b].name}">` : `<b>${BRANDS[s.b].name}</b>`}</span>
             <span class="tl-name"><b>${esc(s.ko)}</b><small><i style="background:${CATS[s.c].color}"></i>${CATS[s.c].name}</small></span></button>`).join('')}</div>
@@ -1499,12 +1499,22 @@ function openFootGuide() {
         ${row('좁음', 'B', '2A', '칼발 · 발이 얇고 길쭉함')}${row('보통', 'D', 'B', '대부분 러닝화의 기본 폭')}${row('넓음', '2E', 'D', '발볼이 넓거나 발등이 높음')}${row('매우 넓음', '4E', '2E', '보통 신발이 새끼발가락을 누름')}
       </tbody></table>
       <p class="fw-note">한국인은 서양인보다 발볼이 넓은 편이라 2E(와이드)가 잘 맞는 경우가 많아요. 같은 등급도 브랜드마다 실제 폭이 조금씩 달라요.</p></section>
-    <section class="fw-sec"><h3>발볼 측정법</h3><ol class="fw-steps">
+    <section class="fw-sec"><h3>발볼 측정법</h3><div class="fw-measure"><ol class="fw-steps fw-sync">
       <li><b>저녁에, 양말을 신고</b><span>발은 하루 중 저녁에 가장 커요. 달릴 때 신는 양말을 신어요.</span></li>
       <li><b>종이 위에 서서 발 테두리 그리기</b><span>체중을 실어 바르게 서고, 펜을 세워 발 모양을 따라 그려요.</span></li>
       <li><b>발길이 재기</b><span>뒤꿈치 끝부터 가장 긴 발가락 끝까지의 직선 길이(mm)예요.</span></li>
       <li><b>발볼 너비 재기</b><span>엄지발가락 뿌리 관절과 새끼발가락 뿌리 관절 사이, 가장 넓은 폭(mm)이에요.</span></li>
-      <li><b>큰 발 기준으로</b><span>양발을 모두 재고 더 큰 쪽 숫자를 써요.</span></li></ol></section>
+      <li><b>큰 발 기준으로</b><span>양발을 모두 재고 더 큰 쪽 숫자를 써요.</span></li></ol><div class="fw-anim" aria-hidden="true"><svg viewBox="0 0 220 320">
+  <rect x="14" y="6" width="192" height="308" rx="10" class="fa-paper"/>
+  <g class="fa-foot"><path d="M100 288 C74 288 62 268 63 240 C64 212 60 188 56 162 C52 136 52 112 60 94 C68 78 82 70 100 70 C118 70 134 76 142 90 C150 104 150 124 146 146 C142 168 138 190 136 214 C134 244 128 288 100 288 Z"/><ellipse cx="74" cy="50" rx="13" ry="17"/><ellipse cx="98" cy="42" rx="9" ry="11"/><ellipse cx="116" cy="46" rx="8" ry="10"/><ellipse cx="131" cy="54" rx="7" ry="9"/><ellipse cx="143" cy="67" rx="6" ry="8"/></g>
+  <path class="fa-trace" d="M100 288 C74 288 62 268 63 240 C64 212 60 188 56 162 C52 136 52 112 60 94 C68 78 82 70 100 70 C118 70 134 76 142 90 C150 104 150 124 146 146 C142 168 138 190 136 214 C134 244 128 288 100 288 Z" pathLength="100"/>
+  <circle class="fa-pen" r="5" style="offset-path:path('M100 288 C74 288 62 268 63 240 C64 212 60 188 56 162 C52 136 52 112 60 94 C68 78 82 70 100 70 C118 70 134 76 142 90 C150 104 150 124 146 146 C142 168 138 190 136 214 C134 244 128 288 100 288 Z')"/>
+  <g class="fa-len"><line x1="182" y1="288" x2="182" y2="30"/><path d="M176 38 l6 -8 6 8 M176 280 l6 8 6 -8"/><line class="fa-tick" x1="100" y1="288" x2="190" y2="288"/><line class="fa-tick" x1="74" y1="32" x2="190" y2="32"/>
+    <g class="fa-lbl"><rect x="148" y="146" width="66" height="26" rx="13"/><text x="181" y="163">발길이</text></g></g>
+  <g class="fa-wid"><line x1="54" y1="108" x2="150" y2="108"/><path d="M62 102 l-8 6 8 6 M142 102 l8 6 -8 6"/>
+    <g class="fa-lbl"><rect x="66" y="116" width="68" height="26" rx="13"/><text x="100" y="133">발볼 너비</text></g></g>
+  <circle class="fa-dot d1" cx="57" cy="110" r="5"/><circle class="fa-dot d2" cx="148" cy="108" r="5"/>
+</svg></div></div></section>
     <section class="fw-sec"><h3>내 추천 발볼 등급 계산</h3>
       <div class="fw-calc"><div class="seg" style="--n:2" id="fwg">${['남성', '여성'].map(g => `<button type="button" class="${prof.g === g ? 'on' : ''}" onclick="[...this.parentNode.children].forEach(b=>b.classList.toggle('on',b===this));calcFoot()">${g}</button>`).join('')}</div>
         <div class="inp"><input id="fwl" type="number" placeholder="발길이" min="150" max="340" oninput="calcFoot()"><span>mm</span></div>

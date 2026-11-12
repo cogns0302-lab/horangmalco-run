@@ -1343,6 +1343,51 @@ p,.sec-sub,.note{text-wrap:pretty}
 .mh-price small{font-size:11.5px;color:#ffffffb3;font-weight:700}
 @media (max-width:760px){.mh-price b{font-size:18px}}
 
+/* 계급도 점수 배지: 95점 한 줄 */
+.tl-sgh b{display:flex;align-items:baseline;gap:1px;white-space:nowrap}
+.tl-sgh b i{font-style:normal;font-size:13px;font-weight:900;color:var(--c1)}
+.tl-sgh small{margin-top:4px}
+@media (max-width:600px){.tl-sgh{gap:8px}.tl-sgh small{margin-top:0}}
+
+/* 발볼 측정 모션그래픽 */
+.fw-measure{display:grid;grid-template-columns:1fr 210px;gap:16px;align-items:center}
+.fw-anim{background:radial-gradient(90% 70% at 50% 50%,#f5a3001f,transparent 70%);border-radius:14px;padding:6px}
+.fw-anim svg{width:100%;height:auto;display:block}
+.fa-paper{fill:#fbf7ee;stroke:#e7dcc4;stroke-width:1.5}
+.fa-foot path,.fa-foot ellipse{fill:#f5a30022;stroke:#d6c8ab;stroke-width:1.5}
+.fa-trace{fill:none;stroke:#1f2937;stroke-width:3;stroke-linecap:round;stroke-dasharray:100;stroke-dashoffset:100}
+.fa-pen{fill:#e11d48;offset-distance:0%;opacity:0}
+.fa-len line,.fa-len path{stroke:#0284c7;stroke-width:3;fill:none;stroke-linecap:round}
+.fa-len .fa-tick{stroke-width:1.5;stroke-dasharray:4 4}
+.fa-wid line,.fa-wid path{stroke:#e11d48;stroke-width:3;fill:none;stroke-linecap:round}
+.fa-lbl rect{fill:#1f2937}.fa-lbl text{fill:#fff;font-size:12px;font-weight:900;text-anchor:middle;font-family:inherit}
+.fa-len .fa-lbl rect{fill:#0284c7}.fa-wid .fa-lbl rect{fill:#e11d48}
+.fa-dot{fill:#e11d48;stroke:#fff;stroke-width:2;opacity:0}
+.fa-len,.fa-wid{opacity:0}
+@media (prefers-reduced-motion:no-preference){
+  .fa-trace{animation:faTrace 9s ease-in-out infinite}
+  @keyframes faTrace{0%,4%{stroke-dashoffset:100}30%,92%{stroke-dashoffset:0}100%{stroke-dashoffset:0;opacity:0}}
+  .fa-pen{animation:faPen 9s ease-in-out infinite}
+  @keyframes faPen{0%,4%{offset-distance:0%;opacity:1}30%{offset-distance:100%;opacity:1}33%,100%{opacity:0;offset-distance:100%}}
+  .fa-len{animation:faLen 9s ease-out infinite}
+  @keyframes faLen{0%,34%{opacity:0;transform:scaleY(.2)}44%,92%{opacity:1;transform:none}100%{opacity:0}}
+  .fa-len{transform-origin:182px 288px}
+  .fa-wid{animation:faWid 9s ease-out infinite;transform-origin:100px 108px}
+  @keyframes faWid{0%,54%{opacity:0;transform:scaleX(.1)}64%,92%{opacity:1;transform:none}100%{opacity:0}}
+  .fa-dot{animation:faDot 9s ease-in-out infinite}
+  @keyframes faDot{0%,48%{opacity:0;transform:scale(.3)}53%,92%{opacity:1;transform:none}100%{opacity:0}}
+  .fa-dot{transform-box:fill-box;transform-origin:center}
+  .fw-sync li{border-radius:10px;animation:faStep 9s ease-in-out infinite;padding:2px 4px;margin:-2px -4px}
+  .fw-sync li:nth-child(1){animation-name:faS1}.fw-sync li:nth-child(2){animation-name:faS2}.fw-sync li:nth-child(3){animation-name:faS3}.fw-sync li:nth-child(4){animation-name:faS4}.fw-sync li:nth-child(5){animation-name:faS5}
+  @keyframes faS1{0%,4%{background:#f5a30026}5%,100%{background:transparent}}
+  @keyframes faS2{0%,4%{background:transparent}6%,30%{background:#f5a30026}32%,100%{background:transparent}}
+  @keyframes faS3{0%,33%{background:transparent}35%,50%{background:#0284c726}52%,100%{background:transparent}}
+  @keyframes faS4{0%,52%{background:transparent}54%,72%{background:#e11d4826}74%,100%{background:transparent}}
+  @keyframes faS5{0%,74%{background:transparent}76%,92%{background:#f5a30026}94%,100%{background:transparent}}
+}
+@media (prefers-reduced-motion:reduce){.fa-trace{stroke-dashoffset:0}.fa-len,.fa-wid,.fa-dot{opacity:1}}
+@media (max-width:600px){.fw-measure{grid-template-columns:1fr}.fw-anim{max-width:150px;margin:0 auto;order:-1}}
+
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -1438,13 +1483,13 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwd4gu3y"></script>
-<script src="photos.js?v=mwd4gu3y"></script>
-<script src="history.js?v=mwd4gu3y"></script>
-<script src="marathon.js?v=mwd4gu3y"></script>
-<script src="stories.js?v=mwd4gu3y"></script>
-<script src="reviews.js?v=mwd4gu3y"></script>
-<script src="train.js?v=mwd4gu3y"></script>
-<script src="app.js?v=mwd4gu3y"></script>
+<script src="data.js?v=mwd4lwzl"></script>
+<script src="photos.js?v=mwd4lwzl"></script>
+<script src="history.js?v=mwd4lwzl"></script>
+<script src="marathon.js?v=mwd4lwzl"></script>
+<script src="stories.js?v=mwd4lwzl"></script>
+<script src="reviews.js?v=mwd4lwzl"></script>
+<script src="train.js?v=mwd4lwzl"></script>
+<script src="app.js?v=mwd4lwzl"></script>
 </body>
 </html>
