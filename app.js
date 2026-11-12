@@ -866,6 +866,120 @@ function motion(root = app) {
   root.querySelectorAll('[data-count], .grow, .draw, .pop, .race').forEach(el => io.observe(el));
 }
 
+/* ---------- 마라톤 랭킹 ---------- */
+let rankSex = 'men';
+const RANK_SECS = [['rk-wr', '🏆 세계 신기록'], ['rk-top', '📊 역대 TOP 20'], ['rk-nat', '🌍 국가별 랭킹'], ['rk-hall', '⭐ 명예의 전당'], ['rk-kr', '🇰🇷 대한민국 기록'], ['rk-un', '🚫 비공식 기록']];
+const natPill = c => { const n = NAT_KO[c] || [c, '#64748b']; return `<span class="rk-nat" style="--nc:${n[1]}">${n[0]}</span>`; };
+function rankTop20() {
+  const L = TOP20[rankSex], lead = toSec(L[0][1]), last = toSec(L[L.length - 1][1]);
+  return `<div class="rk-toggle">${[['men', '남자'], ['women', '여자']].map(([k, n]) => `<button class="${k === rankSex ? 'on' : ''}" onclick="rankSex='${k}';$('#rk-top20').innerHTML=rankTop20();motion($('#rk-top20'))">${n}</button>`).join('')}</div>
+    <div class="rk-list race">${L.map(([rk, t, n, c, w, y], i) => { const s = toSec(t), gap = s - lead, m = Math.round(42195 * (1 - lead / s));
+      return `<div class="rk-row ${rk <= 3 ? 'p' + rk : ''}" style="--i:${i}">
+        <span class="rk-no">${rk}</span>
+        <span class="rk-who"><b>${n}</b>${natPill(c)}<small>${w} · ${y}</small></span>
+        <span class="rk-bar"><i style="--w:${100 - (s - lead) / (last - lead + 1) * 38}%;--nc:${(NAT_KO[c] || [, '#64748b'])[1]}"></i></span>
+        <span class="rk-t"><b>${t}</b><small>${gap ? `+${Math.floor(gap / 60) ? Math.floor(gap / 60) + '분 ' : ''}${gap % 60}초 · ${m.toLocaleString()}m 뒤` : '1위'}</small></span></div>`; }).join('')}</div>
+    <p class="note">World Athletics 역대 순위 · 선수별 최고 기록 · ${RANK_ASOF} 기준 · 막대는 1위 기록과의 차이, "m 뒤"는 1위가 결승선에 들어온 순간의 거리 차예요</p>`;
+}
+function viewRank() {
+  const wm = WR_PROG.men[WR_PROG.men.length - 1], ww = WR_PROG.women[WR_PROG.women.length - 1];
+  const kr = KR_REC.men[0], krw = KR_REC.women[0];
+  app.innerHTML = `
+    <h1 class="sec-title">마라톤 랭킹</h1>
+    <p class="sec-sub">세계 신기록부터 역대 TOP 20, 국가별 순위, 명예의 전당, 대한민국 기록까지 — ${RANK_ASOF} 기준 World Athletics 공식 기록으로 정리했어요.</p>
+    <nav class="rk-sub" aria-label="마라톤 랭킹 메뉴">${RANK_SECS.map(([id, n]) => `<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${n}</button>`).join('')}</nav>
+
+    <section id="rk-wr" class="rk-sec">
+      <h2 class="h2">세계 신기록 <small>${RANK_ASOF} 기준</small></h2>
+      <div class="rk-wr">
+        ${[['남자', wm, 'sawe', '#16a34a'], ['여자', ww, 'chepngetich', '#ca8a04']].map(([g, r, ph, c]) => `<article class="rk-wrc" style="--wc:${c}">
+          <figure><img src="${photoSrc(ph)}" alt="${esc(r[2])}" loading="lazy">${credit(ph)}</figure>
+          <div class="rk-wrt"><span class="rk-g">${g} 세계기록</span>
+            <b class="rk-time">${cnt(toSec(r[1]), 'time')}</b>
+            <span class="rk-wn">${r[2]} <small>${r[3]}</small></span>
+            <span class="rk-wm">${r[4]} 마라톤 · ${r[0]}년 · 1km ${Math.floor(toSec(r[1]) / 42.195 / 60)}분 ${String(Math.round(toSec(r[1]) / 42.195 % 60)).padStart(2, '0')}초 페이스</span></div></article>`).join('')}
+      </div>
+      <div class="panel wide"><h3>세계기록 변천 <small>1999년 이후</small></h3>
+        <div class="rk-toggle sm">${[['men', '남자'], ['women', '여자']].map(([k, n]) => `<button class="${k === 'men' ? 'on' : ''}" onclick="[...this.parentNode.children].forEach(b=>b.classList.toggle('on',b===this));rankWRChart('${k}')">${n}</button>`).join('')}</div>
+        <div class="cbox"><canvas id="cwrp"></canvas></div>
+        <p class="note">점마다 새 세계기록이에요 · 남자 기록은 27년 동안 6분 12초 빨라졌어요</p></div>
+    </section>
+
+    <section id="rk-top" class="rk-sec">
+      <h2 class="h2">역대 TOP 20</h2>
+      <div id="rk-top20">${rankTop20()}</div>
+    </section>
+
+    <section id="rk-nat" class="rk-sec">
+      <h2 class="h2">국가별 세계랭킹</h2>
+      <div class="rk-grid2">
+        <div class="panel"><h3>남자 세계랭킹 TOP 10 <small>World Athletics · ${WA_RANK.asOf}</small></h3>
+          <ol class="rk-wa">${WA_RANK.men.map(([r, n, c, p], i) => `<li style="--i:${i}"><span class="rk-no">${r}</span><b>${n}</b><span class="rk-nat" style="--nc:${NAT_COL[c] || '#64748b'}">${c}</span><em>${p.toLocaleString()}점</em></li>`).join('')}</ol>
+          <p class="note">아시아 최고: ${WA_RANK.asia.filter(a => a[1]).map(([c, r, n]) => `${n}(${c}) ${r}위`).join(' · ')} · 한국은 상위 600위 밖</p></div>
+        <div class="panel"><h3>역대 TOP 100 국적 <small>몇 명이 어느 나라 출신일까?</small></h3>
+          <h4 class="rk-h4">남자</h4>${rankNat('men')}<h4 class="rk-h4">여자</h4>${rankNat('women')}
+          <p class="note">케냐·에티오피아 두 나라가 남자 85명, 여자 84명 — 역대 100명 중 85%예요</p></div>
+      </div>
+      <div class="rk-grid2">
+        <div class="panel"><h3>국가별 남자 최고 기록</h3><div class="hbars grow">${NAT_REC.map((r, i) => { const base = toSec('2:12:00'), w = (base - toSec(r[1])) / (base - toSec(NAT_REC[0][1])) * 100;
+          return `<div class="hb" style="--i:${i}"><span class="hl">${r[0]}</span><div class="ht"><i style="width:${Math.max(4, w)}%;background:${r[3]}"></i></div><span class="hv">${r[1]}</span><span class="hn">${NAT_REC_WHO[r[0]].split(' · ')[0]}</span></div>`; }).join('')}</div>
+          <p class="note">막대가 길수록 빠른 기록이에요 (2:12:00 기준)</p></div>
+        <div class="panel"><h3>올림픽 남자 마라톤 금메달 <small>1896~2024</small></h3>${hbars(OLY_GOLD.slice(0, 10).map(([c, n, note]) => [c, n, c === '한국' ? '#e11d48' : '#f5a300', note || '']), 5, '개')}</div>
+      </div>
+    </section>
+
+    <section id="rk-hall" class="rk-sec">
+      <h2 class="h2">명예의 전당 <small>마라톤 역사를 바꾼 12명</small></h2>
+      <div class="rk-hall">${HALL.map(([n, c, ph, rec, d], i) => `<article class="rk-hc" style="--i:${i}">
+        <figure><img src="${photoSrc(ph)}" alt="${esc(n)}" loading="lazy"><span class="rk-hn">${c}</span>${credit(ph)}</figure>
+        <div><b>${n}</b><span class="rk-hr">${rec}</span><p>${d}</p></div></article>`).join('')}</div>
+    </section>
+
+    <section id="rk-kr" class="rk-sec">
+      <h2 class="h2">대한민국 기록</h2>
+      <div class="rk-kr">
+        ${[['남자 한국기록', kr, 'leebj2', WR_PROG.men], ['여자 한국기록', krw, 'seoul_mar4', WR_PROG.women]].map(([g, r, ph, W]) => { const wr = toSec(W[W.length - 1][1]), s = toSec(r[0]), behind = 42.195 * (1 - wr / s);
+          return `<article class="rk-krc"><figure><img src="${photoSrc(ph)}" alt="" loading="lazy">${credit(ph)}</figure>
+            <div><span class="rk-g">${g}</span><b class="rk-time">${cnt(s, 'time')}</b><span class="rk-wn">${r[1]} <small>${r[2]} · ${r[3]}</small></span>
+            <span class="rk-gap">세계기록과 <b>${Math.floor((s - wr) / 60)}분 ${(s - wr) % 60}초</b> 차이 · 세계기록 보유자가 결승할 때 <b>${behind.toFixed(2)}km</b> 뒤</span></div></article>`; }).join('')}
+      </div>
+      <div class="rk-grid2">
+        <div class="panel"><h3>남자 역대 주요 기록</h3><ol class="rk-krl">${KR_REC.men.map(([t, n, y, w, note], i) => `<li style="--i:${i}"><span class="rk-no">${i + 1}</span><b>${t}</b><span>${n}<small>${y} · ${w}</small></span><em>${note}</em></li>`).join('')}</ol></div>
+        <div class="panel"><h3>여자 역대 주요 기록</h3><ol class="rk-krl">${KR_REC.women.map(([t, n, y, w, note], i) => `<li style="--i:${i}"><span class="rk-no">${i + 1}</span><b>${t}</b><span>${n}<small>${y} · ${w}</small></span><em>${note}</em></li>`).join('')}</ol>
+          <h4 class="rk-h4">아시아 여자 국가기록 비교</h4><div class="hbars grow">${NAT_REC.filter(r => ['일본', '중국', '한국'].includes(r[0])).map((r, i) => { const base = toSec('2:30:00'), w = (base - toSec(r[2])) / (base - toSec('2:18:00')) * 100;
+            return `<div class="hb" style="--i:${i}"><span class="hl">${r[0]}</span><div class="ht"><i style="width:${Math.max(4, w)}%;background:${r[3]}"></i></div><span class="hv">${r[2]}</span><span class="hn">${NAT_REC_WHO[r[0]].split(' · ')[1]}</span></div>`; }).join('')}</div>
+          <p class="note">한국 여자 마라톤은 2018년 이후 2시간 25분대 기록이 다시 나오지 않았어요</p></div>
+      </div>
+      <div class="panel wide"><h3>국가기록 보유자들이 함께 뛴다면? (남자)</h3><p class="note">세계기록 보유자가 결승선에 들어오는 순간의 위치예요</p>${raceViz('m')}</div>
+    </section>
+
+    <section id="rk-un" class="rk-sec">
+      <h2 class="h2">비공식 기록은 왜 인정되지 않을까?</h2>
+      <div class="rk-un">${UNOFFICIAL.map(u => `<article class="rk-uc">
+        ${u.photo ? `<figure><img src="${photoSrc(u.photo)}" alt="" loading="lazy">${credit(u.photo)}</figure>` : `<figure class="noph"><span>2:00:25</span></figure>`}
+        <div><span class="rk-stamp">비공인</span><b class="rk-ut">${u.t}</b><span class="rk-wn">${u.who} <small>${u.where}</small></span>
+          <ul>${u.why.map(w => `<li>✕ ${w}</li>`).join('')}</ul></div></article>`).join('')}</div>
+      <div class="panel wide"><h3>세계기록으로 인정받으려면 <small>World Athletics 공인 조건</small></h3>
+        <div class="rk-rules">${RECORD_RULES.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div>
+        <p class="note">여자 기록은 남녀가 함께 뛴 대회 기록과 여자만 뛴 대회(여자 단독) 기록을 따로 인정해요 · 여자 단독 세계기록은 티지스트 아세파 2:15:50 (2025 런던)</p></div>
+    </section>
+    <p class="note" style="margin-top:14px">출처: World Athletics 역대 순위·세계랭킹·세계기록 (${RANK_ASOF} 조회) · 대한육상연맹·언론 보도 · 사진: 위키미디어 공용 자유 라이선스</p>`;
+  rankWRChart('men');
+  motion();
+}
+function rankNat(sex) {
+  const rows = TOP100_NAT[sex], max = rows[0][1];
+  return hbars(rows.map(([c, n]) => [NAT_KO[c] ? NAT_KO[c][0] : c, n, NAT_KO[c] ? NAT_KO[c][1] : '#64748b']), max, '명');
+}
+function rankWRChart(sex) {
+  const W = WR_PROG[sex], col = sex === 'men' ? '#16a34a' : '#ca8a04';
+  charts.filter(c => c.canvas && c.canvas.id === 'cwrp').forEach(c => c.destroy());
+  charts.push(new Chart($('#cwrp'), { type: 'line', data: { datasets: [{ data: W.map(([y, t, n, c, w]) => ({ x: y, y: toSec(t), n, c, w, t })), borderColor: col, backgroundColor: col + '33', fill: true, stepped: 'before', pointRadius: 6, pointHoverRadius: 9, pointBackgroundColor: col, borderWidth: 3 }] },
+    options: { maintainAspectRatio: false, animation: { duration: REDUCED ? 0 : 1600 },
+      scales: { x: { type: 'linear', min: 1998, max: 2027, ticks: { stepSize: 4, callback: v => v }, grid: { display: false } }, y: { reverse: false, ticks: { callback: v => fmtSec(v) }, grid: { color: tok('--line') } } },
+      plugins: { legend: { display: false }, tooltip: { callbacks: { title: i => i[0].raw.x + '년 ' + i[0].raw.w, label: i => ` ${i.raw.t} · ${i.raw.n} (${i.raw.c})` } } } } }));
+}
+
 /* ---------- 마라톤의 역사 ---------- */
 const MAR_SUBS = [['', '마라톤의 역사', '#b45309', 'photo:merson'], ['powers', '마라톤 강대국', '#16a34a', 'flag:ke'], ['korea', '무너진 한국', '#2563eb', 'flag:kr'], ['china', '떠오르는 중국', '#dc2626', 'flag:cn'], ['japan', '과학의 일본', '#7c3aed', 'flag:jp']];
 function marMenu(cur) {
@@ -1450,6 +1564,7 @@ function route() {
   document.querySelectorAll('#nav a').forEach(a => a.classList.toggle('on', a.dataset.v === v));
   if (v === 'history') viewHistory(arg);
   else if (v === 'marathon') viewMarathon(arg);
+  else if (v === 'rank') viewRank();
   else if (v === 'tier') viewTier();
   else if (v === 'find') viewFind(arg);
   else if (v === 'tips') viewTips(arg);

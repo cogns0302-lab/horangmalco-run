@@ -156,4 +156,6 @@ Object.assign(PHOTOS, {
   boston_finish: ["BOSTON MARATHON FINISH LINE (19640796408).jpg", "CC BY 2.0", "Bill Morrow from Tucson, AZ, US"],
   seoul_mar4: ["Korea-Seoul International Marathon-04.jpg", "CC BY-SA 2.0", "hojusaram"],
   seoul_mar2: ["Korea-Seoul International Marathon-02.jpg", "CC BY-SA 2.0", "hojusaram"],
+  radcliffe: ["Paula Radcliffe London marathon 2005 crop.jpg", "CC BY-SA 3.0", "User:Cyr: Tom Corser derivative work: SilkTork (talk)"],
+  chepngetich: ["Ruth Chepngetich (KEN) 2021.jpg", "CC BY-SA 2.0", "Clark Adams"],
 });
