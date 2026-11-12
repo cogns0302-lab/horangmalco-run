@@ -412,7 +412,7 @@ function openShoe(id) {
         <span class="brandlbl mst" style="--i:0">${blogo(s.b)}${B.name} · ${C.name}${s.bs ? ' · 🔥 베스트셀러' : ''}</span>
         <h2 class="mst" style="--i:1">${esc(s.ko)}</h2><div class="mh-en mst" style="--i:2">${esc(s.en)}</div>
         <div class="head mst" style="--i:3">${esc(s.head)}</div>
-        <div class="mh-price mst" style="--i:3"><span>${s.p ? "공식 가격" : s.usd ? "해외 공식 가격" : "공식 가격"}</span><b>${s.p ? won(s.p) : s.usd ? "$" + s.usd : "국내 정가 미정"}</b></div>
+        <div class="mh-price mst" style="--i:3"><span>${s.p ? "공식 가격" : "해외 공식 가격"}</span><b>${s.p ? won(s.p) : s.usd ? "$" + s.usd : "미공개"}</b>${!s.p && !s.usd ? "<small>중국 내수 모델이라 해외 공식 정가가 없어요</small>" : ""}</div>
         ${featPanel(s)}
       <div class="mact mh-act mst" style="--i:14">
         ${reviewed ? `<a class="btn act-p" href="${rrUrl(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 리뷰</span></a>` : `<a class="btn pri" href="${rrSearch(s)}" target="_blank" rel="noopener">RunRepeat<span class="mh-x"> 검색</span></a>`}
