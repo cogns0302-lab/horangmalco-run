@@ -1311,7 +1311,7 @@ function viewMarKorea() {
     <div class="cgrid">
       <div class="panel"><h3>러닝 붐을 엘리트로 잇는 깔때기</h3><p class="note">넓은 저변이 좁은 정상을 만든다</p>
         <div class="funnel grow">${FUNNEL.map(([t, d, w], i) => `<div class="fu" style="--w:${w}%;--i:${i}"><b>${t}</b><span>${d}</span></div>`).join('')}</div></div>
-      <div class="panel"><h3>다가오는 국내 대회 수 (월별)</h3><p class="note">이 사이트 '대회' 탭에 수집된 ${RACES.filter(r => r[1] >= '2026-11-10').length}개 대회 기준 · 출처: 마라톤온라인</p><div class="cbox"><canvas id="cmon"></canvas></div></div>
+      <div class="panel"><h3>다가오는 국내 대회 수 (월별)</h3><p class="note">이 사이트 '대회 정보' 탭에 수집된 ${RACES.filter(r => r[1] >= '2026-11-10').length}개 대회 기준 · 출처: 마라톤온라인</p><div class="cbox"><canvas id="cmon"></canvas></div></div>
     </div>
     <div class="ideas">${BOOM_IDEAS.map(([t, d], i) => `<div class="idea pop" style="--i:${i}"><span>${i + 1}</span><div><b>${t}</b><p>${d}</p></div></div>`).join('')}</div>
     <figure class="lg-photo wide pop" style="margin-top:16px"><img src="${photoSrc('seoulmar')}" alt="서울국제마라톤" loading="lazy"><figcaption>서울국제마라톤 · ${credit('seoulmar')}</figcaption></figure>
@@ -1561,6 +1561,18 @@ const WMM_WHY = [
   ['⭐', '식스·세븐 스타 메달', '모든 메이저를 완주하면 받는 특별 메달 — 전 세계 러너의 버킷리스트'],
   ['🏙', '도시 전체가 축제', '도로를 통째로 막고 수십만 명이 응원 — 도시의 상징이 된 대회'],
 ];
+/* 대륙 지도: 해당 범위만 잘라 보여주고 대회 위치에 점 */
+function contMap(key, pts) {
+  let [x0, y0, x1, y1] = CONTINENTS[key][2], w = x1 - x0, hh = y1 - y0;
+  if (w / hh < 1.6) { const d = (hh * 1.6 - w) / 2; x0 -= d; x1 += d; w = x1 - x0; } else { const d = (w / 1.6 - hh) / 2; y0 -= d; y1 += d; hh = y1 - y0; }
+  // 대회 위치가 가운데 오도록 (잘려도 점은 보이게)
+  const cx = pts.reduce((s, p) => s + p[1], 0) / pts.length, cy = pts.reduce((s, p) => s + p[0], 0) / pts.length;
+  x0 = cx - w / 2; x1 = cx + w / 2; y0 = cy - hh / 2; y1 = cy + hh / 2;
+  const vx = x0 + 180, vy = 85 - y1, fs = (hh / 8).toFixed(2), r = (hh / 34).toFixed(2);
+  return `<svg class="cm" viewBox="${vx.toFixed(1)} ${vy.toFixed(1)} ${w.toFixed(1)} ${hh.toFixed(1)}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <path class="cm-land" d="${MAP_WORLD}"/>
+    ${pts.map(([lat, lon, name, col], i) => { const x = lon + 180, y = 85 - lat; return `<g class="cm-pt" style="--i:${i};--c:${col}"><circle class="cm-pulse" cx="${x}" cy="${y}" r="${r * 2}"/><circle class="cm-dot" cx="${x}" cy="${y}" r="${r}"/></g>`; }).join('')}</svg>`;
+}
 function majorArticle() {
   return `<section class="rg-sec wmm" id="rg-wmm"><h2 class="h2">세계 8대 메이저란? <small>선정 기준과 유명한 이유</small></h2>
     <div class="wmm-lead"><div><span class="wmm-kicker">WORLD MARATHON MAJORS</span>
@@ -1574,7 +1586,10 @@ function majorArticle() {
       <div class="panel"><h3>왜 이렇게 유명할까?</h3><div class="wmm-crit">${WMM_WHY.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div>
         <h4 class="rk-h4">대회별 완주자 수</h4>${hbars(WMM_FINISH.map(([n, v, c, y]) => [n, v, c, y + '년']), 62000, '명')}</div>
     </div>
-    <div class="wmm-map grow">${RACE_GUIDE.world.major.map((r, i) => `<button style="--rc:${r.col};--i:${i}" onclick="pgGo('rg-${r.id}')"><b>${r.name.replace(' 마라톤', '')}</b><small>${r.month}${r.id === 'capetown' ? ' · 후보' : ''}</small></button>`).join('')}</div>
+    <div class="wmm-cont grow">${['asia', 'europe', 'na', 'oceania', 'africa'].map((k, ci) => { const rs = RACE_GUIDE.world.major.filter(r => RACE_CONT[r.id] === k);
+      return `<div class="wc" style="--i:${ci}"><h4>${CONTINENTS[k][1]} ${CONTINENTS[k][0]} <small>${rs.length}개</small></h4>
+        <div class="wc-map">${contMap(k, rs.map(r => [RACE_GEO[r.id][0], RACE_GEO[r.id][1], r.name.replace(' 마라톤', ''), r.col]))}</div>
+        <div class="wc-btns">${rs.map(r => `<button style="--rc:${r.col}" onclick="pgGo('rg-${r.id}')"><b>${r.name.replace(' 마라톤', '')}</b><small>${r.month}${r.id === 'capetown' ? ' · 후보' : ''}</small></button>`).join('')}</div></div>`; }).join('')}</div>
     <p class="note">선정 기준은 WMM이 후보 대회 심사에서 밝힌 주요 항목을 정리한 것이에요 · 완주자 수는 각 대회 발표 기준</p></section>`;
 }
 /* 탭 안의 카드로 이동 (다른 탭에 있으면 그 탭을 먼저 열어요) */
@@ -1700,18 +1715,21 @@ function raceHowto(list) {
 function viewRaceGuide(sub) {
   const G = RACE_GUIDE[sub], kr = sub === 'kr';
   const secs = kr ? [['rg-major', '🏆 3대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-how', '📝 접수 방법']]
-    : [['rg-major', '🌍 세계 8대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-rec', '✈️ 추천 대회'], ['rg-how', '📝 접수 방법']];
+    : [['rg-major', '🌍 세계 8대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-rec', '✈️ 추천 해외 대회'], ['rg-how', '📝 접수 방법']];
   app.innerHTML = `
-    <h1 class="sec-title">대회</h1><p class="sec-sub">${kr ? '국내 대표 마라톤의 역사와 역대 기록, 코스를 한눈에 정리했어요.' : '세계 8대 메이저부터 극한 대회, 한국 러너 추천 대회까지 정리했어요.'} 기록은 ${RANK_ASOF} 기준이에요.</p>
+    <h1 class="sec-title">대회 정보</h1><p class="sec-sub">${kr ? '국내 대표 마라톤의 역사와 역대 기록, 코스를 한눈에 정리했어요.' : '세계 8대 메이저부터 극한 대회, 추천 해외 대회까지 정리했어요.'} 기록은 ${RANK_ASOF} 기준이에요.</p>
     ${raceTabs(sub)}
     <nav class="rk-sub">${secs.map(([id, n]) => `<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${n}</button>`).join('')}</nav>
     ${!kr ? majorArticle() : ''}
     ${raceSection('rg-major', kr ? '국내 3대 메이저 마라톤' : '세계 8대 메이저 마라톤', kr ? '서울(동아) · 춘천 · JTBC 서울' : '월드 마라톤 메이저 7개 + 8번째 후보 케이프타운', G.major)}
     ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
-    ${!kr ? `<section class="rg-sec" id="rg-rec"><h2 class="h2">한국 러너 추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
-      <div class="rg-rec">${G.recommend.map(([n, m, d, c], i) => `<article style="--rc:${c};--i:${i}"><b>${n}</b><span>${m}</span><p>${d}</p>${RACE_URL[n] ? `<a href="${RACE_URL[n][0]}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</article>`).join('')}</div></section>` : ''}
-    <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2>${raceReg(kr)}${kr ? raceGen() : ''}<h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}<p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
+    ${!kr ? `<section class="rg-sec" id="rg-rec"><h2 class="h2">추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
+      <div class="rc-rows">${['asia', 'pacific', 'oceania'].map((k, ci) => { const rs = G.recommend.filter(([n]) => (REC_GEO[n] || [])[2] === k);
+        return rs.length ? `<div class="rc-row grow" style="--i:${ci}"><div class="rc-side"><h4>${CONTINENTS[k][1]} ${CONTINENTS[k][0]} <small>${rs.length}개</small></h4>
+          <div class="wc-map">${contMap(k, rs.map(([n, , , c]) => [REC_GEO[n][0], REC_GEO[n][1], n.replace(' 마라톤', ''), c]))}</div></div>
+          <div class="rg-rec">${rs.map(([n, mo, d, c], i) => `<article style="--rc:${c};--i:${i}"><b>${n}</b><span>${mo}</span><p>${d}</p>${RACE_URL[n] ? `<a href="${RACE_URL[n][0]}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</article>`).join('')}</div></div>` : ''; }).join('')}</div></section>` : ''}
+    <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2><div class="rg-blk b1">${raceReg(kr)}</div>${kr ? `<div class="rg-blk b2">${raceGen()}</div>` : ''}<div class="rg-blk b3"><h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}</div><p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
     <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
   motion();
 }
@@ -1730,7 +1748,7 @@ function viewRaces() {
   const pal = ['#b45309', '#1d4ed8', '#be123c', '#047857', '#7c3aed', '#0e7490'];
   const sel = (k, label, opts, fmtO = o => o) => `<select class="${rs[k] ? 'act' : ''}" onchange="rs.${k}=this.value;rs.page=1;viewRaces()"><option value="">${label}</option>${opts.map(o => `<option value="${o}" ${rs[k] === o ? 'selected' : ''}>${fmtO(o)}</option>`).join('')}</select>`;
   app.innerHTML = `
-    <h1 class="sec-title">대회</h1><p class="sec-sub">월별 · 지역 · 종목으로 다가오는 러닝 대회를 찾아보세요. 카드를 누르면 대회 홈페이지로 연결됩니다.</p>
+    <h1 class="sec-title">대회 정보</h1><p class="sec-sub">월별 · 지역 · 종목으로 다가오는 러닝 대회를 찾아보세요. 카드를 누르면 대회 홈페이지로 연결됩니다.</p>
     ${raceTabs("")}
     <div class="panel">
       <div class="rtabs">${['전체', '현재접수중', '온라인'].map(t => `<button class="${rs.tab === t ? 'on' : ''}" onclick="rs.tab='${t}';rs.page=1;viewRaces()">${t}</button>`).join('')}</div>

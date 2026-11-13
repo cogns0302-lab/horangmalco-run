@@ -1872,6 +1872,46 @@ p,.sec-sub,.note{text-wrap:pretty}
   .em-row span.e:before,.em-row span.m:before{font-size:10.5px;font-weight:800;color:var(--sub)}
   .em-row span:nth-child(2):before{content:"엘리트 남자"}.em-row span:nth-child(3):before{content:"마스터즈 남자"}.em-row span:nth-child(4):before{content:"엘리트 여자"}.em-row span:nth-child(5):before{content:"마스터즈 여자"}
   .em-lane{grid-template-columns:92px 1fr 62px;font-size:12px}}
+/* ===== 대륙별 지도 ===== */
+.wmm-cont{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-top:14px}
+.wc{display:flex;flex-direction:column;gap:8px;padding:12px;border-radius:16px;background:#0c1512;border:1px solid #3dd68c33}
+.wc h4,.rc-side h4{margin:0;font-size:14.5px;font-weight:900}.wc h4 small,.rc-side h4 small{font-size:11.5px;color:var(--sub);font-weight:700;margin-left:4px}
+.wc-map{position:relative;flex:1;min-height:120px;border-radius:12px;overflow:hidden;background:#06100c;
+  background-image:linear-gradient(#3dd68c12 1px,transparent 1px),linear-gradient(90deg,#3dd68c12 1px,transparent 1px);background-size:14px 14px}
+.cm{position:absolute;inset:0;width:100%;height:100%}
+.cm-land{fill:#ffffff24;stroke:#ffffff66;stroke-width:.7;vector-effect:non-scaling-stroke}
+.cm-dot{fill:var(--c);stroke:#fff;stroke-width:1.4;vector-effect:non-scaling-stroke}
+.cm-pulse{fill:var(--c);opacity:.35}
+.cm-pt text{fill:#fff;font-weight:900;paint-order:stroke;stroke:#06100c;stroke-width:3px;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.wc-btns{display:flex;flex-direction:column;gap:6px}
+.wc-btns button{display:flex;justify-content:space-between;align-items:center;gap:6px;padding:9px 12px;border-radius:10px;border:1px solid color-mix(in srgb,var(--rc) 60%,transparent);background:linear-gradient(120deg,color-mix(in srgb,var(--rc) 38%,var(--card)),var(--card));color:#fff;cursor:pointer;transition:transform .15s}
+.wc-btns button:hover{transform:translateX(3px)}.wc-btns b{font-size:13.5px;font-weight:900}.wc-btns small{font-size:11px;color:#ffffffb3}
+.rc-rows{display:flex;flex-direction:column;gap:12px}
+.rc-row{display:grid;grid-template-columns:280px 1fr;gap:12px;padding:14px;border-radius:18px;background:#0c1512;border:1px solid #3dd68c33}
+.rc-side{display:flex;flex-direction:column;gap:8px}.rc-side .wc-map{min-height:160px}
+.rc-row .rg-rec{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;align-content:stretch}
+.rc-row .rg-rec article{height:100%;display:flex;flex-direction:column;justify-content:center}
+.rc-side .wc-map{min-height:140px}
+@media (prefers-reduced-motion:no-preference){
+  .cm-pulse{transform-box:fill-box;transform-origin:center;animation:cmPulse 1.8s ease-out infinite}
+  @keyframes cmPulse{from{transform:scale(.5);opacity:.6}to{transform:scale(2.2);opacity:0}}
+  .grow .cm-pt{opacity:0}.grow.play .cm-pt{animation:rkPop .5s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(.3s + var(--i) * 150ms)}
+  .wmm-cont.play .wc,.rc-row.play{animation:rkPop .5s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(var(--i) * 100ms)}
+}
+@media (max-width:1000px){.wmm-cont{grid-template-columns:1fr 1fr}.wmm-cont .wc:last-child:nth-child(odd){grid-column:1/-1}.rc-row{grid-template-columns:220px 1fr}}
+@media (max-width:760px){.wmm-cont{grid-template-columns:1fr}.rc-row{grid-template-columns:1fr}.rc-side .wc-map,.wc-map{min-height:150px}}
+/* ===== 접수 방법: 구간 대비 ===== */
+.rg-blk{position:relative;padding:20px;border-radius:20px;margin-top:18px}
+.rg-blk .rg-sh{margin-top:0!important}
+.rg-blk.b1{background:#14110c;border:1px solid var(--line)}
+.rg-blk.b2{background:#0d1622;border:1px solid #3b82f633}
+.rg-blk.b3{background:#1d1608;border:1px solid #f5a30040;margin-top:34px}
+.rg-blk.b3:before{content:"";position:absolute;left:0;right:0;top:-18px;border-top:2px dashed var(--line)}
+.rg-blk.b1 .rg-reg article,.rg-blk.b2 .rg-steps li{background:#221d15}
+.rg-blk.b2 .rg-steps li{background:#16243a;border-color:#3b82f633}
+.rg-blk.b3 .rg-how div{background:#2a2010;border-color:#f5a30033}
+.rg-blk.b3 .rg-sh{color:var(--tiger)}
+@media (max-width:760px){.rg-blk{padding:14px}}
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -1947,13 +1987,13 @@ p,.sec-sub,.note{text-wrap:pretty}
   <ellipse cx="32" cy="46" rx="14" ry="10.5" fill="#fff4dc"/><circle cx="22.5" cy="32" r="3.4" fill="#1a1612"/><circle cx="41.5" cy="32" r="3.4" fill="#1a1612"/>
   <path d="M27 40 h10 l-5 5.5 z" fill="#1a1612"/><path d="M32 45.5 v3 M32 48.5 q-4 3 -7 0 M32 48.5 q4 3 7 0" stroke="#1a1612" stroke-width="2" fill="none" stroke-linecap="round"/></svg><div>호랑말코 RUN<small>RUNNING SHOE FINDER</small></div></div>
     <nav class="top" id="nav">
-      <a data-v="history" href="#history">러닝화의 역사</a>
       <a data-v="marathon" href="#marathon">마라톤의 역사</a>
       <a data-v="rank" href="#rank">마라톤 랭킹</a>
+      <a data-v="history" href="#history">러닝화의 역사</a>
       <a data-v="tier" href="#tier">러닝화 계급도</a>
       <a data-v="find" href="#find">러닝화 찾기</a>
       <a data-v="tips" href="#tips">러닝 팁</a>
-      <a data-v="races" href="#races">대회</a>
+      <a data-v="races" href="#races">대회 정보</a>
       <a data-v="shop" href="#shop">구매 사이트</a>
     </nav>
     <div class="vc" id="vc" aria-label="방문자 수"><span><small>TODAY</small><b id="vc-t">–</b></span><span><small>TOTAL</small><b id="vc-a">–</b></span></div>
@@ -1968,14 +2008,14 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mweijpe9"></script>
-<script src="photos.js?v=mweijpe9"></script>
-<script src="history.js?v=mweijpe9"></script>
-<script src="maps.js?v=mweijpe9"></script>
-<script src="marathon.js?v=mweijpe9"></script>
-<script src="stories.js?v=mweijpe9"></script>
-<script src="reviews.js?v=mweijpe9"></script>
-<script src="train.js?v=mweijpe9"></script>
-<script src="app.js?v=mweijpe9"></script>
+<script src="data.js?v=mweiv788"></script>
+<script src="photos.js?v=mweiv788"></script>
+<script src="history.js?v=mweiv788"></script>
+<script src="maps.js?v=mweiv788"></script>
+<script src="marathon.js?v=mweiv788"></script>
+<script src="stories.js?v=mweiv788"></script>
+<script src="reviews.js?v=mweiv788"></script>
+<script src="train.js?v=mweiv788"></script>
+<script src="app.js?v=mweiv788"></script>
 </body>
 </html>
