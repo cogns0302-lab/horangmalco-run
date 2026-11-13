@@ -1563,15 +1563,39 @@ const WMM_WHY = [
 ];
 /* 대륙 지도: 해당 범위만 잘라 보여주고 대회 위치에 점 */
 function contMap(key, pts) {
-  let [x0, y0, x1, y1] = CONTINENTS[key][2], w = x1 - x0, hh = y1 - y0;
+  let [x0, y0, x1, y1] = CONTINENTS[key][2];
+  if (pts.length > 1) {
+    // 대회가 여러 개면 대회 위치에 맞춰 확대 (여백 포함, 최소 범위 12°)
+    const lons = pts.map(p => p[1]), lats = pts.map(p => p[0]);
+    x0 = Math.min(...lons); x1 = Math.max(...lons); y0 = Math.min(...lats); y1 = Math.max(...lats);
+    const pw = Math.max(x1 - x0, 6) * .3 + 1, ph = Math.max(y1 - y0, 4) * .3 + 1;
+    x0 -= pw; x1 += pw; y0 -= ph; y1 += ph;
+    if (x1 - x0 < 12) { const d = (12 - (x1 - x0)) / 2; x0 -= d; x1 += d; }
+  }
+  let w = x1 - x0, hh = y1 - y0;
   if (w / hh < 1.6) { const d = (hh * 1.6 - w) / 2; x0 -= d; x1 += d; w = x1 - x0; } else { const d = (w / 1.6 - hh) / 2; y0 -= d; y1 += d; hh = y1 - y0; }
   // 대회 위치가 가운데 오도록 (잘려도 점은 보이게)
-  const cx = pts.reduce((s, p) => s + p[1], 0) / pts.length, cy = pts.reduce((s, p) => s + p[0], 0) / pts.length;
+  const cx = (Math.min(...pts.map(p => p[1])) + Math.max(...pts.map(p => p[1]))) / 2, cy = (Math.min(...pts.map(p => p[0])) + Math.max(...pts.map(p => p[0]))) / 2;
   x0 = cx - w / 2; x1 = cx + w / 2; y0 = cy - hh / 2; y1 = cy + hh / 2;
-  const vx = x0 + 180, vy = 85 - y1, fs = (hh / 8).toFixed(2), r = (hh / 34).toFixed(2);
-  return `<svg class="cm" viewBox="${vx.toFixed(1)} ${vy.toFixed(1)} ${w.toFixed(1)} ${hh.toFixed(1)}" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    <path class="cm-land" d="${MAP_WORLD}"/>
-    ${pts.map(([lat, lon, name, col], i) => { const x = lon + 180, y = 85 - lat; return `<g class="cm-pt" style="--i:${i};--c:${col}"><circle class="cm-pulse" cx="${x}" cy="${y}" r="${r * 2}"/><circle class="cm-dot" cx="${x}" cy="${y}" r="${r}"/></g>`; }).join('')}</svg>`;
+  const vx = x0 + 180, vy = 85 - y1, fs = hh / 11, r = hh / 50;
+  // 너무 가까운 대회(예: 오사카·교토)는 지도에서 겹치므로 확대 창으로 따로 보여줘요
+  const close = pts.filter((p, i) => pts.some((q, j) => j !== i && Math.abs(p[1] - q[1]) < w * .06 && Math.abs(p[0] - q[0]) < hh * .08));
+  const lab = p => p[1] > cx + w * .05 ? [p[1] + 180 - r * 2, 85 - p[0] + fs * .35, 'end'] : [p[1] + 180 + r * 2, 85 - p[0] + fs * .35, 'start'];
+  let inset = '';
+  if (close.length > 1 && close.every(p => p[1] > 124 && p[1] < 146 && p[0] > 30 && p[0] < 40)) {
+    const PK = (la, lo) => [(lo - 124) * Math.cos(36 * Math.PI / 180) * 40, (39.2 - la) * 40];
+    const ks = close.map(p => PK(p[0], p[1])), kx = ks.reduce((s, k) => s + k[0], 0) / ks.length, ky = ks.reduce((s, k) => s + k[1], 0) / ks.length;
+    const name = CLUSTER_NAME[close.map(p => p[2]).sort().join('·')] || '확대';
+    inset = `<div class="cm-inset"><svg viewBox="${(kx - 24).toFixed(1)} ${(ky - 22).toFixed(1)} 60 54" aria-hidden="true"><path class="cm-land" d="${MAP_KR_NB}"/>
+      ${close.map((p, i) => { const [x, y] = ks[i], up = y < ky; return `<g class="cm-pt" style="--i:${i + 1};--c:${p[3]}"><circle class="cm-pulse" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="4"/><circle class="cm-dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="2.2"/>
+        <text x="${(x + 4).toFixed(1)}" y="${(y + (up ? -2 : 8)).toFixed(1)}" font-size="6.5" text-anchor="start">${p[2]}</text></g>`; }).join('')}</svg><span>🔍 ${name}</span></div>`;
+  }
+  const cbx = close.length > 1 ? (() => { const ls = close.map(p => p[1]), as = close.map(p => p[0]); return `<rect class="cm-box" x="${(Math.min(...ls) + 180 - .9).toFixed(2)}" y="${(85 - Math.max(...as) - .7).toFixed(2)}" width="${(Math.max(...ls) - Math.min(...ls) + 1.8).toFixed(2)}" height="${(Math.max(...as) - Math.min(...as) + 1.4).toFixed(2)}" rx=".3"/>`; })() : '';
+  return `<svg class="cm" viewBox="${vx.toFixed(2)} ${vy.toFixed(2)} ${w.toFixed(2)} ${hh.toFixed(2)}" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <path class="cm-land" d="${MAP_WORLD}"/>${cbx}
+    ${pts.map((p, i) => { const [lat, lon, name, col] = p, x = lon + 180, y = 85 - lat, [tx, ty, ta] = lab(p), inC = close.length > 1 && close.includes(p);
+      return `<g class="cm-pt" style="--i:${i};--c:${col}"><circle class="cm-pulse" cx="${x}" cy="${y}" r="${(r * 2).toFixed(3)}"/><circle class="cm-dot" cx="${x}" cy="${y}" r="${r.toFixed(3)}"/>
+        ${inC ? '' : `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" font-size="${fs.toFixed(2)}" text-anchor="${ta}">${name}</text>`}</g>`; }).join('')}</svg>${inset}`;
 }
 function majorArticle() {
   return `<section class="rg-sec wmm" id="rg-wmm"><h2 class="h2">세계 8대 메이저란? <small>선정 기준과 유명한 이유</small></h2>
