@@ -1566,13 +1566,41 @@ function raceTopList(list, sex) {
   const best = toSec(list[0][0]);
   return `<ol class="rg-top">${list.map(([t, n, c, y], i) => `<li style="--i:${i}"><span class="rk-no">${i + 1}</span><span class="rg-tn ${pph(n) ? 'hasav' : ''}">${avatar(n)}<b>${n}</b><small>${RG_NAT[c] || c} · ${y}</small></span><span class="rg-tb"><i style="--w:${100 - (toSec(t) - best) / 6}%"></i></span><b class="rg-tt">${t}</b></li>`).join('')}</ol>`;
 }
+/* 대회 위치 지도 (상단 사진 오른쪽) */
+const SEOUL = [37.5665, 126.978];
+const geoKm = ([a1, o1], [a2, o2]) => { const R = 6371, t = Math.PI / 180, x = Math.sin((a2 - a1) * t / 2) ** 2 + Math.cos(a1 * t) * Math.cos(a2 * t) * Math.sin((o2 - o1) * t / 2) ** 2; return Math.round(2 * R * Math.asin(Math.sqrt(x))); };
+function raceMap(r) {
+  const g = RACE_GEO[r.id]; if (!g || typeof MAP_WORLD === 'undefined') return '';
+  const [lat, lon, where] = g, km = geoKm(SEOUL, [lat, lon]), kr = lon > 124 && lon < 132 && lat > 33 && lat < 39;
+  const C = Math.cos(36 * Math.PI / 180);
+  let svg;
+  if (kr) {
+    const P = (la, lo) => [((lo - 124) * C * 40).toFixed(1), ((39.2 - la) * 40).toFixed(1)];
+    const [x, y] = P(lat, lon), [sx, sy] = P(...SEOUL), far = km > 15;
+    svg = `<svg viewBox="40 14 195 236" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <path class="rm-nb" d="${MAP_KR_NB}"/><path class="rm-land d" d="${MAP_KR}"/>
+      ${far ? `<path class="rm-route d" d="M${sx},${sy} Q${(+sx + +x) / 2 - 18},${Math.min(sy, y) - 14} ${x},${y}"/><circle class="rm-seoul" cx="${sx}" cy="${sy}" r="3.2"/>` : ''}
+      <g class="rm-pin" style="--px:${x}px;--py:${y}px"><circle class="rm-pulse" r="7"/><circle class="rm-dot" r="5"/></g></svg>`;
+  } else {
+    const P = (la, lo) => [lo + 180, 85 - la], [x, y] = P(lat, lon), [sx, sy] = P(...SEOUL);
+    const z = 3.2, tx = Math.min(360 - 180 / z, Math.max(180 / z, x)), ty = Math.min(145 - 72.5 / z, Math.max(72.5 / z, y));
+    const wrap = Math.abs(x - sx) > 180, cx = (sx + x) / 2, cy = Math.min(sy, y) - Math.abs(x - sx) * 0.18;
+    svg = `<svg viewBox="0 0 360 145" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <g class="rm-zoom" style="--zt:translate(180px,72.5px) scale(${z}) translate(${-tx}px,${-ty}px)">
+        <path class="rm-land" d="${MAP_WORLD}"/>
+        ${wrap ? '' : `<path class="rm-route d" d="M${sx},${sy} Q${cx},${cy} ${x},${y}"/>`}<circle class="rm-seoul" cx="${sx}" cy="${sy}" r="1.3"/>
+        <g class="rm-pin" style="--px:${x}px;--py:${y}px"><circle class="rm-pulse" r="2.6"/><circle class="rm-dot" r="1.8"/></g></g></svg>`;
+  }
+  return `<div class="rg-map grow ${kr ? 'kr' : 'w'}">${svg}
+    <div class="rm-cap"><b>📍 ${where}</b><span>${km > 15 ? `서울에서 약 ${cnt(km)}km` : '서울 도심 코스'}</span></div></div>`;
+}
 function raceCard(r, i) {
   return `<article class="rg-card" id="rg-${r.id}" style="--rc:${r.col};--i:${i}">
     ${(rp => `<header class="rg-hero ${rp ? 'ph' : ''}">
       ${rp ? `<img src="${photoSrc(rp)}" alt="" loading="lazy">${credit(rp)}` : ''}`)(r.photo && PHOTOS[r.photo] ? r.photo : PHOTOS['rg_' + r.id] ? 'rg_' + r.id : PHOTOS[r.id] ? r.id : null)}
       <div class="rg-ht"><span class="rg-en">${r.en}</span><h3>${r.name}</h3>
         <div class="rg-chips">${[r.since ? r.since + '년 시작' : '', r.month, r.label, r.size].filter(Boolean).map(x => `<span>${x}</span>`).join('')}</div></div>
-      ${r.url ? `<a class="rg-go" href="${r.url}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}
+      ${(u => `<div class="rg-hr">${raceMap(r)}${u ? `<a class="rg-go" href="${u[0]}" target="_blank" rel="noopener">${u[1] || '공식 홈페이지 ↗'}</a>` : ''}</div>`)(r.url ? [r.url] : RACE_URL[r.id] || (RACE_REG[r.id] ? [RACE_REG[r.id].url] : null))}
     </header>
     <div class="rg-body">
       ${(side => `<div class="rg-why ${side ? '' : 'full'}"><h4>${r.top || r.cr ? '이 대회가 특별한 이유' : '왜 어려울까?'}</h4><ul>${r.why.map(w => `<li>${w}</li>`).join('')}</ul></div>${side ? `<div class="rg-side">${side}</div>` : ''}`)([
@@ -1596,7 +1624,7 @@ function raceReg(kr) {
 }
 function raceGen() {
   return `<h3 class="rg-sh">🏃 일반 대회 신청 방법</h3>
-    <ol class="rg-steps">${KR_GEN_STEPS.map(([ic, k, v, u], i) => `<li style="--i:${i}"><span class="rg-sn">${i + 1}</span><span class="rg-si">${ic}</span><b>${k}</b><p>${v}${u ? ` <a href="${u}" target="_blank" rel="noopener">바로가기 ↗</a>` : ''}</p></li>`).join('')}</ol>`;
+    <ol class="rg-steps">${KR_GEN_STEPS.map(([ic, k, v, u], i) => `<li style="--i:${i}"><span class="rg-sn">${i + 1}</span><span class="rg-si">${ic}</span><b>${k}</b><p>${v}${u ? (u[0] === '#' ? ` <a href="${u}">대회 일정 보기 →</a>` : ` <a href="${u}" target="_blank" rel="noopener">바로가기 ↗</a>`) : ''}</p></li>`).join('')}</ol>`;
 }
 function raceHowto(list) {
   return `<div class="rg-how">${list.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div>`;
@@ -1614,7 +1642,7 @@ function viewRaceGuide(sub) {
     ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
     ${!kr ? `<section class="rg-sec" id="rg-rec"><h2 class="h2">한국 러너 추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
-      <div class="rg-rec">${G.recommend.map(([n, m, d, c], i) => `<article style="--rc:${c};--i:${i}"><b>${n}</b><span>${m}</span><p>${d}</p></article>`).join('')}</div></section>` : ''}
+      <div class="rg-rec">${G.recommend.map(([n, m, d, c], i) => `<article style="--rc:${c};--i:${i}"><b>${n}</b><span>${m}</span><p>${d}</p>${RACE_URL[n] ? `<a href="${RACE_URL[n][0]}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</article>`).join('')}</div></section>` : ''}
     <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2>${raceReg(kr)}${kr ? raceGen() : ''}<h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}<p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
     <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
   motion();

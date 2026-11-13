@@ -166,7 +166,7 @@ Object.assign(PHOTOS, {
   geay: ["Gabriel Geay (3x4a).jpg", "CC BY-SA 4.0", "Gr5555"],
   shassan: ["Sifan Hassan 2023 Chicago Marathon (cropped).jpg", "CC BY-SA 4.0", "Chad Veal"],
   esa: ["Huseydin Mohame Esa 2025 Chicago Marathon.jpg", "CC0", "Photoguy1212"],
-  rg_andong: ["Andong dam.JPG", "CC BY-SA 3.0", "hyolee2 This photo was taken with Casio Exilim EX-Z330"],
+  rg_andong: ["Andong dam.JPG", "CC BY-SA 3.0", "hyolee2"],
   rg_yeongju: ["Sobaeksan.jpg", "CC BY-SA 4.0", "Seonghyeon5836"],
   rg_capetown: ["2026 Cape Town Marathon - Victoria Road.JPG", "CC BY-SA 4.0", "Axxter99"],
   rg_chicago: ["Jacob Kiplimo at the 2025 Chicago Marathon.jpg", "CC0", "Photoguy1212"],
