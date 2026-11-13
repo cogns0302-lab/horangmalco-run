@@ -190,4 +190,5 @@ Object.assign(PHOTOS, {
   ua_sole: ["Under Armour Sohle .jpg", "CC BY-SA 4.0", "Charlotte Höltzig"],
   waitz: ["Grete Waitz (NYC Marathon, 2010) 2.jpg", "CC BY-SA 2.0", "Shannon"],
   kimdy: ["kimdy.png", "", "제공 · 2026 대회 중계 화면", "own"],
+  rg_ulleung: ["KOCIS Ulleungdo, or Ulleung Island (4925987614).jpg", "CC BY-SA 2.0", "Korea.net / Korean Culture and Information Service"],
 });

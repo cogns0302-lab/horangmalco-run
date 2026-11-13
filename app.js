@@ -886,6 +886,11 @@ function krMasters() {
       <div class="em-row em-hd"><span>대회</span><span>엘리트 남자</span><span>마스터즈 남자</span><span>엘리트 여자</span><span>마스터즈 여자</span></div>
       ${D.races.map(([n, ...v]) => `<div class="em-row"><span>${n}</span>${v.map(([t, w], j) => `<span class="${j % 2 ? 'm' : 'e'}"><b>${t}</b><small>${w}</small></span>`).join('')}</div>`).join('')}
       <p class="note">* 마스터즈 역대 최고는 공식 기록 기관 없이 러너 커뮤니티·언론 보도로 집계된 값이에요 (종전 2:18:39 → 2:18:30 → 2:17:08)</p></div>
+    <h3 class="rk-sh">2026 마스터즈 기록 TOP 3 <small>2026년 11월 · 주요 대회 공식 보도 기준</small></h3>
+    <div class="ms-top">${[['m', '남자 마스터즈'], ['w', '여자 마스터즈']].map(([k, t]) => `<div class="panel ms-col ${k}"><h3>${t}</h3><ol>${MASTERS_TOP[k].map(([tm, n, race, note, yt], i) => `<li style="--i:${i}">
+      <span class="ms-md">${['🥇', '🥈', '🥉'][i]}</span><b class="ms-t">${tm}</b><span class="ms-n"><b>${n}</b><small>${race}</small><em>${note}</em></span>
+      ${yt ? `<a class="ms-yt" href="${yt}" target="_blank" rel="noopener">▶ 관련 영상</a>` : ''}</li>`).join('')}</ol></div>`).join('')}</div>
+    <p class="note">마스터즈는 공식 랭킹이 없어 2026년 서울·춘천·JTBC 서울마라톤 보도로 확인된 기록 순으로 정리했어요 (같은 선수의 다른 대회 기록 포함) · 선수 본인의 공식 유튜브 채널은 확인되지 않아, 김지호 선수가 출연한 영상만 연결했어요</p>
 
     <article class="em-art">
       <span class="wmm-kicker">ANALYSIS · 2026</span>
@@ -1533,6 +1538,7 @@ function tabify(key) {
     if (scroll && nav.getBoundingClientRect().top < 70) window.scrollTo({ top: nav.getBoundingClientRect().top + scrollY - 76, behavior: 'smooth' });
     groups[i].els.forEach(e => { e.classList.remove('pg-in'); void e.offsetWidth; e.classList.add('pg-in'); });
     motion();
+    document.dispatchEvent(new Event('pg-show'));
   };
   nav.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i, true); });
   show(sel, false);
@@ -1597,6 +1603,42 @@ function contMap(key, pts) {
       return `<g class="cm-pt" style="--i:${i};--c:${col}"><circle class="cm-pulse" cx="${x}" cy="${y}" r="${(r * 2).toFixed(3)}"/><circle class="cm-dot" cx="${x}" cy="${y}" r="${r.toFixed(3)}"/>
         ${inC ? '' : `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" font-size="${fs.toFixed(2)}" text-anchor="${ta}">${name}</text>`}</g>`; }).join('')}</svg>${inset}`;
 }
+/* 추천 해외 대회: 가운데 한반도, 좌우 대회 카드, 서울에서 점선 연결 */
+function recHub(list) {
+  const rs = list.map(([n, mo, d, c]) => ({ n, mo, d, c, km: geoKm(SEOUL, REC_GEO[n].slice(0, 2)) })).sort((x, y) => x.km - y.km);
+  rs.forEach((r, i) => { r.no = i + 1; });
+  const L = rs.slice(0, 3), R = rs.slice(3), max = rs[rs.length - 1].km;
+  const card = r => `<article class="rx-c" data-rx="${r.no}" style="--rc:${r.c}"><span class="rx-no">${r.no}</span>
+    <div><b>${r.n}</b><span class="rx-m">${r.mo}</span><p>${r.d}</p>
+    <div class="rx-f"><span class="rx-km">✈ 서울에서 약 ${r.km.toLocaleString()}km</span>${RACE_URL[r.n] ? `<a href="${RACE_URL[r.n][0]}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</div></div></article>`;
+  const C = Math.cos(36 * Math.PI / 180), sx = ((SEOUL[1] - 124) * C * 40).toFixed(1), sy = ((39.2 - SEOUL[0]) * 40).toFixed(1);
+  return `<section class="rg-sec" id="rg-rec"><h2 class="h2">추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
+    <div class="rx grow"><svg class="rx-lines" aria-hidden="true"></svg>
+      <div class="rx-col">${L.map(card).join('')}</div>
+      <div class="rx-hub"><svg viewBox="40 14 195 236" aria-hidden="true"><path class="rx-nb" d="${MAP_KR_NB}"/><path class="rx-kr" d="${MAP_KR}"/>
+        <circle class="rx-pulse" cx="${sx}" cy="${sy}" r="9"/><circle class="rx-seoul" cx="${sx}" cy="${sy}" r="5"/></svg>
+        <span class="rx-lab">서울 출발</span></div>
+      <div class="rx-col">${R.map(card).join('')}
+        <article class="rx-c rx-sum"><div><b>서울에서 거리</b><div class="rx-bars">${rs.map(r => `<div><span>${r.no} ${r.n.replace(' 마라톤', '')}</span><i style="--w:${(r.km / max * 100).toFixed(1)}%;--rc:${r.c}"></i><em>${r.km.toLocaleString()}km</em></div>`).join('')}</div></div></article></div>
+    </div><p class="note">거리는 서울에서 대회 도시까지의 직선거리예요</p></section>`;
+}
+/* 점선 연결: 서울 점 → 각 카드 (화면 크기·탭 전환 때마다 다시 그려요) */
+function drawRx() {
+  document.querySelectorAll('.rx').forEach(box => {
+    const svg = box.querySelector('.rx-lines'), dot = box.querySelector('.rx-seoul');
+    if (!svg || !dot || !box.offsetParent) return;
+    const b = box.getBoundingClientRect(), d = dot.getBoundingClientRect(), x0 = d.left + d.width / 2 - b.left, y0 = d.top + d.height / 2 - b.top;
+    if (getComputedStyle(svg).display === 'none') return;
+    svg.setAttribute('viewBox', `0 0 ${b.width} ${b.height}`);
+    svg.innerHTML = [...box.querySelectorAll('.rx-c[data-rx]')].map(c => {
+      const r = c.getBoundingClientRect(), left = r.left + r.width / 2 < x0 + b.left;
+      const x1 = (left ? r.right : r.left) - b.left, y1 = r.top + r.height / 2 - b.top, mx = (x0 + x1) / 2;
+      return `<path class="rx-ln" style="--rc:${c.style.getPropertyValue('--rc')}" d="M${x0},${y0} C${mx},${y0} ${mx},${y1} ${x1},${y1}"/><circle class="rx-end" style="--rc:${c.style.getPropertyValue('--rc')}" cx="${x1}" cy="${y1}" r="4"/>`;
+    }).join('');
+  });
+}
+window.addEventListener('resize', () => setTimeout(drawRx, 30));
+document.addEventListener('pg-show', () => { setTimeout(drawRx, 30); setTimeout(drawRx, 700); });
 function majorArticle() {
   return `<section class="rg-sec wmm" id="rg-wmm"><h2 class="h2">세계 8대 메이저란? <small>선정 기준과 유명한 이유</small></h2>
     <div class="wmm-lead"><div><span class="wmm-kicker">WORLD MARATHON MAJORS</span>
@@ -1748,14 +1790,11 @@ function viewRaceGuide(sub) {
     ${raceSection('rg-major', kr ? '국내 3대 메이저 마라톤' : '세계 8대 메이저 마라톤', kr ? '서울(동아) · 춘천 · JTBC 서울' : '월드 마라톤 메이저 7개 + 8번째 후보 케이프타운', G.major)}
     ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
-    ${!kr ? `<section class="rg-sec" id="rg-rec"><h2 class="h2">추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
-      <div class="rc-rows">${['asia', 'pacific', 'oceania'].map((k, ci) => { const rs = G.recommend.filter(([n]) => (REC_GEO[n] || [])[2] === k);
-        return rs.length ? `<div class="rc-row grow" style="--i:${ci}"><div class="rc-side"><h4>${CONTINENTS[k][1]} ${CONTINENTS[k][0]} <small>${rs.length}개</small></h4>
-          <div class="wc-map">${contMap(k, rs.map(([n, , , c]) => [REC_GEO[n][0], REC_GEO[n][1], n.replace(' 마라톤', ''), c]))}</div></div>
-          <div class="rg-rec">${rs.map(([n, mo, d, c], i) => `<article style="--rc:${c};--i:${i}"><b>${n}</b><span>${mo}</span><p>${d}</p>${RACE_URL[n] ? `<a href="${RACE_URL[n][0]}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</article>`).join('')}</div></div>` : ''; }).join('')}</div></section>` : ''}
+    ${!kr ? recHub(G.recommend) : ''}
     <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2><div class="rg-blk b1">${raceReg(kr)}</div>${kr ? `<div class="rg-blk b2">${raceGen()}</div>` : ''}<div class="rg-blk b3"><h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}</div><p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
     <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
   motion();
+  setTimeout(drawRx, 30); setTimeout(drawRx, 800);
 }
 function viewRaces() {
   const all = RACES.map(([n, d, r, p, ev, url, st, no]) => ({ n, d: new Date(d + 'T00:00:00'), ds: d, r, p, ev, url, st, no })).filter(x => x.d >= TODAY).sort((a, z) => a.d - z.d);
