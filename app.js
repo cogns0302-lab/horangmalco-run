@@ -617,7 +617,7 @@ function photoTimeline(items, onclickFn) {
     }).join('')}
   </div></div><p class="note" style="margin:6px 0 0">← 좌우로 밀어서 보세요 · 사진이 있는 카드는 굵직한 사건이에요 · 누르면 자세한 설명으로 이동해요</p>`;
 }
-function jumpTo(id) { const el = document.getElementById(id); if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1600); } }
+function jumpTo(id) { const el = document.getElementById(id); const nav = document.querySelector('.pg-tabs'); if (el && el.closest('[hidden]') && nav) for (const b of nav.querySelectorAll('button')) { b.click(); if (!el.closest('[hidden]')) break; } if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'center' }); el.classList.add('flash'); setTimeout(() => el.classList.remove('flash'), 1600); } }
 
 function histMenu(cur) { return regionMenu(cur, 'history'); }
 function vidCard(id, title, ch, v) {
@@ -938,7 +938,7 @@ function viewRank() {
     <section id="rk-kr" class="rk-sec">
       <h2 class="h2">대한민국 기록</h2>
       <div class="rk-kr">
-        ${[['남자 한국기록', kr, 'leebj2', WR_PROG.men], ['여자 한국기록', krw, 'seoul_mar4', WR_PROG.women]].map(([g, r, ph, W]) => { const wr = toSec(W[W.length - 1][1]), s = toSec(r[0]), behind = 42.195 * (1 - wr / s);
+        ${[['남자 한국기록', kr, 'leebj2', WR_PROG.men], ['여자 한국기록', krw, 'seoul_mar5', WR_PROG.women]].map(([g, r, ph, W]) => { const wr = toSec(W[W.length - 1][1]), s = toSec(r[0]), behind = 42.195 * (1 - wr / s);
           return `<article class="rk-krc"><figure><img src="${photoSrc(ph)}" alt="" loading="lazy">${credit(ph)}</figure>
             <div><span class="rk-g">${g}</span><b class="rk-time">${cnt(s, 'time')}</b><span class="rk-wn">${r[1]} <small>${r[2]} · ${r[3]}</small></span>
             <span class="rk-gap">세계기록과 <b>${Math.floor((s - wr) / 60)}분 ${(s - wr) % 60}초</b> 차이 · 세계기록 보유자가 결승할 때 <b>${behind.toFixed(2)}km</b> 뒤</span></div></article>`; }).join('')}
@@ -1095,8 +1095,10 @@ function viewMarathon(sub) {
         <div class="asia-rank">${WA_RANK.asia.map(([c, r, n]) => `<div class="ar ${r ? '' : 'none'}"><span>${c}</span><b>${r ? r + '위' : '—'}</b><small>${n}</small></div>`).join('')}</div></div>
     </div>
 
-    <h2 class="h2">5. 세계 4대 마라톤</h2>
-    <p class="sec-sub">보스턴·런던·베를린·뉴욕은 오랜 역사, 대도시 코스, 기록과 축제를 모두 갖춘 대회예요. 지금은 시카고·도쿄·시드니·케이프타운과 함께 '월드 마라톤 메이저' 8개 대회를 이뤄요.</p>
+    <h2 class="h2">5. 세계 메이저 마라톤 — 4대에서 8대로</h2>
+    <p class="sec-sub">"세계 4대 마라톤"은 오래되고 규모가 큰 보스턴·런던·베를린·뉴욕을 묶어 부르던 옛 표현이에요. 2006년 이 대회들이 시카고와 함께 공식 시리즈 '월드 마라톤 메이저(WMM)'를 만들면서, 여러 해 동안 운영 심사를 통과한 대회만 새로 합류할 수 있게 됐어요. 그렇게 도쿄(2013)·시드니(2025)가 들어와 지금은 7개, 케이프타운이 8번째 후보예요.</p>
+    <div class="maj-evo grow">${WMM_STEPS.slice(1).map(([y, t, d, c]) => `<div style="--c:${c}"><b>${y}</b><strong>${t}</strong><p>${d}</p></div>`).join('')}</div>
+    <h3 class="rk-h4" style="font-size:15px;color:var(--ink);margin:4px 0 10px">전통의 4대 마라톤 자세히 보기</h3>
     <div class="w4">${WORLD4.map((m, i) => `<article class="w4c pop" style="--i:${i};--wc:${m.col}">
       <div class="w4-ph"><img src="${photoSrc(m.photo)}" alt="" loading="lazy"><div class="w4-t"><b>${m.city}</b><span>${m.en} · ${m.year}년 창설 · ${m.month}</span></div></div>
       <div class="w4-b"><h4>왜 메이저 대회가 되었나?</h4><ul>${m.why.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
@@ -1210,7 +1212,7 @@ function viewMarKorea() {
   const kr = toSec('2:07:20'), jp = toSec('2:04:55'), cn = toSec('2:05:58');
   const byMonth = {}; RACES.forEach(r => { const m = r[1].slice(0, 7); if (r[1] >= '2026-11-10') byMonth[m] = (byMonth[m] || 0) + 1; });
   const months = Object.keys(byMonth).sort();
-  const kTimeline = [[1935, '손기정 세계기록', 'sohn'], [1936, '손기정 금 · 남승룡 동', 'nam'], [1947, '서윤복 보스턴 세계기록', 'suh'], [1950, '보스턴 1·2·3위 석권', 'boston1968'], [1992, '황영조 바르셀로나 금', 'hwang'], [1996, '이봉주 애틀랜타 은', 'leebj'], [2000, '이봉주 2:07:20 한국기록', 'leebj2'], [2001, '이봉주 보스턴 우승', 'boston_finish'], [2018, '김도연 2:25:41 여자 한국기록', 'seoul_mar4'], [2026, '한국기록 26년째 그대로', 'seoul_mar2']];
+  const kTimeline = [[1935, '손기정 세계기록', 'sohn'], [1936, '손기정 금 · 남승룡 동', 'nam'], [1947, '서윤복 보스턴 세계기록', 'suh'], [1950, '보스턴 1·2·3위 석권', 'boston1968'], [1992, '황영조 바르셀로나 금', 'hwang'], [1996, '이봉주 애틀랜타 은', 'leebj'], [2000, '이봉주 2:07:20 한국기록', 'leebj2'], [2001, '이봉주 보스턴 우승', 'boston_finish'], [2018, '김도연 2:25:41 여자 한국기록', 'seoul_mar5'], [2026, '한국기록 26년째 그대로', 'seoul_mar2']];
   app.innerHTML = `
     <section class="mhero2 kr">
       <div class="mh-copy"><span class="eyebrow">무너진 한국 · KOREA</span>
@@ -1439,6 +1441,91 @@ function viewTips(t) {
 
 /* ---------- 대회 ---------- */
 let rs = { tab: '전체', m: '', r: '', e: '', page: 1 };
+/* ---------- 긴 페이지를 탭으로: 큰 제목(h2)마다 한 화면씩 ---------- */
+const PG_TAB = {};
+const PG_MERGE = /^(시간대별로 보기)/;
+function tabify(key) {
+  const kids = [...app.children], groups = [], pre = [];
+  let cur = null;
+  const head = el => {
+    const h = el.matches('h2.h2') ? el : el.querySelector(':scope > h2.h2');
+    if (!h) return null;
+    const t = [...h.childNodes].filter(n => n.nodeType === 3 || !n.matches('small')).map(n => n.textContent).join('').trim();
+    return PG_MERGE.test(t) ? null : t.replace(/^\d+\.\s*/, '');
+  };
+  for (const el of kids) {
+    if (el.matches('nav.rk-sub')) { el.remove(); continue; }
+    const t = head(el);
+    if (t) { cur = { t, els: [el] }; groups.push(cur); } else if (cur) cur.els.push(el); else pre.push(el);
+  }
+  if (groups.length < 2 || !pre.length) return;
+  const short = t => { const s = t.split(/\s[—·(]|\?/)[0].trim(); return s.length > 21 ? s.slice(0, 20) + '…' : s; };
+  let sel = Math.min(PG_TAB[key] || 0, groups.length - 1);
+  const nav = document.createElement('nav');
+  nav.className = 'pg-tabs'; nav.setAttribute('aria-label', '페이지 탭');
+  nav.innerHTML = groups.map((g, i) => `<button type="button" data-i="${i}"><i>${i + 1}</i>${esc(short(g.t))}</button>`).join('');
+  pre[pre.length - 1].after(nav);
+  const show = (i, scroll) => {
+    PG_TAB[key] = i;
+    groups.forEach((g, j) => g.els.forEach(e => { e.hidden = j !== i; }));
+    nav.querySelectorAll('button').forEach((b, j) => b.classList.toggle('on', j === i));
+    charts.forEach(c => { try { c.resize(); } catch (e) {} });
+    if (scroll && nav.getBoundingClientRect().top < 70) window.scrollTo({ top: nav.getBoundingClientRect().top + scrollY - 76, behavior: 'smooth' });
+    groups[i].els.forEach(e => { e.classList.remove('pg-in'); void e.offsetWidth; e.classList.add('pg-in'); });
+    motion();
+  };
+  nav.addEventListener('click', e => { const b = e.target.closest('button'); if (b) show(+b.dataset.i, true); });
+  show(sel, false);
+}
+/* 해외 대회 첫 화면: 세계 8대 메이저 기사 */
+const WMM_STEPS = [
+  [1897, '보스턴 마라톤 시작', '세계에서 가장 오래된 연례 마라톤', '#1d4ed8'],
+  [1981, '"세계 4대 마라톤" 시대', '보스턴·런던·베를린·뉴욕 — 오래되고 큰 대회를 묶어 부르던 표현', '#64748b'],
+  [2006, '월드 마라톤 메이저(WMM) 출범', '보스턴·런던·베를린·시카고·뉴욕 5개 대회가 공식 시리즈 결성', '#f5a300'],
+  [2013, '도쿄 합류 · 6대 메이저', '아시아 최초 메이저 — 6개 완주 "식스 스타" 메달 탄생', '#dc2626'],
+  [2025, '시드니 합류 · 7대 메이저', '수년간 후보 심사를 통과한 남반구 첫 메이저', '#0ea5e9'],
+  [2026, '케이프타운 · 8번째 후보', '아프리카 첫 메이저를 목표로 심사 중', '#16a34a'],
+];
+const WMM_CRIT = [
+  ['📈', '여러 해 연속 심사 통과', '후보 대회가 되면 매년 운영 평가를 받고, 연속으로 통과해야 승격돼요'],
+  ['🏅', '세계 최고 등급 운영', '세계육상연맹 최고 수준(플래티넘급) 라벨 — 엘리트 선수 초청·상금'],
+  ['👥', '수만 명 규모', '대규모 참가자와 관중, 도시 전체가 함께하는 축제'],
+  ['📏', '공인 코스·도핑 검사', '국제 공인 코스 측정과 철저한 도핑 검사'],
+  ['📺', '세계 중계·자선', '전 세계 중계, 자선 모금 등 사회적 영향력'],
+  ['🌏', '대륙 다양성', '아시아·오세아니아·아프리카로 넓혀 전 세계 러너를 잇는 목표'],
+];
+const WMM_FINISH = [['뉴욕', 61147, '#f27100', '2026'], ['런던', 59830, '#e11d48', '2026'], ['시카고', 52062, '#0369a1', '2024'], ['시드니', 36295, '#0ea5e9', '2026']];
+const WMM_WHY = [
+  ['⚡', '세계기록의 무대', '남자 세계기록 1:59:30(런던)·여자 2:09:56(시카고) 모두 메이저에서 나왔어요'],
+  ['🎟', '들어가기 어려운 대회', '런던은 2026년 신청자 113만 명 — 추첨 경쟁률이 수십 대 1'],
+  ['⭐', '식스·세븐 스타 메달', '모든 메이저를 완주하면 받는 특별 메달 — 전 세계 러너의 버킷리스트'],
+  ['🏙', '도시 전체가 축제', '도로를 통째로 막고 수십만 명이 응원 — 도시의 상징이 된 대회'],
+];
+function majorArticle() {
+  return `<section class="rg-sec wmm" id="rg-wmm"><h2 class="h2">세계 8대 메이저란? <small>선정 기준과 유명한 이유</small></h2>
+    <div class="wmm-lead"><div><span class="wmm-kicker">WORLD MARATHON MAJORS</span>
+      <b>전 세계 러너가 꿈꾸는 7개의 대회, 그리고 8번째 후보</b>
+      <p>"세계 4대 마라톤"은 보스턴·런던·베를린·뉴욕처럼 오래되고 큰 대회를 묶어 부르던 표현이에요. 2006년 이 대회들이 시카고와 함께 공식 시리즈 <b>월드 마라톤 메이저(WMM)</b>를 만들었고, 엄격한 심사를 거쳐 도쿄(2013)·시드니(2025)가 합류해 지금은 7개, 케이프타운이 8번째 후보예요.</p></div>
+      <div class="wmm-nums">${[[cnt(7), '공식 메이저'], [cnt(1), '8번째 후보'], [cnt(2006), '시리즈 출범'], [cnt(61147), '뉴욕 2026 완주자']].map(([v, l]) => `<div><b>${v}</b><span>${l}</span></div>`).join('')}</div></div>
+    <div class="panel wide"><h3>4대에서 8대로 — 메이저가 늘어난 과정</h3>
+      <div class="wmm-tl grow">${WMM_STEPS.map(([y, t, d, c], i) => `<div style="--c:${c};--i:${i}"><i></i><b>${y}</b><strong>${t}</strong><p>${d}</p></div>`).join('')}</div></div>
+    <div class="rk-grid2">
+      <div class="panel"><h3>메이저 선정 기준 <small>후보 대회가 통과해야 하는 것</small></h3><div class="wmm-crit">${WMM_CRIT.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div></div>
+      <div class="panel"><h3>왜 이렇게 유명할까?</h3><div class="wmm-crit">${WMM_WHY.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div>
+        <h4 class="rk-h4">대회별 완주자 수</h4>${hbars(WMM_FINISH.map(([n, v, c, y]) => [n, v, c, y + '년']), 62000, '명')}</div>
+    </div>
+    <div class="wmm-map grow">${RACE_GUIDE.world.major.map((r, i) => `<button style="--rc:${r.col};--i:${i}" onclick="pgGo('rg-${r.id}')"><b>${r.name.replace(' 마라톤', '')}</b><small>${r.month}${r.id === 'capetown' ? ' · 후보' : ''}</small></button>`).join('')}</div>
+    <p class="note">선정 기준은 WMM이 후보 대회 심사에서 밝힌 주요 항목을 정리한 것이에요 · 완주자 수는 각 대회 발표 기준</p></section>`;
+}
+/* 탭 안의 카드로 이동 (다른 탭에 있으면 그 탭을 먼저 열어요) */
+function pgGo(id) {
+  const el = document.getElementById(id); if (!el) return;
+  const nav = document.querySelector('.pg-tabs');
+  if (el.closest('[hidden]') && nav) { const sec = el.closest('section.rg-sec, section.rk-sec') || el; const btns = [...nav.querySelectorAll('button')]; const idx = btns.findIndex((b, i) => { return false; });
+    // 숨겨진 그룹을 찾아 그 탭 버튼을 눌러요
+    for (const b of btns) { b.click(); if (!el.closest('[hidden]')) break; } }
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+}
 /* ---------- 대회: 국내 · 해외 가이드 ---------- */
 const RG_NAT = { KEN: '케냐', ETH: '에티오피아', TAN: '탄자니아', ERI: '에리트레아', KOR: '한국', CHN: '중국', ROU: '루마니아', GBR: '영국', NED: '네덜란드', RSA: '남아공', USA: '미국', JPN: '일본' };
 const RG_TYPE = { f: ['평지', '#22c55e'], u: ['오르막', '#ef4444'], d: ['내리막', '#3b82f6'], r: ['기복', '#f59e0b'] };
@@ -1471,14 +1558,18 @@ function courseViz(r) {
     <ul class="rg-segs">${r.course.map(s => `<li style="--sc:${RG_TYPE[s[2]][1]}"><span>${s[0]}–${s[1]}km</span><i>${RG_TYPE[s[2]][0]}</i>${s[3]}</li>`).join('')}</ul>
     <p class="note">구간 정보로 그린 개략도예요 · 정확한 고도표는 대회 공식 코스맵을 확인하세요</p></div>`;
 }
+/* 선수 이름 → 사진 키 (자유 라이선스 사진이 있는 선수만) */
+const PERSON_PH = { '엘리우드 킵초게': 'kipchoge', '켈빈 키프텀': 'kiptum', '사바스티안 사웨': 'sawe', '루스 쳅응게티치': 'chepngetich', '티지스트 아세파': 'assefa', '티지스트 아세파 등': 'assefa', '폴라 래드클리프': 'radcliffe', '그레테 바이츠': 'waitz', '빌 로저스': 'rodgers', '할리드 하누치': 'khannouchi', '클래런스 디마': 'demar', '캐서린 은데레바': 'ndereba', '잉그리드 크리스티안센': 'kristiansen', '제임스 쾀바이': 'kwambai', '가브리엘 게이': 'geay', '모시네트 게레메우': 'geremew', '벤슨 키프루토': 'bkipruto', '존 코리르': 'korir', '샤론 로케디': 'lokedi', '시판 하산': 'shassan', '타미랏 톨라': 'tola', '헬렌 오비리': 'obiri', '모하메드 에사': 'esa', '이봉주': 'leebj2', '서윤복': 'suh', '손기정': 'sohn', '황영조': 'hwang' };
+const pph = n => { const k = PERSON_PH[n]; return k && PHOTOS[k] ? k : null; };
+const avatar = (n, cls = 'pav') => { const k = pph(n); return k ? `<img class="${cls}" src="${photoSrc(k)}" alt="${esc(n)}" loading="lazy" title="사진: ${esc(PHOTOS[k][2])} · ${esc(PHOTOS[k][1])}">` : ''; };
 function raceTopList(list, sex) {
   const best = toSec(list[0][0]);
-  return `<ol class="rg-top">${list.map(([t, n, c, y], i) => `<li style="--i:${i}"><span class="rk-no">${i + 1}</span><span class="rg-tn"><b>${n}</b><small>${RG_NAT[c] || c} · ${y}</small></span><span class="rg-tb"><i style="--w:${100 - (toSec(t) - best) / 6}%"></i></span><b class="rg-tt">${t}</b></li>`).join('')}</ol>`;
+  return `<ol class="rg-top">${list.map(([t, n, c, y], i) => `<li style="--i:${i}"><span class="rk-no">${i + 1}</span><span class="rg-tn ${pph(n) ? 'hasav' : ''}">${avatar(n)}<b>${n}</b><small>${RG_NAT[c] || c} · ${y}</small></span><span class="rg-tb"><i style="--w:${100 - (toSec(t) - best) / 6}%"></i></span><b class="rg-tt">${t}</b></li>`).join('')}</ol>`;
 }
 function raceCard(r, i) {
   return `<article class="rg-card" id="rg-${r.id}" style="--rc:${r.col};--i:${i}">
-    <header class="rg-hero ${r.photo && PHOTOS[r.photo] ? 'ph' : ''}">
-      ${r.photo && PHOTOS[r.photo] ? `<img src="${photoSrc(r.photo)}" alt="" loading="lazy">${credit(r.photo)}` : ''}
+    ${(rp => `<header class="rg-hero ${rp ? 'ph' : ''}">
+      ${rp ? `<img src="${photoSrc(rp)}" alt="" loading="lazy">${credit(rp)}` : ''}`)(r.photo && PHOTOS[r.photo] ? r.photo : PHOTOS['rg_' + r.id] ? 'rg_' + r.id : PHOTOS[r.id] ? r.id : null)}
       <div class="rg-ht"><span class="rg-en">${r.en}</span><h3>${r.name}</h3>
         <div class="rg-chips">${[r.since ? r.since + '년 시작' : '', r.month, r.label, r.size].filter(Boolean).map(x => `<span>${x}</span>`).join('')}</div></div>
       ${r.url ? `<a class="rg-go" href="${r.url}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}
@@ -1486,7 +1577,7 @@ function raceCard(r, i) {
     <div class="rg-body">
       ${(side => `<div class="rg-why ${side ? '' : 'full'}"><h4>${r.top || r.cr ? '이 대회가 특별한 이유' : '왜 어려울까?'}</h4><ul>${r.why.map(w => `<li>${w}</li>`).join('')}</ul></div>${side ? `<div class="rg-side">${side}</div>` : ''}`)([
         r.cr ? `<div class="rg-cr">${r.cr.map(([t, n, c, y], j) => t ? `<div><span>${j ? '여자' : '남자'} 대회 기록</span><b>${t}</b><small>${n} · ${RG_NAT[c] || c} · ${y}</small></div>` : '').join('')}</div>` : '',
-        (r.most && r.most.length) || r.hall ? `<div class="rg-hall"><h4>명예의 전당 · 최다 우승</h4><div>${(r.most || []).map(([n, g, k, note]) => `<span class="rg-hc"><i>${g}</i><b>${n}</b><em>${k}회 우승</em><small>${note}</small></span>`).join('')}${(r.hall || []).map(([n, note]) => `<span class="rg-hc star"><i>★</i><b>${n}</b><small>${note}</small></span>`).join('')}</div></div>` : ''].join(''))}
+        (r.most && r.most.length) || r.hall ? `<div class="rg-hall"><h4>명예의 전당 · 최다 우승</h4><div>${(r.most || []).map(([n, g, k, note]) => `<span class="rg-hc ${pph(n) ? 'hasav' : ''}">${pph(n) ? avatar(n, 'hav') : `<i>${g}</i>`}<b>${n}</b><em>${k}회 우승</em><small>${note}</small></span>`).join('')}${(r.hall || []).map(([n, note]) => `<span class="rg-hc star ${pph(n) ? 'hasav' : ''}">${pph(n) ? avatar(n, 'hav') : '<i>★</i>'}<b>${n}</b><small>${note}</small></span>`).join('')}</div></div>` : ''].join(''))}
       ${r.top ? `<div class="rg-recs"><div><h4>남자 역대 우승 기록 TOP 5</h4>${raceTopList(r.top.m)}</div><div><h4>여자 역대 우승 기록 TOP 5</h4>${raceTopList(r.top.w)}</div></div>` : ''}
       ${courseViz(r)}
     </div></article>`;
@@ -1505,7 +1596,7 @@ function viewRaceGuide(sub) {
     <h1 class="sec-title">대회</h1><p class="sec-sub">${kr ? '국내 대표 마라톤의 역사와 역대 기록, 코스를 한눈에 정리했어요.' : '세계 8대 메이저부터 극한 대회, 한국 러너 추천 대회까지 정리했어요.'} 기록은 ${RANK_ASOF} 기준이에요.</p>
     ${raceTabs(sub)}
     <nav class="rk-sub">${secs.map(([id, n]) => `<button onclick="document.getElementById('${id}').scrollIntoView({behavior:'smooth',block:'start'})">${n}</button>`).join('')}</nav>
-    ${!kr ? `<div class="rg-maj8">${G.major.map((r, i) => `<button style="--rc:${r.col};--i:${i}" onclick="document.getElementById('rg-${r.id}').scrollIntoView({behavior:'smooth',block:'start'})"><b>${r.name.replace(' 마라톤', '')}</b><small>${r.month}${r.id === 'capetown' ? ' · 후보' : ''}</small></button>`).join('')}</div>` : ''}
+    ${!kr ? majorArticle() : ''}
     ${raceSection('rg-major', kr ? '국내 3대 메이저 마라톤' : '세계 8대 메이저 마라톤', kr ? '서울(동아) · 춘천 · JTBC 서울' : '월드 마라톤 메이저 7개 + 8번째 후보 케이프타운', G.major)}
     ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
@@ -1686,6 +1777,7 @@ function route() {
   else if (v === 'races') (arg ? viewRaceGuide(arg) : viewRaces());
   else if (v === 'shop') viewShop();
   else viewHome();
+  if (v === 'history' || v === 'marathon' || v === 'rank' || (v === 'races' && arg)) tabify(h);
   window.scrollTo(0, 0);
   pageEnter();
 }
