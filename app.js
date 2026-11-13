@@ -593,7 +593,7 @@ function viewFind(b) {
 /* ---------- 러닝화 역사 ---------- */
 const photoSrc = k => `photos/${k}.${/\.png$/i.test(PHOTOS[k][0]) ? 'png' : 'jpg'}`;
 const commonsUrl = k => 'https://commons.wikimedia.org/wiki/File:' + encodeURIComponent(PHOTOS[k][0].replace(/ /g, '_'));
-const credit = k => `<a class="credit" href="${commonsUrl(k)}" target="_blank" rel="noopener">사진 ${esc(PHOTOS[k][2])} · ${esc(PHOTOS[k][1])}</a>`;
+const credit = k => PHOTOS[k][3] === 'own' ? `<span class="credit">사진 ${esc(PHOTOS[k][2])}</span>` : `<a class="credit" href="${commonsUrl(k)}" target="_blank" rel="noopener">사진 ${esc(PHOTOS[k][2])} · ${esc(PHOTOS[k][1])}</a>`;
 const toSec = t => t.split(':').reduce((a, b) => a * 60 + +b, 0);
 const fmtSec = s => `${Math.floor(s / 3600)}:${String(Math.floor(s % 3600 / 60)).padStart(2, '0')}:${String(Math.round(s % 60)).padStart(2, '0')}`;
 const tok = n => getComputedStyle(document.documentElement).getPropertyValue(n).trim();
@@ -997,7 +997,7 @@ function viewRank() {
     <section id="rk-kr" class="rk-sec">
       <h2 class="h2">대한민국 기록</h2>
       <div class="rk-kr">
-        ${[['남자 한국기록', kr, 'leebj2', WR_PROG.men], ['여자 한국기록', krw, 'seoul_mar5', WR_PROG.women]].map(([g, r, ph, W]) => { const wr = toSec(W[W.length - 1][1]), s = toSec(r[0]), behind = 42.195 * (1 - wr / s);
+        ${[['남자 한국기록', kr, 'leebj2', WR_PROG.men], ['여자 한국기록', krw, 'kimdy', WR_PROG.women]].map(([g, r, ph, W]) => { const wr = toSec(W[W.length - 1][1]), s = toSec(r[0]), behind = 42.195 * (1 - wr / s);
           return `<article class="rk-krc"><figure><img src="${photoSrc(ph)}" alt="" loading="lazy">${credit(ph)}</figure>
             <div><span class="rk-g">${g}</span><b class="rk-time">${cnt(s, 'time')}</b><span class="rk-wn">${r[1]} <small>${r[2]} · ${r[3]}</small></span>
             <span class="rk-gap">세계기록과 <b>${Math.floor((s - wr) / 60)}분 ${(s - wr) % 60}초</b> 차이 · 세계기록 보유자가 결승할 때 <b>${behind.toFixed(2)}km</b> 뒤</span></div></article>`; }).join('')}
@@ -1272,7 +1272,7 @@ function viewMarKorea() {
   const kr = toSec('2:07:20'), jp = toSec('2:04:55'), cn = toSec('2:05:58');
   const byMonth = {}; RACES.forEach(r => { const m = r[1].slice(0, 7); if (r[1] >= '2026-11-10') byMonth[m] = (byMonth[m] || 0) + 1; });
   const months = Object.keys(byMonth).sort();
-  const kTimeline = [[1935, '손기정 세계기록', 'sohn'], [1936, '손기정 금 · 남승룡 동', 'nam'], [1947, '서윤복 보스턴 세계기록', 'suh'], [1950, '보스턴 1·2·3위 석권', 'boston1968'], [1992, '황영조 바르셀로나 금', 'hwang'], [1996, '이봉주 애틀랜타 은', 'leebj'], [2000, '이봉주 2:07:20 한국기록', 'leebj2'], [2001, '이봉주 보스턴 우승', 'boston_finish'], [2018, '김도연 2:25:41 여자 한국기록', 'seoul_mar5'], [2026, '한국기록 26년째 그대로', 'seoul_mar2']];
+  const kTimeline = [[1935, '손기정 세계기록', 'sohn'], [1936, '손기정 금 · 남승룡 동', 'nam'], [1947, '서윤복 보스턴 세계기록', 'suh'], [1950, '보스턴 1·2·3위 석권', 'boston1968'], [1992, '황영조 바르셀로나 금', 'hwang'], [1996, '이봉주 애틀랜타 은', 'leebj'], [2000, '이봉주 2:07:20 한국기록', 'leebj2'], [2001, '이봉주 보스턴 우승', 'boston_finish'], [2018, '김도연 2:25:41 여자 한국기록', 'kimdy'], [2026, '한국기록 26년째 그대로', 'seoul_mar2']];
   app.innerHTML = `
     <section class="mhero2 kr">
       <div class="mh-copy"><span class="eyebrow">무너진 한국 · KOREA</span>
@@ -1619,7 +1619,7 @@ function courseViz(r) {
     <p class="note">구간 정보로 그린 개략도예요 · 정확한 고도표는 대회 공식 코스맵을 확인하세요</p></div>`;
 }
 /* 선수 이름 → 사진 키 (자유 라이선스 사진이 있는 선수만) */
-const PERSON_PH = { '엘리우드 킵초게': 'kipchoge', '켈빈 키프텀': 'kiptum', '사바스티안 사웨': 'sawe', '루스 쳅응게티치': 'chepngetich', '티지스트 아세파': 'assefa', '티지스트 아세파 등': 'assefa', '폴라 래드클리프': 'radcliffe', '그레테 바이츠': 'waitz', '빌 로저스': 'rodgers', '할리드 하누치': 'khannouchi', '클래런스 디마': 'demar', '캐서린 은데레바': 'ndereba', '잉그리드 크리스티안센': 'kristiansen', '제임스 쾀바이': 'kwambai', '가브리엘 게이': 'geay', '모시네트 게레메우': 'geremew', '벤슨 키프루토': 'bkipruto', '존 코리르': 'korir', '샤론 로케디': 'lokedi', '시판 하산': 'shassan', '타미랏 톨라': 'tola', '헬렌 오비리': 'obiri', '모하메드 에사': 'esa', '이봉주': 'leebj2', '서윤복': 'suh', '손기정': 'sohn', '황영조': 'hwang' };
+const PERSON_PH = { '김도연': 'kimdy', '엘리우드 킵초게': 'kipchoge', '켈빈 키프텀': 'kiptum', '사바스티안 사웨': 'sawe', '루스 쳅응게티치': 'chepngetich', '티지스트 아세파': 'assefa', '티지스트 아세파 등': 'assefa', '폴라 래드클리프': 'radcliffe', '그레테 바이츠': 'waitz', '빌 로저스': 'rodgers', '할리드 하누치': 'khannouchi', '클래런스 디마': 'demar', '캐서린 은데레바': 'ndereba', '잉그리드 크리스티안센': 'kristiansen', '제임스 쾀바이': 'kwambai', '가브리엘 게이': 'geay', '모시네트 게레메우': 'geremew', '벤슨 키프루토': 'bkipruto', '존 코리르': 'korir', '샤론 로케디': 'lokedi', '시판 하산': 'shassan', '타미랏 톨라': 'tola', '헬렌 오비리': 'obiri', '모하메드 에사': 'esa', '이봉주': 'leebj2', '서윤복': 'suh', '손기정': 'sohn', '황영조': 'hwang' };
 const pph = n => { const k = PERSON_PH[n]; return k && PHOTOS[k] ? k : null; };
 const avatar = (n, cls = 'pav') => { const k = pph(n); return k ? `<img class="${cls}" src="${photoSrc(k)}" alt="${esc(n)}" loading="lazy" title="사진: ${esc(PHOTOS[k][2])} · ${esc(PHOTOS[k][1])}">` : ''; };
 function raceTopList(list, sex) {
