@@ -399,3 +399,25 @@ const RACE_GUIDE = {
     ],
   },
 };
+
+/* 메이저 대회 신청 방법 (2026년 11월 기준 · 시기는 해마다 바뀔 수 있어요) */
+const RACE_REG = {
+  seoul: { ways: ['공인 기록 제출', '온라인 접수'], when: '보통 전년도 가을~겨울', note: '풀코스는 최근 공인 대회 완주 기록증을 내야 신청할 수 있어요 (2026년부터)', url: 'https://seoul-marathon.com/' },
+  chuncheon: { ways: ['선착순'], when: '대회 몇 달 전 (봄~여름 공지)', note: '접수가 열리면 빠르게 마감돼요 — 오픈 시각에 맞춰 미리 로그인해 두세요', url: 'http://marathon.chosun.com/' },
+  jtbc: { ways: ['추첨', '선착순'], when: '대회 몇 달 전 (여름 공지)', note: '부문·회차에 따라 추첨과 선착순을 섞어 운영해요', url: 'https://marathon.jtbc.com/' },
+  tokyo: { ways: ['추첨', '자선', '여행사'], when: '보통 전년도 8~9월 추첨 신청', note: '해외 러너도 일반 추첨에 신청할 수 있어요 · 결과는 이메일로 발표', url: 'https://www.marathon.tokyo/en/' },
+  boston: { ways: ['기록 기준(BQ)', '자선', '여행사'], when: '보통 전년도 9월 등록 주간', note: '나이·성별 기준 기록보다 빨라야 신청 가능 — 신청자가 많으면 기준보다 더 빠른 순서로 뽑아요', url: 'https://www.baa.org/races/boston-marathon' },
+  london: { ways: ['추첨', '자선', '여행사'], when: '보통 대회 직후 (4월 말~5월) 추첨 신청', note: '해외 러너용 추첨이 따로 있어요 — 경쟁률이 가장 높은 대회', url: 'https://www.tcslondonmarathon.com/' },
+  sydney: { ways: ['추첨', '자선', '여행사'], when: '대회 공지에 따라 추첨 신청', note: '메이저 합류 뒤 신청자가 크게 늘어 추첨으로 뽑아요', url: 'https://www.tcssydneymarathon.com/' },
+  berlin: { ways: ['추첨', '기록 보장', '자선', '여행사'], when: '보통 전년도 10~11월 추첨 신청', note: '기준 기록을 넘는 러너는 추첨 없이 신청하는 제도가 있어요', url: 'https://www.bmw-berlin-marathon.com/en/' },
+  chicago: { ways: ['추첨', '기록 보장', '자선', '여행사'], when: '보통 전년도 10~11월 신청 · 12월 발표', note: '기준 기록 보장(Time Qualifier) 제도가 있어요', url: 'https://www.chicagomarathon.com/' },
+  nyc: { ways: ['추첨', '기록 보장', '자선', '여행사'], when: '보통 2월 추첨 신청', note: '뉴욕 지역 러너용 보장 제도(9+1)도 있어요 — 해외 러너는 추첨·여행사가 일반적', url: 'https://www.nyrr.org/tcsnycmarathon' },
+  capetown: { ways: ['온라인 접수', '여행사'], when: '공식 홈페이지 공지 확인', note: '메이저로 승격되면 추첨 방식으로 바뀔 수 있어요', url: 'https://www.capetownmarathon.com/' },
+};
+const KR_GEN_STEPS = [
+  ['🔎', '대회 찾기', '마라톤온라인 대회 일정에서 날짜·지역·종목(5km·10km·하프·풀)을 확인해요', 'http://www.marathon.pe.kr/'],
+  ['📝', '홈페이지 접수', '대회 홈페이지나 접수 대행 사이트에서 회원가입 후 신청 — 대부분 선착순이에요'],
+  ['🙆', '기록 필요 없음', '일반 대회는 공인 기록 없이 누구나 신청 가능 — 처음이라면 10km부터 시작해 보세요'],
+  ['💳', '참가비 결제', '종목을 고르고 결제 — 기념품(티셔츠) 사이즈도 이때 골라요'],
+  ['📦', '배번 수령', '대회 1~2주 전 택배로 오거나 당일 현장에서 받아요'],
+];

@@ -1585,6 +1585,19 @@ function raceCard(r, i) {
 function raceSection(id, title, sub, list) {
   return `<section class="rg-sec" id="${id}"><h2 class="h2">${title}${sub ? ` <small>${sub}</small>` : ''}</h2>${list.map(raceCard).join('')}</section>`;
 }
+function raceReg(kr) {
+  const list = (kr ? RACE_GUIDE.kr.major : RACE_GUIDE.world.major).filter(r => RACE_REG[r.id]);
+  return `<h3 class="rg-sh">${kr ? '🏆 메이저 대회 신청 방법' : '🌍 8대 메이저 신청 방법'}</h3>
+    <div class="rg-reg ${kr ? 'kr' : ''}">${list.map((r, i) => { const g = RACE_REG[r.id];
+      return `<article style="--rc:${r.col};--i:${i}"><header><b>${r.name}</b><small>${r.month}</small></header>
+        <div class="rg-ways">${g.ways.map(w => `<span>${w}</span>`).join('')}</div>
+        <p class="rg-when"><em>신청 시기</em>${g.when}</p><p class="rg-rn">${g.note}</p>
+        <a href="${g.url}" target="_blank" rel="noopener">공식 접수 안내 ↗</a></article>`; }).join('')}</div>`;
+}
+function raceGen() {
+  return `<h3 class="rg-sh">🏃 일반 대회 신청 방법</h3>
+    <ol class="rg-steps">${KR_GEN_STEPS.map(([ic, k, v, u], i) => `<li style="--i:${i}"><span class="rg-sn">${i + 1}</span><span class="rg-si">${ic}</span><b>${k}</b><p>${v}${u ? ` <a href="${u}" target="_blank" rel="noopener">바로가기 ↗</a>` : ''}</p></li>`).join('')}</ol>`;
+}
 function raceHowto(list) {
   return `<div class="rg-how">${list.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div>`;
 }
@@ -1602,7 +1615,7 @@ function viewRaceGuide(sub) {
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
     ${!kr ? `<section class="rg-sec" id="rg-rec"><h2 class="h2">한국 러너 추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
       <div class="rg-rec">${G.recommend.map(([n, m, d, c], i) => `<article style="--rc:${c};--i:${i}"><b>${n}</b><span>${m}</span><p>${d}</p></article>`).join('')}</div></section>` : ''}
-    <section class="rg-sec" id="rg-how"><h2 class="h2">${kr ? '국내 대회 접수 방법' : '해외 대회 접수 방법'}</h2>${raceHowto(G.howto)}</section>
+    <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2>${raceReg(kr)}${kr ? raceGen() : ''}<h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}<p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
     <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
   motion();
 }
