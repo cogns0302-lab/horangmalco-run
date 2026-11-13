@@ -866,6 +866,65 @@ function motion(root = app) {
   root.querySelectorAll('[data-count], .grow, .draw, .pop, .race').forEach(el => io.observe(el));
 }
 
+/* ---------- 대한민국 기록: 엘리트 · 마스터즈 + 기사 ---------- */
+function krMasters() {
+  const D = KR_ELITE_MASTERS, G = JTBC_GAP;
+  // 선 그래프 (위가 빠른 기록)
+  const W = 640, H = 230, L = 62, R = 14, T = 16, B = 30, lo = toSec('2:08:00'), hi = toSec('2:36:00');
+  const X = i => L + i * (W - L - R) / (G.length - 1), Y = s => T + (s - lo) / (hi - lo) * (H - T - B);
+  const line = k => G.map((r, i) => `${i ? 'L' : 'M'}${X(i).toFixed(1)},${Y(toSec(r[k])).toFixed(1)}`).join('');
+  const area = line(1) + G.slice().reverse().map((r, j) => `L${X(G.length - 1 - j).toFixed(1)},${Y(toSec(r[2])).toFixed(1)}`).join('') + 'Z';
+  const gap = r => toSec(r[2]) - toSec(r[1]), g16 = G.find(r => r[0] === 2016), g26 = G[G.length - 1];
+  const mmss = s => `${Math.floor(s / 60)}분 ${s % 60}초`;
+  const e26 = toSec('2:11:05'), m26 = toSec('2:17:08'), behind = 42.195 * (1 - e26 / m26);
+  return `
+    <h3 class="rk-sh">2026년 엘리트 · 마스터즈 기록 <small>2026년 11월 기준</small></h3>
+    <div class="em-cards">${D.cards.map((c, i) => `<article class="em-c ${c.k}" style="--i:${i}"><span class="em-g">${c.g}</span>
+      <b class="em-t">${cnt(toSec(c.rec[0]), 'time')}</b><span class="em-n">${c.rec[1]} <small>${c.rec[2]} · ${c.rec[3]}</small></span>
+      <span class="em-s">${c.best[3]} <b>${c.best[0]}</b> ${c.best[1]} · ${c.best[2]}</span></article>`).join('')}</div>
+    <div class="panel wide em-tbl"><h3>2026 국내 메이저 대회 1위 기록</h3>
+      <div class="em-row em-hd"><span>대회</span><span>엘리트 남자</span><span>마스터즈 남자</span><span>엘리트 여자</span><span>마스터즈 여자</span></div>
+      ${D.races.map(([n, ...v]) => `<div class="em-row"><span>${n}</span>${v.map(([t, w], j) => `<span class="${j % 2 ? 'm' : 'e'}"><b>${t}</b><small>${w}</small></span>`).join('')}</div>`).join('')}
+      <p class="note">* 마스터즈 역대 최고는 공식 기록 기관 없이 러너 커뮤니티·언론 보도로 집계된 값이에요 (종전 2:18:39 → 2:18:30 → 2:17:08)</p></div>
+
+    <article class="em-art">
+      <span class="wmm-kicker">ANALYSIS · 2026</span>
+      <h3 class="em-title">엘리트를 위협하는 마스터즈</h3>
+      <p class="em-lead">2026년 3월 서울마라톤. 직장인·대학생이 뛰는 마스터즈 남자부 1위 김지호의 기록은 <b>2시간 17분 8초</b>였어요. 같은 날 국내 엘리트 남자부에 넣으면 <b>6위</b>에 해당하는 기록이에요. 11월 JTBC 서울마라톤에서도 마스터즈 1위(2:19:19)와 국내 엘리트 1위(2:16:45)의 차이는 <b>2분 34초</b>뿐이었어요.</p>
+      <div class="em-stats">${[[cnt(6), '위', '마스터즈 1위의 엘리트 순위 환산 (2026 서울)'], [cnt(Math.round((m26 - e26) / 60)), '분', '엘리트 1위와의 차이 — 2:11:05 vs 2:17:08'], [cnt(1500), '명', '국내 서브3 러너 (코로나 전 약 300명)'], [cnt(2), '분 34초', '2026 JTBC 엘리트·마스터즈 1위 차이']].map(([v, u, l], i) => `<div style="--i:${i}"><b>${v}<small>${u}</small></b><span>${l}</span></div>`).join('')}</div>
+
+      <div class="panel wide"><h3>좁혀지는 격차 <small>JTBC(옛 중앙) 서울마라톤 1위 기록 · 2003~2026</small></h3>
+        <div class="em-legend"><span class="e">국내 엘리트 남자 1위</span><span class="m">마스터즈 남자 1위</span><span class="g">두 기록의 차이</span></div>
+        <div class="em-chart draw"><svg viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-label="엘리트와 마스터즈 1위 기록 추이">
+          ${['2:10', '2:15', '2:20', '2:25', '2:30', '2:35'].map(t => { const y = Y(toSec(t + ':00')); return `<line class="em-grid" x1="${L}" x2="${W - R}" y1="${y}" y2="${y}"/>`; }).join('')}
+          <path class="em-area" d="${area}"/>
+          <path class="d em-le" d="${line(1)}"/><path class="d em-lm" d="${line(2)}"/>
+          
+          ${[g16, g26].map(r => { const i = G.indexOf(r), x = X(i), y1 = Y(toSec(r[1])), y2 = Y(toSec(r[2])); return `<line class="em-gapl" x1="${x}" x2="${x}" y1="${y1}" y2="${y2}"/>`; }).join('')}
+        </svg>
+          ${['2:10', '2:15', '2:20', '2:25', '2:30', '2:35'].map(t => `<span class="em-yl" style="top:${Y(toSec(t + ':00')) / H * 100}%">${t}</span>`).join('')}
+          ${G.map((r, i) => r[0] % 5 === 0 || i === G.length - 1 || i === 0 ? `<span class="em-xl ${r[0] === 2005 ? 'sm-hide' : ''}" style="left:${X(i) / W * 100}%">${r[0]}</span>` : '').join('')}
+          ${[g16, g26].map(r => { const i = G.indexOf(r), last = i === G.length - 1; return `<span class="em-gt ${last ? 'r' : ''}" style="left:${X(i) / W * 100}%;top:${(Y(toSec(r[1])) + Y(toSec(r[2]))) / 2 / H * 100}%">${mmss(gap(r))}</span>`; }).join('')}</div>
+        <p class="note">2016년 15분 넘게 벌어졌던 차이가 2026년 2분 34초까지 좁혀졌어요 · 2020·2021년은 비대면 대회, 2025년 마스터즈 기록은 공개 자료 없음 · 2026년 마스터즈 1위는 일본 러너</p></div>
+
+      <div class="rk-grid2">
+        <div class="panel"><h3>엘리트가 결승선을 밟는 순간 <small>2026 서울마라톤 · 각 부문 1위</small></h3>
+          <div class="em-track grow">
+            <div class="em-lane e"><span>엘리트 박민호</span><div><i style="--w:100%"></i></div><b>42.195km</b></div>
+            <div class="em-lane m"><span>마스터즈 김지호</span><div><i style="--w:${(100 - behind / 42.195 * 100).toFixed(1)}%"></i></div><b>${(42.195 - behind).toFixed(2)}km</b></div>
+          </div>
+          <p class="em-note">같은 속도로 달렸다면 마스터즈 1위는 결승선 <b>${behind.toFixed(2)}km</b> 앞 — 경기장 트랙 약 ${Math.round(behind * 1000 / 400)}바퀴 거리예요.</p></div>
+        <div class="panel"><h3>서브3 러너가 늘고 있어요 <small>풀코스 3시간 이내 완주</small></h3>
+          ${hbars([['국내 서브3 (코로나 전)', 300, '#64748b', ''], ['국내 서브3 (최근)', 1500, '#3dd68c', ''], ['JTBC 2024', 402, '#64748b', ''], ['JTBC 2025', 671, '#3dd68c', '']], 1600, '명')}
+          <p class="note">육상 관계자 추산 · JTBC 서울마라톤 주최사(러너블) 발표</p></div>
+      </div>
+
+      <h4 class="em-h4">왜 이런 일이 생길까?</h4>
+      <div class="wmm-crit em-why">${MASTERS_WHY.map(([ic, k, v], i) => `<div style="--i:${i}"><span>${ic}</span><b>${k}</b><p>${v}</p></div>`).join('')}</div>
+      <p class="em-close">마스터즈가 빨라진 것도, 엘리트가 제자리인 것도 모두 사실이에요. 마스터즈 1위가 엘리트 상위권에 들어오는 지금, 한국 마라톤의 다음 과제는 두 흐름이 만나는 지점 — <b>넓어진 저변이 엘리트 기록 경신으로 이어지게 하는 것</b>이에요.</p>
+      <p class="note">출처: 마니아타임즈 특별 기고(2026.3), 뉴시스·엑스포츠뉴스·탑스타뉴스(2026 대회 결과), JTBC 서울마라톤 역대 기록, 코리아데일리·한국경제(서브3 통계)</p>
+    </article>`;
+}
 /* ---------- 마라톤 랭킹 ---------- */
 let rankSex = 'men';
 const RANK_SECS = [['rk-wr', '🏆 세계 신기록'], ['rk-top', '📊 역대 TOP 20'], ['rk-nat', '🌍 국가별 랭킹'], ['rk-hall', '⭐ 명예의 전당'], ['rk-kr', '🇰🇷 대한민국 기록'], ['rk-un', '🚫 비공식 기록']];
@@ -951,10 +1010,11 @@ function viewRank() {
           <p class="note">한국 여자 마라톤은 2018년 이후 2시간 25분대 기록이 다시 나오지 않았어요</p></div>
       </div>
       <div class="panel wide"><h3>국가기록 보유자들이 함께 뛴다면? (남자)</h3><p class="note">세계기록 보유자가 결승선에 들어오는 순간의 위치예요</p>${raceViz('m')}</div>
+      ${krMasters()}
     </section>
 
     <section id="rk-un" class="rk-sec">
-      <h2 class="h2">비공식 기록은 왜 인정되지 않을까?</h2>
+      <h2 class="h2">비공식 기록 <small>왜 인정되지 않을까?</small></h2>
       <div class="rk-un">${UNOFFICIAL.map(u => `<article class="rk-uc">
         ${u.photo ? `<figure><img src="${photoSrc(u.photo)}" alt="" loading="lazy">${credit(u.photo)}</figure>` : `<figure class="noph"><span>2:00:25</span></figure>`}
         <div><span class="rk-stamp">비공인</span><b class="rk-ut">${u.t}</b><span class="rk-wn">${u.who} <small>${u.where}</small></span>
@@ -1826,7 +1886,7 @@ function route() {
   else if (v === 'races') (arg ? viewRaceGuide(arg) : viewRaces());
   else if (v === 'shop') viewShop();
   else viewHome();
-  if (v === 'history' || v === 'marathon' || v === 'rank' || (v === 'races' && arg)) tabify(h);
+  if (v === 'history' || v === 'rank' || (v === 'races' && arg)) tabify(h);
   window.scrollTo(0, 0);
   pageEnter();
 }

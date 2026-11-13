@@ -1811,6 +1811,67 @@ p,.sec-sub,.note{text-wrap:pretty}
   .rg-map .rm-seoul{animation:rmPulseS 1s ease-in-out infinite alternate}
   @keyframes rmPulseS{from{opacity:1}to{opacity:.35}}
 }
+/* ===== 엘리트 · 마스터즈 ===== */
+.rk-sh{margin:28px 0 12px;font-size:19px;font-weight:900}.rk-sh small{font-size:12.5px;color:var(--sub);font-weight:700;margin-left:6px}
+.em-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:12px}
+.em-c{display:flex;flex-direction:column;gap:6px;padding:16px;border-radius:16px;background:var(--card);border:1px solid var(--line);border-top:4px solid var(--ec)}
+.em-c.e{--ec:#e11d48}.em-c.m{--ec:#3dd68c}
+.em-g{align-self:flex-start;font-size:12px;font-weight:900;padding:3px 10px;border-radius:99px;background:color-mix(in srgb,var(--ec) 22%,transparent);color:var(--ink)}
+.em-t{font-family:var(--f-disp),'Noto Sans KR',sans-serif;font-size:34px;font-weight:900;line-height:1.1}
+.em-n{font-size:15px;font-weight:900}.em-n small{font-size:12px;color:var(--sub);font-weight:700}
+.em-s{margin-top:auto;padding-top:8px;border-top:1px dashed var(--line);font-size:12px;color:var(--sub)}.em-s b{color:var(--ink)}
+.em-tbl .em-row{display:grid;grid-template-columns:1.3fr repeat(4,1fr);gap:8px;align-items:center;padding:10px 4px;border-bottom:1px solid var(--line)}
+.em-tbl .em-row:last-of-type{border-bottom:0}
+.em-tbl .em-hd{font-size:12px;font-weight:900;color:var(--sub);padding-top:0}
+.em-row > span:first-child{font-size:13.5px;font-weight:900}
+.em-row span.e,.em-row span.m{display:flex;flex-direction:column}
+.em-row span b{font-family:var(--f-disp),'Noto Sans KR',sans-serif;font-size:18px;font-weight:900}.em-row span.e b{color:#fb7185}.em-row span.m b{color:#3dd68c}
+.em-row span small{font-size:11.5px;color:var(--sub)}
+.em-art{margin-top:30px;padding:26px;border-radius:22px;background:radial-gradient(120% 120% at 100% 0%,#0f2a1d,var(--card) 55%);border:1px solid var(--line)}
+.em-title{margin:6px 0 10px;font-size:28px;font-weight:900;line-height:1.3}
+.em-lead{margin:0 0 18px;font-size:15px;line-height:1.8;color:var(--sub);max-width:860px}.em-lead b{color:var(--ink)}
+.em-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:14px}
+.em-stats div{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;padding:16px 10px;border-radius:16px;background:var(--bg);border:1px solid var(--line)}
+.em-stats b{font-family:var(--f-disp),'Noto Sans KR',sans-serif;font-size:34px;font-weight:900;color:#3dd68c;line-height:1}.em-stats b small{font-size:15px;margin-left:2px}
+.em-stats div > span{font-size:12.5px;line-height:1.45;color:var(--sub)}
+.em-legend{display:flex;flex-wrap:wrap;gap:14px;margin:0 0 6px;font-size:12.5px;font-weight:800;color:var(--sub)}
+.em-legend span:before{content:"";display:inline-block;width:14px;height:4px;border-radius:2px;margin-right:6px;vertical-align:middle;background:var(--c)}
+.em-legend .e{--c:#fb7185}.em-legend .m{--c:#3dd68c}.em-legend .g{--c:#3dd68c40}
+.em-chart{position:relative;height:280px;margin:6px 0 22px}
+.em-chart svg{display:block;width:100%;height:100%;overflow:visible}
+.em-yl{position:absolute;left:0;transform:translateY(-50%);font-size:11.5px;font-weight:700;color:var(--sub)}
+.em-xl{position:absolute;bottom:-20px;transform:translateX(-50%);font-size:11.5px;font-weight:700;color:var(--sub)}
+.em-gt{position:absolute;transform:translate(8px,-50%);font-size:13px;font-weight:900;color:#ffd23f;white-space:nowrap}.em-gt.r{transform:translate(calc(-100% - 8px),-50%)}
+@media (max-width:760px){.em-chart{height:210px}.em-xl.sm-hide{display:none}}
+.em-grid{stroke:var(--line);stroke-width:1;vector-effect:non-scaling-stroke}
+.em-ax{fill:var(--sub);font-size:11px;font-weight:700}
+.em-area{fill:#3dd68c22}
+.em-le,.em-lm{fill:none;stroke-width:2.6;stroke-linejoin:round;stroke-linecap:round}.em-le{stroke:#fb7185}.em-lm{stroke:#3dd68c}
+.em-gapl{stroke:#ffd23f;stroke-width:2;stroke-dasharray:4 3;vector-effect:non-scaling-stroke}
+.em-gapt{fill:#ffd23f;font-size:13px;font-weight:900}
+.em-track{display:flex;flex-direction:column;gap:14px;margin:6px 0 10px}
+.em-lane{display:grid;grid-template-columns:110px 1fr 70px;gap:10px;align-items:center;font-size:13px;font-weight:800}
+.em-lane > div{height:14px;border-radius:99px;background:var(--bg);overflow:hidden}
+.em-lane i{display:block;height:100%;width:var(--w);border-radius:99px}
+.em-lane.e i{background:#fb7185}.em-lane.m i{background:#3dd68c}
+.em-lane b{text-align:right;font-size:13px}
+.em-note{margin:0;font-size:13px;line-height:1.6;color:var(--sub)}.em-note b{color:#ffd23f}
+.em-h4{margin:20px 0 10px;font-size:17px;font-weight:900}
+.em-close{margin:16px 0 8px;font-size:14.5px;line-height:1.8;color:var(--sub)}.em-close b{color:var(--ink)}
+@media (prefers-reduced-motion:no-preference){
+  .em-track.grow i{width:0;transition:width 1.8s cubic-bezier(.2,.8,.2,1)}
+  .em-track.grow.play i{width:var(--w)}
+  .em-chart .em-area{opacity:0}.em-chart.play .em-area{animation:emFade 1s ease-out 1.6s both}
+  .em-chart .em-gapl,.em-chart .em-gapt{opacity:0}.em-chart .em-gt{opacity:0}.em-chart.play .em-gt,.em-chart.play .em-gapl,.em-chart.play .em-gapt{animation:emFade .6s ease-out 2.2s both}
+  @keyframes emFade{from{opacity:0}to{opacity:1}}
+  .em-c,.em-stats div{animation:rkPop .5s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(var(--i) * 90ms)}
+}
+@media (max-width:1000px){.em-cards,.em-stats{grid-template-columns:1fr 1fr}}
+@media (max-width:760px){.em-art{padding:18px}.em-title{font-size:23px}.em-t{font-size:28px}.em-stats b{font-size:28px}
+  .em-tbl .em-hd{display:none}.em-tbl .em-row{grid-template-columns:1fr 1fr;row-gap:10px}.em-row > span:first-child{grid-column:1/-1}
+  .em-row span.e:before,.em-row span.m:before{font-size:10.5px;font-weight:800;color:var(--sub)}
+  .em-row span:nth-child(2):before{content:"엘리트 남자"}.em-row span:nth-child(3):before{content:"마스터즈 남자"}.em-row span:nth-child(4):before{content:"엘리트 여자"}.em-row span:nth-child(5):before{content:"마스터즈 여자"}
+  .em-lane{grid-template-columns:92px 1fr 62px;font-size:12px}}
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -1907,14 +1968,14 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mweauk4o"></script>
-<script src="photos.js?v=mweauk4o"></script>
-<script src="history.js?v=mweauk4o"></script>
-<script src="maps.js?v=mweauk4o"></script>
-<script src="marathon.js?v=mweauk4o"></script>
-<script src="stories.js?v=mweauk4o"></script>
-<script src="reviews.js?v=mweauk4o"></script>
-<script src="train.js?v=mweauk4o"></script>
-<script src="app.js?v=mweauk4o"></script>
+<script src="data.js?v=mweb6ix8"></script>
+<script src="photos.js?v=mweb6ix8"></script>
+<script src="history.js?v=mweb6ix8"></script>
+<script src="maps.js?v=mweb6ix8"></script>
+<script src="marathon.js?v=mweb6ix8"></script>
+<script src="stories.js?v=mweb6ix8"></script>
+<script src="reviews.js?v=mweb6ix8"></script>
+<script src="train.js?v=mweb6ix8"></script>
+<script src="app.js?v=mweb6ix8"></script>
 </body>
 </html>
