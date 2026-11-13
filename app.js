@@ -1609,7 +1609,7 @@ function recHub(list) {
   rs.forEach((r, i) => { r.no = i + 1; });
   const L = rs.slice(0, 3), R = rs.slice(3), max = rs[rs.length - 1].km;
   const card = r => `<article class="rx-c" data-rx="${r.no}" style="--rc:${r.c}"><span class="rx-no">${r.no}</span>
-    <div><b>${r.n}</b><span class="rx-m">${r.mo}</span><p>${r.d}</p>
+    <div><b>${r.n}</b><small class="rx-en">${REC_OFFICIAL[r.n] || ''}</small><span class="rx-m">${r.mo}</span><p>${r.d}</p>
     <div class="rx-f"><span class="rx-km">✈ 서울에서 약 ${r.km.toLocaleString()}km</span>${RACE_URL[r.n] ? `<a href="${RACE_URL[r.n][0]}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</div></div></article>`;
   const C = Math.cos(36 * Math.PI / 180), sx = ((SEOUL[1] - 124) * C * 40).toFixed(1), sy = ((39.2 - SEOUL[0]) * 40).toFixed(1);
   return `<section class="rg-sec" id="rg-rec"><h2 class="h2">추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
@@ -1746,9 +1746,9 @@ function raceMap(r) {
 function raceCard(r, i) {
   return `<article class="rg-card" id="rg-${r.id}" style="--rc:${r.col};--i:${i}">
     ${(rp => `<header class="rg-hero ${rp ? 'ph' : ''}">
-      ${rp ? `<img src="${photoSrc(rp)}" alt="" loading="lazy">${credit(rp)}` : ''}`)(r.photo && PHOTOS[r.photo] ? r.photo : PHOTOS['rg_' + r.id] ? 'rg_' + r.id : PHOTOS[r.id] ? r.id : null)}
-      <div class="rg-ht"><span class="rg-en">${r.en}</span><h3>${r.name}</h3>
-        <div class="rg-chips">${[r.since ? r.since + '년 시작' : '', r.month, r.label, r.size].filter(Boolean).map(x => `<span>${x}</span>`).join('')}</div></div>
+      ${rp ? `<img src="${photoSrc(rp)}" alt="" loading="lazy" style="object-position:${({ rg_ulleung: '100% 62%' })[rp] || '50% 50%'}">${credit(rp)}` : ''}`)(r.photo && PHOTOS[r.photo] ? r.photo : PHOTOS['rg_' + r.id] ? 'rg_' + r.id : PHOTOS[r.id] ? r.id : null)}
+      <div class="rg-ht"><span class="rg-en">${r.en}</span><h3>${r.off || r.name}</h3>
+        <div class="rg-chips">${r.ed ? `<span class="rg-ed">${r.ed}</span>` : ''}${[r.since ? r.since + '년 시작' : '', r.month, r.label, r.size].filter(Boolean).map(x => `<span>${x}</span>`).join('')}</div></div>
       ${(u => `<div class="rg-hr">${raceMap(r)}${u ? `<a class="rg-go" href="${u[0]}" target="_blank" rel="noopener">${u[1] || '공식 홈페이지 ↗'}</a>` : ''}</div>`)(r.url ? [r.url] : RACE_URL[r.id] || (RACE_REG[r.id] ? [RACE_REG[r.id].url] : null))}
     </header>
     <div class="rg-body">
