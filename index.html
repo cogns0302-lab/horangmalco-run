@@ -1621,6 +1621,23 @@ p,.sec-sub,.note{text-wrap:pretty}
 .rg-mks span.st{transform:none;align-items:flex-start}.rg-mks span.en{transform:translateX(-100%);align-items:flex-end}
 .rg-mks small{font-size:10.5px;font-weight:700;color:var(--sub)}
 
+/* 계급도 종류 설명 */
+.ti-box{background:linear-gradient(135deg,color-mix(in srgb,var(--tc) 16%,var(--card)),var(--card) 60%);border:1px solid color-mix(in srgb,var(--tc) 45%,var(--line));border-left:5px solid var(--tc);border-radius:18px;padding:18px 20px;margin:0 0 14px}
+.ti-h{display:flex;gap:14px;align-items:center;margin-bottom:12px}
+.ti-ic{flex:none;width:46px;height:46px;border-radius:14px;background:color-mix(in srgb,var(--tc) 30%,transparent);display:flex;align-items:center;justify-content:center;font-size:24px}
+.ti-h b{font-size:18px;font-weight:900}.ti-h p{margin:3px 0 0;font-size:14px;line-height:1.55;color:var(--sub)}
+.ti-cols{display:grid;grid-template-columns:1.2fr 1fr 1fr;gap:10px}
+.ti-cols > div{background:var(--bg);border:1px solid var(--line);border-radius:14px;padding:12px 14px}
+.ti-cols h5{margin:0 0 8px;font-size:13px;font-weight:900;color:var(--tc)}
+.ti-cols ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px}
+.ti-cols li{position:relative;padding-left:14px;font-size:13.5px;line-height:1.5}
+.ti-cols li:before{content:"";position:absolute;left:1px;top:8px;width:6px;height:6px;border-radius:50%;background:var(--tc)}
+.ti-subs{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:8px;margin-top:10px}
+.ti-subs span{display:flex;flex-direction:column;gap:3px;padding:10px 12px;border-radius:12px;background:var(--bg);border:1px solid var(--line);border-top:3px solid var(--cc)}
+.ti-subs b{font-size:14px;font-weight:900;color:var(--cc)}.ti-subs small{font-size:12.5px;line-height:1.5;color:var(--sub)}
+@media (prefers-reduced-motion:no-preference){.ti-box{animation:rkPop .45s cubic-bezier(.2,.9,.3,1.2) both}}
+@media (max-width:760px){.ti-box{padding:14px}.ti-cols{grid-template-columns:1fr}.ti-h b{font-size:16px}.ti-h p{font-size:13px}}
+
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -1717,13 +1734,13 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwe7ejql"></script>
-<script src="photos.js?v=mwe7ejql"></script>
-<script src="history.js?v=mwe7ejql"></script>
-<script src="marathon.js?v=mwe7ejql"></script>
-<script src="stories.js?v=mwe7ejql"></script>
-<script src="reviews.js?v=mwe7ejql"></script>
-<script src="train.js?v=mwe7ejql"></script>
-<script src="app.js?v=mwe7ejql"></script>
+<script src="data.js?v=mwe8h3i4"></script>
+<script src="photos.js?v=mwe8h3i4"></script>
+<script src="history.js?v=mwe8h3i4"></script>
+<script src="marathon.js?v=mwe8h3i4"></script>
+<script src="stories.js?v=mwe8h3i4"></script>
+<script src="reviews.js?v=mwe8h3i4"></script>
+<script src="train.js?v=mwe8h3i4"></script>
+<script src="app.js?v=mwe8h3i4"></script>
 </body>
 </html>
