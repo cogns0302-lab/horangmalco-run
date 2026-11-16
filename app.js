@@ -1619,8 +1619,8 @@ function recHub(list) {
     return `<g class="rxm-g ${i ? '' : 'on'}" data-i="${i}" style="--rc:${r.c}">
       ${ar ? `<path class="rxm-hl" d="${ar}"/><path class="rxm-hl" d="${ar}" transform="translate(360,0)"/>` : ''}
       <path class="rxm-ln" d="M${sx},${sy} Q${((sx + x) / 2).toFixed(1)},${(Math.min(sy, y) - Math.abs(x - sx) * .22 - 3).toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}"/>
-      <circle class="rxm-pulse" cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="2.6"/><circle class="rxm-dot" cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.5"/>
-      <g class="rxm-no" onclick="rxSel(${i})"><circle cx="${lx.toFixed(2)}" cy="${(ly - 3.2).toFixed(2)}" r="2.3"/><text x="${lx.toFixed(2)}" y="${(ly - 2.3).toFixed(2)}">${r.no}</text></g></g>`; }).join('');
+      <g class="rxm-mk" data-x="${x.toFixed(2)}" data-y="${y.toFixed(2)}" transform="translate(${x.toFixed(2)},${y.toFixed(2)})"><circle class="rxm-pulse" r="2.6"/><circle class="rxm-dot" r="1.5"/>
+        <g class="rxm-no" onclick="rxSel(${i})"><circle cx="${(lx - x).toFixed(2)}" cy="${(ly - y - 3.2).toFixed(2)}" r="2.3"/><text x="${(lx - x).toFixed(2)}" y="${(ly - y - 2.3).toFixed(2)}">${r.no}</text></g></g></g>`; }).join('');
   const card = (r, i) => `<article class="rx-c ${i ? '' : 'on'}" data-i="${i}" style="--rc:${r.c}" onclick="rxSel(${i})" tabindex="0" onkeydown="if(event.key==='Enter')rxSel(${i})"><span class="rx-no">${r.no}</span>
     <div><b>${r.n}</b><small class="rx-en">${REC_OFFICIAL[r.n] || ''}</small><span class="rx-m">${r.mo}</span><p>${r.d}</p>
     <div class="rx-f"><span class="rx-km">✈ 서울에서 약 ${r.km.toLocaleString()}km</span>${RACE_URL[r.n] ? `<a href="${RACE_URL[r.n][0]}" target="_blank" rel="noopener" onclick="event.stopPropagation()">공식 홈페이지 ↗</a>` : ''}</div></div></article>`;
@@ -1628,21 +1628,39 @@ function recHub(list) {
     <div class="rx2 grow">
       <div class="rx2-map">
         <div class="rx2-view"><svg viewBox="${VB.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-label="서울과 추천 해외 대회 위치">${world}${g}
-          <circle class="rxm-spulse" cx="${sx}" cy="${sy}" r="2.6"/><circle class="rxm-seoul" cx="${sx}" cy="${sy}" r="1.6"/><text class="rxm-slab" x="${sx - 2.2}" y="${sy - 2.6}">서울</text></svg>
-          <div class="rx2-cap"></div></div>
+          <g class="rxm-mk" data-x="${sx}" data-y="${sy}" transform="translate(${sx},${sy})"><circle class="rxm-spulse" r="2.6"/><circle class="rxm-seoul" r="1.6"/><text class="rxm-slab" x="-2.2" y="-2.6">서울</text></g></svg>
+          <div class="rx2-cap"></div><button class="rx2-all" type="button" onclick="rxAll(this)">🌏 전체 보기</button></div>
         <div class="rx2-sum"><b>서울에서 거리</b><div class="rx-bars">${rs.map((r, i) => `<div class="rxb" data-i="${i}" onclick="rxSel(${i})"><span>${r.no} ${r.n.replace(' 마라톤', '')}</span><i style="--w:${(r.km / max * 100).toFixed(1)}%;--rc:${r.c}"></i><em>${r.km.toLocaleString()}km</em></div>`).join('')}</div></div>
       </div>
       <div class="rx2-list">${rs.map(card).join('')}</div>
     </div><p class="note">거리는 서울에서 대회 도시까지의 직선거리예요 · 지도 색칠은 대회가 열리는 나라예요</p></section>`;
 }
-function rxSel(i) {
+const RX_VB = [279, 33, 118, 92];
+function rxZoom(svg, to) {
+  const from = (svg.getAttribute('viewBox') || RX_VB.join(' ')).split(' ').map(Number), t0 = performance.now(), D = 750;
+  const mks = svg.querySelectorAll('.rxm-mk'), ease = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2;
+  const apply = v => { svg.setAttribute('viewBox', v.map(n => n.toFixed(2)).join(' ')); const k = v[2] / RX_VB[2];
+    mks.forEach(m => m.setAttribute('transform', `translate(${m.dataset.x},${m.dataset.y}) scale(${k.toFixed(3)})`)); };
+  if (svg._rxT) clearInterval(svg._rxT);
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return apply(to);
+  svg._rxT = setInterval(() => { const p = Math.min(1, (performance.now() - t0) / D), e = ease(p); apply(from.map((f, j) => f + (to[j] - f) * e)); if (p >= 1) clearInterval(svg._rxT); }, 16);
+}
+function rxAll(btn) {
+  const box = btn.closest('.rx2'), svg = box.querySelector('.rx2-view svg');
+  box.querySelectorAll('.rxm-g, .rx-c, .rxb').forEach(e => e.classList.remove('on'));
+  box.querySelector('.rx2-cap').innerHTML = '🌏 서울에서 떠나는 추천 해외 대회'; box.querySelector('.rx2-cap').style.setProperty('--rc', '#3dd68c');
+  rxZoom(svg, RX_VB.slice());
+}
+function rxSel(i, zoom = true) {
   document.querySelectorAll('.rx2').forEach(box => {
+    const gi = box.querySelector(`.rxm-g[data-i="${i}"] .rxm-mk`), svg = box.querySelector('.rx2-view svg');
+    if (zoom && gi && svg) { const x = +gi.dataset.x, y = +gi.dataset.y, w = 30, hh = w * RX_VB[3] / RX_VB[2]; rxZoom(svg, [x - w / 2, y - hh / 2, w, hh]); }
     box.querySelectorAll('.rxm-g, .rx-c, .rxb').forEach(e => e.classList.toggle('on', +e.dataset.i === i));
     const c = box.querySelector(`.rx-c[data-i="${i}"]`), cap = box.querySelector('.rx2-cap');
     if (c && cap) { cap.style.setProperty('--rc', c.style.getPropertyValue('--rc')); cap.innerHTML = `📍 ${c.querySelector('b').textContent} · <span>${c.querySelector('.rx-km').textContent.replace('✈ ', '')}</span>`; }
   });
 }
-document.addEventListener('pg-show', () => setTimeout(() => { const b = document.querySelector('.rx2'); if (b) { const on = b.querySelector('.rx-c.on'); rxSel(on ? +on.dataset.i : 0); } }, 40));
+document.addEventListener('pg-show', () => setTimeout(() => { const b = document.querySelector('.rx2'); if (b) { const on = b.querySelector('.rx-c.on'); rxSel(on ? +on.dataset.i : 0, false); } }, 40));
 /* 점선 연결: 서울 점 → 각 카드 (화면 크기·탭 전환 때마다 다시 그려요) */
 function drawRx() {
   document.querySelectorAll('.rx').forEach(box => {
@@ -1856,7 +1874,7 @@ function viewRaceGuide(sub) {
     <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2><div class="rg-blk b1">${raceReg(kr)}</div>${kr ? `<div class="rg-blk b2">${raceGen()}</div>` : ''}<div class="rg-blk b3"><h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}</div><p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
     <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
   motion();
-  setTimeout(drawRx, 30); setTimeout(drawRx, 800); setTimeout(() => { if (document.querySelector('.rx2')) rxSel(0); }, 60);
+  setTimeout(drawRx, 30); setTimeout(drawRx, 800); setTimeout(() => { if (document.querySelector('.rx2')) rxSel(0, false); }, 60);
 }
 function viewRaces() {
   const all = RACES.map(([n, d, r, p, ev, url, st, no]) => ({ n, d: new Date(d + 'T00:00:00'), ds: d, r, p, ev, url, st, no })).filter(x => x.d >= TODAY).sort((a, z) => a.d - z.d);
