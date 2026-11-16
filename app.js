@@ -802,7 +802,7 @@ function viewBrandHistory(b) {
 
     <h2 class="h2">타임라인으로 보는 ${B.ko}</h2>
     ${photoTimeline([...hist.map(([y, t], i) => [y, t, evPhoto(b, y, t), B.grad[1] === '#1e293b' || B.grad[1] === '#3f3f46' || B.grad[1] === '#334155' ? '#8a8f9a' : B.grad[1], 'bev-' + i]),
-      ...K.map(([y, n, d, ph], i) => [y, '킬러 모델 · ' + n, ph, '#f5a300', 'km-' + i])].sort((a, z) => a[0] - z[0]), 'jumpTo')}
+      ...K.map(([y, n, d, ph], i) => [y, '킬러 모델 · ' + n, ph, '#f5a300', 'km-' + i])].sort((a, z) => a[0] - z[0]).map((it, i, arr) => it[2] && arr.slice(0, i).some(o => o[2] === it[2]) ? [it[0], it[1], null, it[3], it[4]] : it), 'jumpTo')}
 
     <h2 class="h2">연도별 사건</h2>
     <div class="ev-grid bev">${hist.map(([y, t], i) => { const ph = evPhoto(b, y, t);
