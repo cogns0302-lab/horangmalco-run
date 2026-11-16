@@ -572,19 +572,15 @@ function viewFind(b) {
     <div class="banner2" style="--g1:${B.grad[0]};--g2:${B.grad[1]};--ac:${B.accent}">
       <div class="bn-text">
         <span class="bn-eye">${esc(B.country.replace(/ \(.*\)/, ''))} · ${B.founded}년 창립</span>
-        <h2>${B.name}</h2>
+        <div class="bn-title"><h2>${B.name}</h2><span class="bn-logo2">${LOGOS.has(b) ? `<img src="logos/${b}.svg" alt="${B.name} 로고">` : `<b>${B.name}</b>`}</span></div>
         <p>${esc(B.ko)}의 러닝화 ${list.length}개 모델을 용도별로 정리했어요.</p>
-        <div class="bn-chips"><span><b>${list.length}</b>개 모델</span>${best.s != null ? `<span>최고점 <b>${esc(best.ko)} ${best.s}점</b></span>` : ''}<span>플래그십 <b>${esc(fs_.ko)}</b></span></div>
+        <div class="bn-chips"><span><b>${list.length}</b>개 모델</span>${best.s != null ? `<span>최고점 <b>${esc(best.ko)} ${best.s}점</b></span>` : ''}<button class="bn-fs" onclick="openShoe('${fs_.id}')">플래그십 <b>${esc(fs_.ko)}</b> · ${priceTxt(fs_)} ›</button></div>
       </div>
       ${typeof BRAND_KW !== 'undefined' && BRAND_KW[b] ? (k => `<div class="bn-kw">
         <div class="kw-row"><span class="kw-t">📜 역사</span><div class="kw-tl">${k.h.slice().sort((x, y) => x[0] - y[0]).map(([y, t]) => `<span><b>${y}</b>${t}</span>`).join('')}</div></div>
         <div class="kw-row"><span class="kw-t">⚙️ 특징</span><div class="kw-c">${k.f.map(t => `<span>#${t}</span>`).join('')}</div></div>
         <div class="kw-row"><span class="kw-t">🔥 지금 화두</span><div class="kw-c hot">${k.n.map(t => `<span>${t}</span>`).join('')}</div></div>
       </div>`)(BRAND_KW[b]) : ''}
-      <button class="bn-visual" onclick="openShoe('${fs_.id}')" aria-label="${esc(fs_.ko)} 자세히 보기">
-        <span class="bn-logo">${LOGOS.has(b) ? `<img src="logos/${b}.svg" alt="${B.name} 로고">` : `<b>${B.name}</b>`}</span>
-        <span class="bn-flag">FLAGSHIP<b>${esc(fs_.ko)}</b><small>${priceTxt(fs_)}</small></span>
-      </button>
     </div>
     ${top3(b)}
     <div class="banner" hidden>

@@ -2013,6 +2013,21 @@ p,.sec-sub,.note{text-wrap:pretty}
 @media (prefers-reduced-motion:no-preference){.bn-kw .kw-row{animation:rkPop .5s cubic-bezier(.2,.9,.3,1.2) both}.bn-kw .kw-row:nth-child(2){animation-delay:.1s}.bn-kw .kw-row:nth-child(3){animation-delay:.2s}}
 @media (max-width:1100px){.banner2:has(.bn-kw){grid-template-columns:1fr auto}.bn-kw{grid-column:1/-1;grid-row:2}}
 @media (max-width:760px){.banner2:has(.bn-kw){grid-template-columns:1fr}.bn-kw{grid-row:auto}.kw-row{grid-template-columns:1fr}.kw-t{padding-top:0}}
+/* ===== 브랜드 배너 2: 로고는 이름 옆, 키워드가 오른쪽을 채움 ===== */
+.banner2:has(.bn-kw){grid-template-columns:minmax(0,1fr) minmax(0,1.25fr);align-items:stretch}
+.bn-text{justify-content:center}
+.bn-title{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.bn-logo2{flex:none;display:flex;align-items:center;justify-content:center;width:170px;height:100px;padding:12px 18px;background:#fff;border-radius:18px;box-shadow:0 12px 30px rgba(0,0,0,.28),0 0 0 5px #ffffff26}
+.bn-logo2 img{max-width:100%;max-height:100%;object-fit:contain}.bn-logo2 b{font-size:24px;font-weight:900;color:#111}
+.bn-chips .bn-fs{background:#00000038;border:1px solid #ffffff2e;border-radius:99px;padding:5px 12px;font-size:13px;color:#fff;cursor:pointer}
+.bn-chips .bn-fs:hover{background:#ffffff26}
+.bn-kw{justify-content:space-evenly;gap:14px;padding:20px 22px}
+.kw-row{grid-template-columns:92px 1fr}
+.kw-t{font-size:14px}
+.kw-tl span,.kw-c span{font-size:13.5px;padding:6px 12px}
+.kw-tl span{padding:5px 12px 5px 5px}.kw-tl b{font-size:12.5px;padding:2px 8px}
+@media (max-width:1100px){.banner2:has(.bn-kw){grid-template-columns:1fr}.bn-kw{grid-column:auto;grid-row:auto}}
+@media (max-width:760px){.bn-logo2{width:120px;height:72px;padding:8px 12px}.kw-row{grid-template-columns:1fr}.bn-kw{padding:14px}}
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -2109,14 +2124,14 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwijc6jp"></script>
-<script src="photos.js?v=mwijc6jp"></script>
-<script src="history.js?v=mwijc6jp"></script>
-<script src="maps.js?v=mwijc6jp"></script>
-<script src="marathon.js?v=mwijc6jp"></script>
-<script src="stories.js?v=mwijc6jp"></script>
-<script src="reviews.js?v=mwijc6jp"></script>
-<script src="train.js?v=mwijc6jp"></script>
-<script src="app.js?v=mwijc6jp"></script>
+<script src="data.js?v=mwik47at"></script>
+<script src="photos.js?v=mwik47at"></script>
+<script src="history.js?v=mwik47at"></script>
+<script src="maps.js?v=mwik47at"></script>
+<script src="marathon.js?v=mwik47at"></script>
+<script src="stories.js?v=mwik47at"></script>
+<script src="reviews.js?v=mwik47at"></script>
+<script src="train.js?v=mwik47at"></script>
+<script src="app.js?v=mwik47at"></script>
 </body>
 </html>
