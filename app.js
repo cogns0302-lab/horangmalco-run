@@ -1604,25 +1604,45 @@ function contMap(key, pts) {
       return `<g class="cm-pt" style="--i:${i};--c:${col}"><circle class="cm-pulse" cx="${x}" cy="${y}" r="${(r * 2).toFixed(3)}"/><circle class="cm-dot" cx="${x}" cy="${y}" r="${r.toFixed(3)}"/>
         ${inC ? '' : `<text x="${tx.toFixed(2)}" y="${ty.toFixed(2)}" font-size="${fs.toFixed(2)}" text-anchor="${ta}">${name}</text>`}</g>`; }).join('')}</svg>${inset}`;
 }
-/* 추천 해외 대회: 가운데 한반도, 좌우 대회 카드, 서울에서 점선 연결 */
+/* 추천 해외 대회: 왼쪽 세계지도(아시아·태평양) + 오른쪽 대회 카드 — 카드를 누르면 지도에 그 지역이 같은 색으로 표시 */
+const REC_AREA = { '오사카 마라톤': 'Japan', '교토 마라톤': 'Japan', '타이베이 마라톤': 'Taiwan', '호놀룰루 마라톤': 'United States of America', '골드코스트 마라톤': 'Australia' };
 function recHub(list) {
   const rs = list.map(([n, mo, d, c]) => ({ n, mo, d, c, km: geoKm(SEOUL, REC_GEO[n].slice(0, 2)) })).sort((x, y) => x.km - y.km);
   rs.forEach((r, i) => { r.no = i + 1; });
-  const L = rs.slice(0, 3), R = rs.slice(3), max = rs[rs.length - 1].km;
-  const card = r => `<article class="rx-c" data-rx="${r.no}" style="--rc:${r.c}"><span class="rx-no">${r.no}</span>
+  const max = rs[rs.length - 1].km;
+  const P = (la, lo) => [(lo < 0 ? lo + 360 : lo) + 180, 85 - la];          // 태평양 건너(호놀룰루)는 +360°
+  const [sx, sy] = P(...SEOUL), VB = [279, 33, 118, 92];
+  const world = `<path class="rxm-land" d="${MAP_WORLD}"/><path class="rxm-land" d="${MAP_WORLD}" transform="translate(360,0)"/>`;
+  const g = rs.map((r, i) => { const [x, y] = P(REC_GEO[r.n][0], REC_GEO[r.n][1]), ar = MAP_CTRY[REC_AREA[r.n]] || '';
+    const near = rs.some((o, j) => j < i && Math.abs(P(REC_GEO[o.n][0], REC_GEO[o.n][1])[0] - x) < 2.5);   // 오사카·교토처럼 붙어 있으면 숫자 위치를 비켜요
+    const lx = x + (near ? 3.2 : 0), ly = y - (near ? 2.4 : 0);
+    return `<g class="rxm-g ${i ? '' : 'on'}" data-i="${i}" style="--rc:${r.c}">
+      ${ar ? `<path class="rxm-hl" d="${ar}"/><path class="rxm-hl" d="${ar}" transform="translate(360,0)"/>` : ''}
+      <path class="rxm-ln" d="M${sx},${sy} Q${((sx + x) / 2).toFixed(1)},${(Math.min(sy, y) - Math.abs(x - sx) * .22 - 3).toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}"/>
+      <circle class="rxm-pulse" cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="2.6"/><circle class="rxm-dot" cx="${x.toFixed(2)}" cy="${y.toFixed(2)}" r="1.5"/>
+      <g class="rxm-no" onclick="rxSel(${i})"><circle cx="${lx.toFixed(2)}" cy="${(ly - 3.2).toFixed(2)}" r="2.3"/><text x="${lx.toFixed(2)}" y="${(ly - 2.3).toFixed(2)}">${r.no}</text></g></g>`; }).join('');
+  const card = (r, i) => `<article class="rx-c ${i ? '' : 'on'}" data-i="${i}" style="--rc:${r.c}" onclick="rxSel(${i})" tabindex="0" onkeydown="if(event.key==='Enter')rxSel(${i})"><span class="rx-no">${r.no}</span>
     <div><b>${r.n}</b><small class="rx-en">${REC_OFFICIAL[r.n] || ''}</small><span class="rx-m">${r.mo}</span><p>${r.d}</p>
-    <div class="rx-f"><span class="rx-km">✈ 서울에서 약 ${r.km.toLocaleString()}km</span>${RACE_URL[r.n] ? `<a href="${RACE_URL[r.n][0]}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</div></div></article>`;
-  const C = Math.cos(36 * Math.PI / 180), sx = ((SEOUL[1] - 124) * C * 40).toFixed(1), sy = ((39.2 - SEOUL[0]) * 40).toFixed(1);
-  return `<section class="rg-sec" id="rg-rec"><h2 class="h2">추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳</small></h2>
-    <div class="rx grow"><svg class="rx-lines" aria-hidden="true"></svg>
-      <div class="rx-col">${L.map(card).join('')}</div>
-      <div class="rx-hub"><svg viewBox="40 14 195 236" aria-hidden="true"><path class="rx-nb" d="${MAP_KR_NB}"/><path class="rx-kr" d="${MAP_KR}"/>
-        <circle class="rx-pulse" cx="${sx}" cy="${sy}" r="9"/><circle class="rx-seoul" cx="${sx}" cy="${sy}" r="5"/></svg>
-        <span class="rx-lab">서울 출발</span></div>
-      <div class="rx-col">${R.map(card).join('')}
-        <article class="rx-c rx-sum"><div><b>서울에서 거리</b><div class="rx-bars">${rs.map(r => `<div><span>${r.no} ${r.n.replace(' 마라톤', '')}</span><i style="--w:${(r.km / max * 100).toFixed(1)}%;--rc:${r.c}"></i><em>${r.km.toLocaleString()}km</em></div>`).join('')}</div></div></article></div>
-    </div><p class="note">거리는 서울에서 대회 도시까지의 직선거리예요</p></section>`;
+    <div class="rx-f"><span class="rx-km">✈ 서울에서 약 ${r.km.toLocaleString()}km</span>${RACE_URL[r.n] ? `<a href="${RACE_URL[r.n][0]}" target="_blank" rel="noopener" onclick="event.stopPropagation()">공식 홈페이지 ↗</a>` : ''}</div></div></article>`;
+  return `<section class="rg-sec" id="rg-rec"><h2 class="h2">추천 해외 대회 <small>가깝고 · 날씨 좋고 · 첫 해외 대회로 좋은 곳 — 대회를 누르면 지도에 표시돼요</small></h2>
+    <div class="rx2 grow">
+      <div class="rx2-map">
+        <div class="rx2-view"><svg viewBox="${VB.join(' ')}" preserveAspectRatio="xMidYMid meet" aria-label="서울과 추천 해외 대회 위치">${world}${g}
+          <circle class="rxm-spulse" cx="${sx}" cy="${sy}" r="2.6"/><circle class="rxm-seoul" cx="${sx}" cy="${sy}" r="1.6"/><text class="rxm-slab" x="${sx - 2.2}" y="${sy - 2.6}">서울</text></svg>
+          <div class="rx2-cap"></div></div>
+        <div class="rx2-sum"><b>서울에서 거리</b><div class="rx-bars">${rs.map((r, i) => `<div class="rxb" data-i="${i}" onclick="rxSel(${i})"><span>${r.no} ${r.n.replace(' 마라톤', '')}</span><i style="--w:${(r.km / max * 100).toFixed(1)}%;--rc:${r.c}"></i><em>${r.km.toLocaleString()}km</em></div>`).join('')}</div></div>
+      </div>
+      <div class="rx2-list">${rs.map(card).join('')}</div>
+    </div><p class="note">거리는 서울에서 대회 도시까지의 직선거리예요 · 지도 색칠은 대회가 열리는 나라예요</p></section>`;
 }
+function rxSel(i) {
+  document.querySelectorAll('.rx2').forEach(box => {
+    box.querySelectorAll('.rxm-g, .rx-c, .rxb').forEach(e => e.classList.toggle('on', +e.dataset.i === i));
+    const c = box.querySelector(`.rx-c[data-i="${i}"]`), cap = box.querySelector('.rx2-cap');
+    if (c && cap) { cap.style.setProperty('--rc', c.style.getPropertyValue('--rc')); cap.innerHTML = `📍 ${c.querySelector('b').textContent} · <span>${c.querySelector('.rx-km').textContent.replace('✈ ', '')}</span>`; }
+  });
+}
+document.addEventListener('pg-show', () => setTimeout(() => { const b = document.querySelector('.rx2'); if (b) { const on = b.querySelector('.rx-c.on'); rxSel(on ? +on.dataset.i : 0); } }, 40));
 /* 점선 연결: 서울 점 → 각 카드 (화면 크기·탭 전환 때마다 다시 그려요) */
 function drawRx() {
   document.querySelectorAll('.rx').forEach(box => {
@@ -1722,23 +1742,25 @@ function raceMap(r) {
   const P = kr ? (la, lo) => [(lo - 124) * C * 40, (39.2 - la) * 40] : (la, lo) => [lo + 180, 85 - la];
   const B = kr ? [40, 14, 235, 250] : [0, 0, 360, 145];       // 지도 범위
   const z = kr ? 2.3 : 5;                                       // 확대 배율
-  const [x, y] = P(lat, lon), [sx, sy] = P(...SEOUL);
-  const cl = (v, lo, hi) => lo > hi ? (lo + hi) / 2 : Math.min(hi, Math.max(lo, v));
+  const [x, y] = P(lat, lon); let [sx, sy] = P(...SEOUL);
+  // 태평양을 건너는 대회(미국 등)는 서울을 지도 반대편(±360°)에 두어 점선이 이어지게
+  const shift = !kr && Math.abs(x - sx) > 180 ? (x < sx ? -360 : 360) : 0; sx += shift;
+  const cl =(v, lo, hi) => lo > hi ? (lo + hi) / 2 : Math.min(hi, Math.max(lo, v));
   const tx = cl(x, B[0] + W / 2 / z, B[2] - W / 2 / z), ty = cl(y, B[1] + H / 2 / z, B[3] - H / 2 / z);
   /* 서울에서 출발 → 두 곳이 다 보이게 살짝 멀어졌다가 → 대회 지역으로 확대 */
   const view = (s, cx, cy) => `translate(${W / 2}px,${H / 2}px) scale(${s.toFixed(3)}) translate(${(-cx).toFixed(1)}px,${(-cy).toFixed(1)}px)`;
-  const [sx0, sy0] = P(...SEOUL), zs = kr ? 2.3 : 3.2;
+  const sx0 = sx, sy0 = sy, zs = kr ? 2.3 : 3.2;
   const zm = Math.min(zs, z, W / (Math.abs(tx - sx0) + (kr ? 60 : 50)), H / (Math.abs(ty - sy0) + (kr ? 40 : 30)));
   const z0 = view(zs, sx0, sy0), zmid = view(zm, (sx0 + tx) / 2, (sy0 + ty) / 2);
   const px = (W / 2 + z * (x - tx)) / W * 100, py = (H / 2 + z * (y - ty)) / H * 100;
-  const k = 1 / z * (kr ? 2.2 : 3.2);                           // 점 크기 (확대 후 화면 기준으로 일정하게)
-  const far = km > 15, wrap = Math.abs(x - sx) > 180;
+  const k = 1 / z * 2.6;                                        // 점 크기 (모든 대회 화면 기준 같은 크기)
+  const far = km > 15, wrap = false;
   const route = far && !wrap ? `<path class="rm-route d" d="M${sx.toFixed(1)},${sy.toFixed(1)} Q${((sx + x) / 2 - (kr ? 18 : 0)).toFixed(1)},${(Math.min(sy, y) - (kr ? 14 : Math.abs(x - sx) * .18)).toFixed(1)} ${x.toFixed(1)},${y.toFixed(1)}"/>` : '';
   const hl = kr ? MAP_PROV[area] : MAP_CTRY[area];
   return `<div class="rg-map grow ${kr ? 'kr' : 'w'}"><i class="rm-lock">LOCK ON</i>
     <div class="rm-view"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">
       <g class="rm-zoom" style="--z0:${z0};--zm:${zmid};--zt:translate(${W / 2}px,${H / 2}px) scale(${z}) translate(${(-tx).toFixed(1)}px,${(-ty).toFixed(1)}px)">
-        ${kr ? `<path class="rm-nb" d="${MAP_KR_NB}"/><path class="rm-land d" d="${MAP_KR}"/>` : `<path class="rm-land" d="${MAP_WORLD}"/>`}
+        ${kr ? `<path class="rm-nb" d="${MAP_KR_NB}"/><path class="rm-land d" d="${MAP_KR}"/>` : `<path class="rm-land" d="${MAP_WORLD}"/>${shift ? `<path class="rm-land" d="${MAP_WORLD}" transform="translate(${shift},0)"/>` : ''}`}
         ${hl ? `<path class="rm-hl" d="${hl}"/>` : ''}${route}${far ? `<circle class="rm-seoul" cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="${(2.4 * k).toFixed(2)}"/>` : ''}
         <g class="rm-pin" style="--px:${x.toFixed(1)}px;--py:${y.toFixed(1)}px"><circle class="rm-pulse" r="${(4.5 * k).toFixed(2)}"/><circle class="rm-dot" r="${(3 * k).toFixed(2)}"/></g></g></svg>
       <div class="rm-scope" style="left:${px.toFixed(1)}%;top:${py.toFixed(1)}%"><i class="rm-rings"></i><i class="rm-beam"></i></div></div>
@@ -1761,10 +1783,21 @@ function raceCard(r, i) {
     </div></article>`;
 }
 /* 국내 대회: 국제마라톤 안내 */
+/* 이색 러닝 대회 */
+function funRuns() {
+  return `<div class="fr-wrap"><h3 class="rg-sh">🎉 요즘 뜨는 이색 러닝 대회 <small>먹고 · 놀고 · 즐기는 펀 러닝</small></h3>
+    <div class="fr-grid">${FUN_RUNS.map((f, i) => `<article class="fr-c grow" style="--fc:${f.c};--i:${i}">
+      <div class="fr-ph">${PHOTOS[f.ph] ? `<img src="${photoSrc(f.ph)}" alt="" loading="lazy">${credit(f.ph)}` : ''}<span class="fr-e">${f.e}</span><b class="fr-n">${f.n}</b></div>
+      <div class="fr-b"><span class="fr-off">${f.off}</span>
+        <div class="fr-meta"><span>📅 ${f.when}</span><span>📍 ${f.where}</span><span>🏃 ${f.ev}</span></div>
+        <ul>${f.pts.map(p => `<li>${p}</li>`).join('')}</ul>
+        <a href="${f.link[0]}" target="_blank" rel="noopener">${f.link[1]}</a></div></article>`).join('')}</div>
+    <p class="note">이색 대회는 해마다 일정이 바뀌어요 — 다음 대회 일정은 대회 일정 탭이나 링크에서 확인하세요</p></div>`;
+}
 function krIntl() {
   const all = [...RACE_GUIDE.kr.major, ...RACE_GUIDE.kr.hard, ...RACE_GUIDE.kr.rising], tc = t => (WA_TIERS.find(x => x[0] === t) || [, '#64748b'])[1];
   const C = Math.cos(36 * Math.PI / 180), P = (la, lo) => [((lo - 124) * C * 40).toFixed(1), ((39.2 - la) * 40).toFixed(1)];
-  const rows = KR_INTL.map((k, i) => ({ ...k, r: all.find(x => x.id === k.id), no: i + 1 })).filter(k => k.r);
+  const rows = KR_INTL.map((k, i) => ({ ...k, r: all.find(x => x.id === k.id) || (k.self && { ...k.self, id: k.id, self: true }), no: i + 1 })).filter(k => k.r);
   return `<section class="rg-sec" id="rg-intl"><h2 class="h2">국제마라톤 <small>해외 엘리트가 함께 달리는 국내 대회</small></h2>
     <div class="ki-intro">
       <div class="panel"><h3>국제마라톤이란?</h3>
@@ -1773,7 +1806,7 @@ function krIntl() {
     </div>
     <div class="ki-grid">
       <div class="ki-map grow"><svg viewBox="40 14 195 236" aria-hidden="true"><path class="rx-nb" d="${MAP_KR_NB}"/><path class="rx-kr" d="${MAP_KR}"/>
-        ${rows.map(k => { const g = RACE_GEO[k.id], [x0, y] = P(g[0], g[1]), x = k.id === 'jtbc' ? (+x0 + 15).toFixed(1) : k.id === 'seoul' ? (+x0 - 4).toFixed(1) : x0; return `<g class="ki-pt" style="--tc:${tc(k.tier)};--i:${k.no}"><circle class="ki-pulse" cx="${x}" cy="${y}" r="9"/><circle class="ki-dot" cx="${x}" cy="${y}" r="6.5"/><text x="${x}" y="${+y + 3}" text-anchor="middle">${k.no}</text></g>`; }).join('')}</svg>
+        ${rows.map(k => { const g = RACE_GEO[k.id], [x0, y] = P(g[0], g[1]), x = k.id === 'jtbc' ? (+x0 + 15).toFixed(1) : k.id === 'seoul' ? (+x0 - 2).toFixed(1) : k.id === 'incheon' ? (+x0 - 13).toFixed(1) : x0; return `<g class="ki-pt" style="--tc:${tc(k.tier)};--i:${k.no}"><circle class="ki-pulse" cx="${x}" cy="${y}" r="9"/><circle class="ki-dot" cx="${x}" cy="${y}" r="6.5"/><text x="${x}" y="${+y + 3}" text-anchor="middle">${k.no}</text></g>`; }).join('')}</svg>
         <div class="ki-leg">${WA_TIERS.slice(0, 3).map(([t, c]) => `<span style="--tc:${c}">${t}</span>`).join('')}<span style="--tc:#64748b">라벨 미확인</span></div></div>
       <div class="ki-list">${rows.map(k => { const r = k.r, u = r.url || (RACE_URL[r.id] || [])[0];
         return `<article class="ki-c" style="--tc:${tc(k.tier)};--rc:${r.col}"><span class="ki-no">${k.no}</span>
@@ -1781,8 +1814,8 @@ function krIntl() {
             <small class="ki-d">${k.date}${r.ed ? ' · ' + r.ed.replace('2026 · ', '').replace(/ (.*)/, '') : ''} · ${RACE_GEO[r.id][2]}</small>
             <p>${k.note}</p>
             ${k.win.length ? `<div class="ki-w">${k.win.map(([g, n, t, s]) => `<span><i>${g}</i><b>${t}</b>${n}<small>${s}</small></span>`).join('')}</div>` : ''}
-            <div class="ki-f">${r.top ? `<span>역대 최고 우승 기록 남 <b>${r.top.m[0][0]}</b>${r.top.w[0] ? ` · 여 <b>${r.top.w[0][0]}</b>` : ''}</span>` : '<span>첫 대회 — 기록 없음</span>'}
-              <span class="ki-a"><button onclick="pgGo('rg-${r.id}')">코스·기록 보기</button>${u ? `<a href="${u}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</span></div></div></article>`; }).join('')}</div>
+            <div class="ki-f">${r.self ? '<span>국내 국제 명칭 대회</span>' : r.top ? `<span>역대 최고 우승 기록 남 <b>${r.top.m[0][0]}</b>${r.top.w[0] ? ` · 여 <b>${r.top.w[0][0]}</b>` : ''}</span>` : '<span>첫 대회 — 기록 없음</span>'}
+              <span class="ki-a">${r.self ? '' : `<button onclick="pgGo('rg-${r.id}')">코스·기록 보기</button>`}${u ? `<a href="${u}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</span></div></div></article>`; }).join('')}</div>
     </div>
     <p class="note">라벨 등급: 세계육상연맹 대회 일정·국내 언론 보도 기준 (2026년 11월 확인) · 국제부 우승 기록은 각 대회 결과 보도 기준</p></section>`;
 }
@@ -1817,12 +1850,13 @@ function viewRaceGuide(sub) {
     ${raceSection('rg-major', kr ? '국내 3대 메이저 마라톤' : '세계 8대 메이저 마라톤', kr ? '서울(동아) · 춘천 · JTBC 서울' : '월드 마라톤 메이저 7개 + 8번째 후보 케이프타운', G.major)}
     ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
+    ${kr ? funRuns() : ''}
     ${kr ? krIntl() : ''}
     ${!kr ? recHub(G.recommend) : ''}
     <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2><div class="rg-blk b1">${raceReg(kr)}</div>${kr ? `<div class="rg-blk b2">${raceGen()}</div>` : ''}<div class="rg-blk b3"><h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}</div><p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
     <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
   motion();
-  setTimeout(drawRx, 30); setTimeout(drawRx, 800);
+  setTimeout(drawRx, 30); setTimeout(drawRx, 800); setTimeout(() => { if (document.querySelector('.rx2')) rxSel(0); }, 60);
 }
 function viewRaces() {
   const all = RACES.map(([n, d, r, p, ev, url, st, no]) => ({ n, d: new Date(d + 'T00:00:00'), ds: d, r, p, ev, url, st, no })).filter(x => x.d >= TODAY).sort((a, z) => a.d - z.d);

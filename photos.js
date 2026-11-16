@@ -236,4 +236,10 @@ Object.assign(PHOTOS, {
   dec_store: ["Decathlon Store in Foligno, 2018.jpg", "CC BY-SA 4.0", "Daniele Costantini"],
   kalenji_shoe: ["Kalenji sports shoe.jpg", "CC BY-SA 3.0", "Hemin_Vincent"],
   kalenji_eliofeet: ["Eliofeet Black-Green Kalenji.jpg", "CC0", "Benoît Prieur"],
+  fun_suyuk: ["Korean cuisine-Bossam-01.jpg", "CC BY-SA 2.0", "by Nicole Cho (nchoz) at Flickr"],
+  fun_bread: ["식빵, 바게트 20150210뺑드비(서초구 방배동)123.jpg", "CC BY-SA 4.0", "최광모"],
+  fun_horse: ["Seoul Racecourse Park 2nd corner.jpg", "CC BY-SA 3.0", "U2em"],
+  fun_83: ["11경 83타워.jpg", "CC BY 4.0", "대구광역시"],
+  fun_dog: ["당진 면천읍성.jpg", "CC BY-SA 4.0", "Korea Heritage Service"],
+  fun_retro: ["2023 Kaseta VHS, magnetofonowa i minikaseta.jpg", "CC BY-SA 4.0", "Jacek Halicki"],
 });

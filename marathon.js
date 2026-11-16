@@ -429,7 +429,8 @@ const KR_GEN_STEPS = [
 /* 대회 위치 [위도, 경도, 지역] · 지도 표시용 */
 const RACE_GEO = {
   seoul: [37.571, 126.977, '서울 · 광화문 출발'], chuncheon: [37.881, 127.730, '강원 춘천 · 의암호'], jtbc: [37.568, 126.897, '서울 · 상암 출발'],
-  andong: [36.568, 128.730, '경북 안동 · 안동댐'], ulleung: [37.467, 130.898, '경북 울릉 · 울릉예술문화체험장'], yeongju: [36.806, 128.624, '경북 영주 · 소백산 자락'], daegu: [35.869, 128.606, '대구 · 도심'],
+  andong: [36.568, 128.730, '경북 안동 · 안동댐'], gunsan: [35.977, 126.716, '전북 군산 · 월명종합경기장'], incheon: [37.436, 126.693, '인천 · 문학경기장'], jeju: [33.456, 126.562, '제주 · 제주대학교'], gongju: [36.459, 127.125, '충남 공주 · 공주시민운동장'],
+  ulleung: [37.467, 130.898, '경북 울릉 · 울릉예술문화체험장'], yeongju: [36.806, 128.624, '경북 영주 · 소백산 자락'], daegu: [35.869, 128.606, '대구 · 도심'],
   gyeongju: [35.856, 129.225, '경북 경주 · 보문단지'], busan: [35.169, 129.136, '부산 · 벡스코 · 광안대교'],
   tokyo: [35.690, 139.692, '일본 · 도쿄'], boston: [42.350, -71.075, '미국 · 보스턴'], london: [51.507, -0.128, '영국 · 런던'],
   sydney: [-33.857, 151.215, '호주 · 시드니'], berlin: [52.516, 13.378, '독일 · 베를린'], chicago: [41.882, -87.623, '미국 · 시카고'],
@@ -439,7 +440,7 @@ const RACE_GEO = {
 };
 /* 공식 사이트 (대회 홈페이지가 따로 없으면 주최 기관) */
 const RACE_URL = {
-  andong: ['https://www.andong.go.kr/', '주최 안동시 ↗ (전용 사이트 없음)'], ulleung: ['https://ulmarathon.co.kr:9005/'], yeongju: ['https://www.yeongju.go.kr/', '주최 영주시 ↗'],
+  andong: ['https://www.andong.go.kr/', '주최 안동시 ↗ (전용 사이트 없음)'], ulleung: ['https://ulmarathon.co.kr:9005/'], gongju: ['https://gongjumarathon.com/'], yeongju: ['https://www.yeongju.go.kr/', '주최 영주시 ↗'],
   daegu: ['http://daegumarathon.daegu.go.kr'], gyeongju: ['https://www.gyeongjumarathon.com/'], busan: ['https://www.busanmarathon.com/'],
   bigsur: ['https://www.bigsurmarathon.org/'], athens: ['https://www.athensauthenticmarathon.gr/'], greatwall: ['https://great-wall-marathon.com/'],
   everest: ['https://www.everestmarathon.com/'], valencia: ['https://www.valenciaciudaddelrunning.com/en/marathon/maraton/'],
@@ -514,4 +515,28 @@ const KR_INTL = [
     win: [['남', '미키야스 바레가 (에티오피아)', '2:10:00', '빗속 레이스 · 첫 마라톤 우승']], date: '2026년 11월 1일' },
   { id: 'busan', tier: '', note: '부산시가 국제대회 국비를 확보해 새로 연 대회 — 라벨 등급 없음 (첫 대회)',
     win: [], date: '2026년 12월 6일' },
+  { id: 'gunsan', tier: '', self: { name: '군산새만금마라톤', off: '군산새만금마라톤', col: '#db2777' }, note: '2026년 20주년 · 국내외 9개국 1만 2천여 명 참가 — 벚꽃길 봄 대회',
+    win: [['남', '아이삭 킵케보이 투 (케냐)', '2:07:15', '대회 신기록']], date: '2026년 4월 5일' },
+  { id: 'incheon', tier: '', self: { name: '인천국제하프마라톤', off: '인천국제하프마라톤', col: '#0891b2', ed: '2026 · 제26회' }, note: '하프·10km·5km — 이름에 "국제"가 들어간 하프 대회 (2026 국제부 결과는 공개 자료 확인 안 됨)',
+    win: [], date: '2026년 3월 22일' },
+  { id: 'jeju', tier: '', self: { name: '제주국제마라톤', off: '제주국제마라톤', col: '#ea580c' }, note: '풀·하프·10km — 제주대학교 대운동장 출발 (국제부 운영 여부는 공개 자료 확인 안 됨)',
+    win: [], date: '2026년 4월 26일' },
+  { id: 'gongju', tier: '', self: { name: '공주백제마라톤', off: '공주백제마라톤', col: '#a16207', ed: '2026 · 24년째' }, note: '공식 대회명은 "공주백제마라톤" — 공주시·동아일보 주최, 1만 2천여 명 참가, 접수 16분 만에 마감. 2026년 해외 엘리트 국제부 운영은 공개 자료로 확인되지 않았어요',
+    win: [], date: '2026년 9월 20일' },
+];
+
+/* 이색 러닝 대회 (2026년 기사·대회 안내 기준) */
+const FUN_RUNS = [
+  { e: '🍖', n: '수육런', off: '금천사랑마라톤 (제20회 금천구육상연맹회장배)', when: '2026년 5월 10일', where: '서울 금천 · 안양천 다목적광장', ev: '5km · 10km', ph: 'fun_suyuk', c: '#b45309',
+    pts: ['완주하면 메달 대신 수육과 막걸리', '2025년 950명 모집에 10만여 명이 몰렸다고 보도될 만큼 화제', '전국에 비슷한 "먹거리 런"이 생겨났어요'], link: ['https://biz.heraldcorp.com/article/10732392', '관련 기사 ↗'] },
+  { e: '🥐', n: '빵빵런', off: '서울 빵빵런 2026', when: '2026년 11월 14일', where: '서울 · 뚝섬한강공원 수변무대', ev: '5km · 10km', ph: 'fun_bread', c: '#d97706',
+    pts: ['달리고 빵을 즐기는 "펀 러닝" 대회', '다회용 컵·아리수 급수대로 친환경 운영', '수육런과 함께 이색 마라톤 붐을 이끈 대회'], link: ['http://seoul.bbangrun.com', '대회 홈페이지 ↗'] },
+  { e: '🐎', n: '경마장 나이트 런', off: '2026 한국마사회와 함께하는 나이트 런', when: '2026년 11월 28일', where: '경기 과천 · 렛츠런파크 서울 경주로', ev: '7km · 3.5km · 450m 패밀리런', ph: 'fun_horse', c: '#7c3aed',
+    pts: ['경주마 대신 사람이 경마장 트랙을 달려요', '밤에 열리는 야간 러닝', '아이와 함께하는 450m 패밀리런'], link: ['https://www.sportsworldi.com/newsView/20261103518469', '관련 기사 ↗'] },
+  { e: '🗼', n: '83타워 업힐런', off: '대구 83타워 업힐 러닝', when: '2026년 가을', where: '대구 · 이월드 → 83타워', ev: '타워 계단 오르기', ph: 'fun_83', c: '#2563eb',
+    pts: ['놀이공원에서 출발해 83타워 77층까지 계단으로', '평지 대신 수직으로 오르는 업힐 레이스', '도심 이색 러닝으로 소개된 대회'], link: ['https://www.khan.co.kr/article/202610080935001/', '관련 기사 ↗'] },
+  { e: '🐕', n: '반려견 러닝', off: '면천읍성 360 러닝', when: '2026년', where: '충남 당진 · 면천읍성', ev: '약 2km 비경쟁', ph: 'fun_dog', c: '#16a34a',
+    pts: ['반려견과 함께 국가유산을 둘러보며 달려요', '순위 없는 비경쟁 러닝', '국가유산청·당진시가 함께 연 행사'], link: ['https://www.insight.co.kr/news/581951', '관련 기사 ↗'] },
+  { e: '📼', n: '레트로 런', off: '그 시절 스타들과 달리는 레트로 런 IN 증평', when: '2026년 11월 14일', where: '충북 증평 · 보강천 시민체육공원', ev: '5km · 10km', ph: 'fun_retro', c: '#db2777',
+    pts: ['그 시절 스타들과 함께 달리는 추억 콘셉트', '레트로 패션으로 달리는 재미', '조기 마감된 인기 대회'], link: ['http://n-runplus.co.kr', '대회 홈페이지 ↗'] },
 ];
