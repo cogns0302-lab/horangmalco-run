@@ -1965,6 +1965,40 @@ p,.sec-sub,.note{text-wrap:pretty}
 @media (max-width:760px){.ms-top{grid-template-columns:1fr}.ms-col li{grid-template-columns:30px 80px 1fr}.ms-yt{grid-column:2/-1;justify-self:start}.ms-t{font-size:18px}}
 .rg-chips span.rg-ed{background:#ffd23f;border-color:#ffd23f;color:#1a1612}
 .rx-en{display:block;margin-top:2px;font-size:11.5px;font-weight:700;color:var(--sub)}
+/* ===== 국제마라톤 ===== */
+.ki-p{margin:0 0 14px;font-size:14px;line-height:1.75;color:var(--sub)}.ki-p b{color:var(--ink)}
+.ki-tiers{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.ki-tiers div{display:flex;flex-direction:column;gap:4px;padding:12px;border-radius:12px;background:var(--bg);border:1px solid var(--line);border-top:4px solid var(--tc)}
+.ki-tiers b{font-size:15px;font-weight:900;color:var(--tc)}.ki-tiers span{flex:1;font-size:12px;line-height:1.5;color:var(--sub)}.ki-tiers em{font-style:normal;font-size:12.5px;font-weight:900}
+.ki-grid{display:grid;grid-template-columns:300px 1fr;gap:14px;margin-top:14px}
+.ki-map{position:sticky;top:130px;align-self:start;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:14px;border-radius:20px;background:#0c1512;border:1px solid #3dd68c33}
+.ki-map svg{width:100%;max-height:520px}
+.ki-dot{fill:var(--tc);stroke:#0c1512;stroke-width:1.5}.ki-pulse{fill:var(--tc);opacity:.35}
+.ki-pt text{fill:#111;font-size:8px;font-weight:900}
+.ki-leg{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;font-size:12px;font-weight:800;color:var(--sub)}
+.ki-leg span:before{content:"";display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px;background:var(--tc);vertical-align:-1px}
+.ki-list{display:flex;flex-direction:column;gap:10px}
+.ki-c{display:grid;grid-template-columns:34px 1fr;gap:12px;padding:14px 16px;border-radius:16px;background:var(--card);border:1px solid var(--line);border-left:4px solid var(--tc)}
+.ki-no{display:flex;align-items:center;justify-content:center;width:30px;height:30px;border-radius:50%;background:var(--tc);color:#111;font-weight:900}
+.ki-b{min-width:0;display:flex;flex-direction:column;gap:6px}
+.ki-h{display:flex;flex-wrap:wrap;align-items:center;gap:8px}.ki-h b{font-size:16.5px;font-weight:900}
+.ki-tier{font-size:11.5px;font-weight:900;padding:2px 10px;border-radius:99px;background:color-mix(in srgb,var(--tc) 25%,transparent);color:var(--ink);border:1px solid color-mix(in srgb,var(--tc) 60%,transparent)}
+.ki-d{font-size:12px;color:var(--sub)}
+.ki-b p{margin:0;font-size:13px;line-height:1.55;color:var(--sub)}
+.ki-w{display:flex;flex-wrap:wrap;gap:8px}
+.ki-w span{display:flex;align-items:center;gap:7px;padding:6px 10px;border-radius:10px;background:var(--bg);border:1px solid var(--line);font-size:12.5px;font-weight:800}
+.ki-w i{font-style:normal;font-size:11px;padding:1px 6px;border-radius:6px;background:var(--rc);color:#fff}.ki-w b{font-family:var(--f-disp),'Noto Sans KR',sans-serif;font-size:15px;color:#ffd23f}.ki-w small{font-size:11px;color:var(--sub);font-weight:700}
+.ki-f{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;padding-top:8px;border-top:1px dashed var(--line);font-size:12.5px;color:var(--sub)}.ki-f b{color:var(--ink)}
+.ki-a{display:flex;gap:6px}
+.ki-a button,.ki-a a{font-size:12px;font-weight:900;padding:6px 12px;border-radius:99px;border:1px solid var(--line);background:var(--bg);color:var(--ink);cursor:pointer;text-decoration:none}
+.ki-a a{background:#fff;color:#1a1612;border-color:#fff}
+@media (prefers-reduced-motion:no-preference){
+  .ki-pulse{transform-box:fill-box;transform-origin:center;animation:cmPulse 1.8s ease-out infinite}
+  .ki-map.grow .ki-pt{opacity:0}.ki-map.grow.play .ki-pt{animation:rkPop .5s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(var(--i) * 140ms)}
+  .ki-tiers.play div{animation:rkPop .5s cubic-bezier(.2,.9,.3,1.2) both;animation-delay:calc(var(--i) * 90ms)}
+}
+@media (max-width:1000px){.ki-tiers{grid-template-columns:1fr 1fr}.ki-grid{grid-template-columns:220px 1fr}}
+@media (max-width:760px){.ki-grid{grid-template-columns:1fr}.ki-map{position:relative;top:0}.ki-map svg{max-height:260px}.ki-f{flex-direction:column;align-items:flex-start}}
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -2061,14 +2095,14 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=1794702985"></script>
-<script src="photos.js?v=1794702985"></script>
-<script src="history.js?v=1794702985"></script>
-<script src="maps.js?v=mwejy3hm"></script>
-<script src="marathon.js?v=1794702985"></script>
-<script src="stories.js?v=1794702985"></script>
-<script src="reviews.js?v=1794702985"></script>
-<script src="train.js?v=1794702985"></script>
-<script src="app.js?v=1794702985"></script>
+<script src="data.js?v=mwiitpo1"></script>
+<script src="photos.js?v=mwiitpo1"></script>
+<script src="history.js?v=mwiitpo1"></script>
+<script src="maps.js?v=mwiitpo1"></script>
+<script src="marathon.js?v=mwiitpo1"></script>
+<script src="stories.js?v=mwiitpo1"></script>
+<script src="reviews.js?v=mwiitpo1"></script>
+<script src="train.js?v=mwiitpo1"></script>
+<script src="app.js?v=mwiitpo1"></script>
 </body>
 </html>

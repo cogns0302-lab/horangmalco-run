@@ -1759,6 +1759,32 @@ function raceCard(r, i) {
       ${courseViz(r)}
     </div></article>`;
 }
+/* 국내 대회: 국제마라톤 안내 */
+function krIntl() {
+  const all = [...RACE_GUIDE.kr.major, ...RACE_GUIDE.kr.hard, ...RACE_GUIDE.kr.rising], tc = t => (WA_TIERS.find(x => x[0] === t) || [, '#64748b'])[1];
+  const C = Math.cos(36 * Math.PI / 180), P = (la, lo) => [((lo - 124) * C * 40).toFixed(1), ((39.2 - la) * 40).toFixed(1)];
+  const rows = KR_INTL.map((k, i) => ({ ...k, r: all.find(x => x.id === k.id), no: i + 1 })).filter(k => k.r);
+  return `<section class="rg-sec" id="rg-intl"><h2 class="h2">국제마라톤 <small>해외 엘리트가 함께 달리는 국내 대회</small></h2>
+    <div class="ki-intro">
+      <div class="panel"><h3>국제마라톤이란?</h3>
+        <p class="ki-p">케냐·에티오피아 등 해외 엘리트 선수를 초청해 <b>국제부</b>로 따로 순위를 매기는 대회예요. 세계육상연맹(WA)은 운영 수준·출전 선수·상금·도핑 검사·중계 등을 심사해 <b>라벨 등급</b>을 붙여요. 등급이 높을수록 빠른 기록과 세계 랭킹 포인트가 나오는 무대예요.</p>
+        <div class="ki-tiers grow">${WA_TIERS.map(([t, c, d], i) => `<div style="--tc:${c};--i:${i}"><b>${t}</b><span>${d}</span><em>${KR_INTL.filter(k => k.tier === t).map(k => all.find(x => x.id === k.id).name.replace(' (동아마라톤)', '')).join(' · ') || '—'}</em></div>`).join('')}</div></div>
+    </div>
+    <div class="ki-grid">
+      <div class="ki-map grow"><svg viewBox="40 14 195 236" aria-hidden="true"><path class="rx-nb" d="${MAP_KR_NB}"/><path class="rx-kr" d="${MAP_KR}"/>
+        ${rows.map(k => { const g = RACE_GEO[k.id], [x0, y] = P(g[0], g[1]), x = k.id === 'jtbc' ? (+x0 + 15).toFixed(1) : k.id === 'seoul' ? (+x0 - 4).toFixed(1) : x0; return `<g class="ki-pt" style="--tc:${tc(k.tier)};--i:${k.no}"><circle class="ki-pulse" cx="${x}" cy="${y}" r="9"/><circle class="ki-dot" cx="${x}" cy="${y}" r="6.5"/><text x="${x}" y="${+y + 3}" text-anchor="middle">${k.no}</text></g>`; }).join('')}</svg>
+        <div class="ki-leg">${WA_TIERS.slice(0, 3).map(([t, c]) => `<span style="--tc:${c}">${t}</span>`).join('')}<span style="--tc:#64748b">라벨 미확인</span></div></div>
+      <div class="ki-list">${rows.map(k => { const r = k.r, u = r.url || (RACE_URL[r.id] || [])[0];
+        return `<article class="ki-c" style="--tc:${tc(k.tier)};--rc:${r.col}"><span class="ki-no">${k.no}</span>
+          <div class="ki-b"><div class="ki-h"><b>${r.off || r.name}</b><span class="ki-tier">${k.tier ? 'WA ' + k.tier + ' 라벨' : '라벨 미확인'}</span></div>
+            <small class="ki-d">${k.date}${r.ed ? ' · ' + r.ed.replace('2026 · ', '').replace(/ (.*)/, '') : ''} · ${RACE_GEO[r.id][2]}</small>
+            <p>${k.note}</p>
+            ${k.win.length ? `<div class="ki-w">${k.win.map(([g, n, t, s]) => `<span><i>${g}</i><b>${t}</b>${n}<small>${s}</small></span>`).join('')}</div>` : ''}
+            <div class="ki-f">${r.top ? `<span>역대 최고 우승 기록 남 <b>${r.top.m[0][0]}</b>${r.top.w[0] ? ` · 여 <b>${r.top.w[0][0]}</b>` : ''}</span>` : '<span>첫 대회 — 기록 없음</span>'}
+              <span class="ki-a"><button onclick="pgGo('rg-${r.id}')">코스·기록 보기</button>${u ? `<a href="${u}" target="_blank" rel="noopener">공식 홈페이지 ↗</a>` : ''}</span></div></div></article>`; }).join('')}</div>
+    </div>
+    <p class="note">라벨 등급: 세계육상연맹 대회 일정·국내 언론 보도 기준 (2026년 11월 확인) · 국제부 우승 기록은 각 대회 결과 보도 기준</p></section>`;
+}
 function raceSection(id, title, sub, list) {
   return `<section class="rg-sec" id="${id}"><h2 class="h2">${title}${sub ? ` <small>${sub}</small>` : ''}</h2>${list.map(raceCard).join('')}</section>`;
 }
@@ -1780,7 +1806,7 @@ function raceHowto(list) {
 }
 function viewRaceGuide(sub) {
   const G = RACE_GUIDE[sub], kr = sub === 'kr';
-  const secs = kr ? [['rg-major', '🏆 3대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-how', '📝 접수 방법']]
+  const secs = kr ? [['rg-major', '🏆 3대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-intl', '🌐 국제마라톤'], ['rg-how', '📝 접수 방법']]
     : [['rg-major', '🌍 세계 8대 메이저'], ['rg-hard', '⛰ 극악 난이도'], ['rg-rising', '🚀 떠오르는 대회'], ['rg-rec', '✈️ 추천 해외 대회'], ['rg-how', '📝 접수 방법']];
   app.innerHTML = `
     <h1 class="sec-title">대회 정보</h1><p class="sec-sub">${kr ? '국내 대표 마라톤의 역사와 역대 기록, 코스를 한눈에 정리했어요.' : '세계 8대 메이저부터 극한 대회, 추천 해외 대회까지 정리했어요.'} 기록은 ${RANK_ASOF} 기준이에요.</p>
@@ -1790,6 +1816,7 @@ function viewRaceGuide(sub) {
     ${raceSection('rg-major', kr ? '국내 3대 메이저 마라톤' : '세계 8대 메이저 마라톤', kr ? '서울(동아) · 춘천 · JTBC 서울' : '월드 마라톤 메이저 7개 + 8번째 후보 케이프타운', G.major)}
     ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
+    ${kr ? krIntl() : ''}
     ${!kr ? recHub(G.recommend) : ''}
     <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2><div class="rg-blk b1">${raceReg(kr)}</div>${kr ? `<div class="rg-blk b2">${raceGen()}</div>` : ''}<div class="rg-blk b3"><h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}</div><p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>
     <p class="note" style="margin-top:14px">출처: 위키백과 대회별 역대 우승자 · World Athletics 대회 결과 · 대회 공식 발표·언론 보도 (${RANK_ASOF} 확인) · 최신 일정·접수는 대회 홈페이지에서 꼭 확인하세요</p>`;
