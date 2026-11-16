@@ -313,7 +313,7 @@ const RACE_GUIDE = {
         marks: [[0, '출발'], [18, '고개'], [42.2, '결승']], stat: [['난이도', '★★★★'], ['특징', '긴 고개'], ['추천', '중급 이상']] },
     ],
     rising: [
-      { id: 'daegu', name: '대구마라톤', en: 'Daegu Marathon', off: '대구마라톤', ed: '2026 · 제25회 (2월 22일)', since: 2001, month: '2월', label: 'WA 골드 라벨 (플래티넘 추진)', size: '2026년 4만 1천 명', col: '#0891b2', photo: null, url: 'https://www.daegumarathon.com/',
+      { id: 'daegu', name: '대구마라톤', en: 'Daegu Marathon', off: '대구마라톤', ed: '2026 · 제25회 (2월 22일)', since: 2001, month: '2월', label: 'WA 골드 라벨 (플래티넘 추진)', size: '2026년 4만 1천 명', col: '#0891b2', photo: null, url: 'http://daegumarathon.daegu.go.kr',
         why: ['2026년 접수 21일 만에 4만 명 마감 — 역대 최대 규모', '세계 최고 수준 상금으로 엘리트 선수 대거 초청', '2025년 남자 대회기록 2:05:20, 2026년 여자 대회기록 2:19:35', '플래티넘 라벨 승격을 추진 중 · 2027년 코스 변경(국채보상공원 출발)'],
         top: { m: [['2:05:20', '가브리엘 게이', 'TAN', 2025], ['2:05:33', '필렉스 키프로티치', 'KEN', 2019], ['2:06:29', '에이브러햄 킵툼', 'KEN', 2018], ['2:06:31', '시페라 탐루', 'ETH', 2022], ['2:06:49', '밀케사 멩게샤', 'ETH', 2023]],
           w: [['2:19:35', '릴리안 렌제룩', 'KEN', 2026], ['2:21:08', '루티 아가', 'ETH', 2024], ['2:21:56', '나즈렛 웰두', 'ERI', 2022], ['2:23:28', '마거릿 아가이', 'KEN', 2013], ['2:24:08', '메세레 베레토 토라', 'ETH', 2025]] },
@@ -440,7 +440,7 @@ const RACE_GEO = {
 };
 /* 공식 사이트 (대회 홈페이지가 따로 없으면 주최 기관) */
 const RACE_URL = {
-  andong: ['https://www.andong.go.kr/', '주최 안동시 ↗ (전용 사이트 없음)'], ulleung: ['https://ulmarathon.co.kr:9005/'], gongju: ['https://gongjumarathon.com/'], yeongju: ['https://www.yeongju.go.kr/', '주최 영주시 ↗'],
+  andong: ['https://admarathon.kr/andong/'], ulleung: ['https://ulmarathon.co.kr:9005/'], gongju: ['https://gongjumarathon.com/'], yeongju: ['http://sobaekmarathon.go.kr'],
   daegu: ['http://daegumarathon.daegu.go.kr'], gyeongju: ['https://www.gyeongjumarathon.com/'], busan: ['https://www.busanmarathon.com/'],
   bigsur: ['https://www.bigsurmarathon.org/'], athens: ['https://www.athensauthenticmarathon.gr/'], greatwall: ['https://great-wall-marathon.com/'],
   everest: ['https://www.everestmarathon.com/'], valencia: ['https://www.valenciaciudaddelrunning.com/en/marathon/maraton/'],
@@ -556,3 +556,27 @@ const FUN_RUNS_WORLD = [
   { e: '🌞', n: '미드나잇 선 마라톤', off: 'Midnight Sun Marathon', when: '매년 6월', where: '노르웨이 트롬쇠 (북극권)', ev: '풀·하프·10km', ph: 'f_midnight', c: '#0891b2',
     pts: ['해가 지지 않는 백야 속에서 밤에 달리는 마라톤', '북극권 도시의 피오르와 다리를 지나는 코스', '오로라 대신 한밤의 태양을 보는 특별한 경험'], link: ['https://msm.no/', '공식 홈페이지 ↗'] },
 ];
+
+/* 최근 대회 우승자 [이름, 국적, 기록, 메모] — 2026년 11월 기준 공개 결과·보도로 확인 */
+const RACE_WIN = {
+  andong: { y: '2026 (10월 4일)', m: ['이건희', 'KOR', '2:39:40', '3연패'], w: ['홍서린', 'KOR', '3:23:16'] },
+  yeongju: { y: '2026 (4월 5일)', m: ['이병도', 'KOR', '2:36:58'], w: ['문이경미', 'KOR', '3:14:46'] },
+  ulleung: { y: '2026 (6월 14일)', m: ['서영광', 'KOR', '3:04:45'], w: ['양희례', 'KOR', '4:09:01'], note: '여자 기록은 보도에 따라 4:09:01~4:09:06으로 달라요' },
+  busan: { y: '2026 (12월 6일 첫 대회)', none: '아직 열리지 않은 첫 대회예요 — 대회가 끝나면 우승자를 업데이트할게요' },
+  bigsur: { y: '2026 (4월 26일 · 제39회)', m: ['사이먼 리치', 'USA', '2:23:46', '3연속 우승'], w: ['엘 마이어', 'USA', '2:51:45'], note: '험한 해안 코스라 기록보다 완주가 목표인 대회 — 공식 대회 기록은 확인하지 못했어요' },
+  athens: { y: '2026 (11월 8일)', m: ['마나조트 시욤 타페리', 'ETH', '2:10:03', '대회 신기록'], w: ['야타네 코르모셰 두샤', 'ETH', '2:30:04', '대회 신기록'] },
+  greatwall: { y: '2024 (제21회)', m: ['마크 딕슨', 'GBR', '3:43:32'], w: ['나데주 페르송', 'FRA', '4:36:34'], note: '2025·2026년 결과는 공개 자료로 확인되지 않아 가장 최근 확인된 2024년 결과예요' },
+  everest: { y: '2026 (5월 29일)', m: ['라메시 림부', 'NEP', '3:35:59', '보도 기준'], w: null, note: '공식 결과표가 공개되지 않아 현지 보도 기준이에요 — 여자 우승자는 확인하지 못했어요' },
+  shanghai: { y: '2025 (11월 30일)', m: ['밀케사 멩게샤', 'ETH', '2:06:25'], w: ['브리지드 코스게이', 'KEN', '2:16:36', '대회 신기록'], note: '2026 대회는 12월 6일 — 끝나면 업데이트할게요' },
+  sydney: { y: '2026 (8월 30일)', m: ['아디수 고베나', 'ETH', '2:04:42', '대회 신기록'], w: ['페레스 젭치르치르', 'KEN', '2:18:31'] },
+  capetown: { y: '2026 (5월 24일)', m: ['후세이딘 모하메드 에사', 'ETH', '2:04:55', '대회 신기록'], w: ['데라 디다 야미', 'ETH', '2:23:18'] },
+  valencia: { y: '2025 (12월 7일)', m: ['존 코리르', 'KEN', '2:02:24'], w: ['조이실린 젭코스게이', 'KEN', '2:14:00', '대회 신기록'], note: '2026 대회는 12월 6일 — 끝나면 업데이트할게요' },
+  barcelona: { y: '2026 (3월 15일)', m: ['아벨 첼랑갓', 'UGA', '2:04:57'], w: ['포티엔 테스파이', 'ETH', '2:10:51', '대회 신기록'] },
+};
+/* 대회 기록이 비어 있던 대회 보충 [기록, 이름, 국적, 연도] */
+const RACE_CR = {
+  athens: [['2:10:03', '마나조트 시욤 타페리', 'ETH', 2026], ['2:30:04', '야타네 코르모셰 두샤', 'ETH', 2026]],
+  greatwall: [['3:09:18', '호르헤 마라비야', 'USA', 2013], ['3:32:12', '실비아 세라피니', 'ITA', 2013]],
+  everest: [['3:28:27', '디팍 라이', 'NEP', 2006], ['', '', '', '']],
+  shanghai: [['2:05:35', '필리몬 키프투 킵춤바', 'KEN', 2023], ['2:16:36', '브리지드 코스게이', 'KEN', 2025]],
+};

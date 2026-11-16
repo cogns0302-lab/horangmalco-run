@@ -1708,7 +1708,7 @@ function pgGo(id) {
   setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
 }
 /* ---------- 대회: 국내 · 해외 가이드 ---------- */
-const RG_NAT = { KEN: '케냐', ETH: '에티오피아', TAN: '탄자니아', ERI: '에리트레아', KOR: '한국', CHN: '중국', ROU: '루마니아', GBR: '영국', NED: '네덜란드', RSA: '남아공', USA: '미국', JPN: '일본' };
+const RG_NAT = { FRA: '프랑스', ITA: '이탈리아', UGA: '우간다', NEP: '네팔', KEN: '케냐', ETH: '에티오피아', TAN: '탄자니아', ERI: '에리트레아', KOR: '한국', CHN: '중국', ROU: '루마니아', GBR: '영국', NED: '네덜란드', RSA: '남아공', USA: '미국', JPN: '일본' };
 const RG_TYPE = { f: ['평지', '#22c55e'], u: ['오르막', '#ef4444'], d: ['내리막', '#3b82f6'], r: ['기복', '#f59e0b'] };
 function raceTabs(cur) {
   return `<nav class="rg-tabs" aria-label="대회 메뉴">${[['', '📅 대회 일정'], ['kr', '🇰🇷 국내 대회'], ['world', '🌍 해외 대회']].map(([k, n]) => `<button class="${k === cur ? 'on' : ''}" onclick="go('${k ? 'races-' + k : 'races'}')">${n}</button>`).join('')}</nav>`;
@@ -1799,6 +1799,13 @@ function raceMap(r) {
       <div class="rm-scope" style="left:${px.toFixed(1)}%;top:${py.toFixed(1)}%"><i class="rm-rings"></i><i class="rm-beam"></i></div></div>
     <div class="rm-cap"><b>📍 ${where}</b><span>${far ? `서울에서 약 ${cnt(km)}km` : '서울 도심 코스'}</span></div></div>`;
 }
+/* 최근 대회 우승자 */
+function raceWin(r) {
+  const w = typeof RACE_WIN !== 'undefined' && RACE_WIN[r.id]; if (!w) return '';
+  const row = (p, g) => p ? `<div><span>${g} 우승</span><b>${p[2]}</b><small>${p[0]} · ${RG_NAT[p[1]] || p[1]}${p[3] ? ` · <em>${p[3]}</em>` : ''}</small></div>`
+    : `<div class="no"><span>${g} 우승</span><b>—</b><small>확인 안 됨</small></div>`;
+  return `<div class="rg-win"><h4>🏆 최근 우승자 <small>${w.y}</small></h4>${w.none ? `<p class="rg-wn">${w.none}</p>` : `<div class="rg-wg">${row(w.m, '남자')}${row(w.w, '여자')}</div>`}${w.note ? `<p class="rg-wn">※ ${w.note}</p>` : ''}</div>`;
+}
 function raceCard(r, i) {
   return `<article class="rg-card" id="rg-${r.id}" style="--rc:${r.col};--i:${i}">
     ${(rp => `<header class="rg-hero ${rp ? 'ph' : ''}">
@@ -1808,8 +1815,9 @@ function raceCard(r, i) {
       ${(u => `<div class="rg-hr">${raceMap(r)}${u ? `<a class="rg-go" href="${u[0]}" target="_blank" rel="noopener">${u[1] || '공식 홈페이지 ↗'}</a>` : ''}</div>`)(r.url ? [r.url] : RACE_URL[r.id] || (RACE_REG[r.id] ? [RACE_REG[r.id].url] : null))}
     </header>
     <div class="rg-body">
-      ${(side => `<div class="rg-why ${side ? '' : 'full'}"><h4>${r.top || r.cr ? '이 대회가 특별한 이유' : '왜 어려울까?'}</h4><ul>${r.why.map(w => `<li>${w}</li>`).join('')}</ul></div>${side ? `<div class="rg-side">${side}</div>` : ''}`)([
-        r.cr ? `<div class="rg-cr">${r.cr.map(([t, n, c, y], j) => t ? `<div><span>${j ? '여자' : '남자'} 대회 기록</span><b>${t}</b><small>${n} · ${RG_NAT[c] || c} · ${y}</small></div>` : '').join('')}</div>` : '',
+      ${(side => `<div class="rg-why ${side ? '' : 'full'}"><h4>${r.top || r.cr || RACE_WIN[r.id] ? '이 대회가 특별한 이유' : '왜 어려울까?'}</h4><ul>${r.why.map(w => `<li>${w}</li>`).join('')}</ul></div>${side ? `<div class="rg-side">${side}</div>` : ''}`)([
+        raceWin(r),
+        (r.cr || RACE_CR[r.id]) ? `<div class="rg-cr">${(r.cr || RACE_CR[r.id]).map(([t, n, c, y], j) => t ? `<div><span>${j ? '여자' : '남자'} 대회 기록</span><b>${t}</b><small>${n} · ${RG_NAT[c] || c} · ${y}</small></div>` : '').join('')}</div>` : '',
         (r.most && r.most.length) || r.hall ? `<div class="rg-hall"><h4>명예의 전당 · 최다 우승</h4><div>${(r.most || []).map(([n, g, k, note]) => `<span class="rg-hc ${pph(n) ? 'hasav' : ''}">${pph(n) ? avatar(n, 'hav') : `<i>${g}</i>`}<b>${n}</b><em>${k}회 우승</em><small>${note}</small></span>`).join('')}${(r.hall || []).map(([n, note]) => `<span class="rg-hc star ${pph(n) ? 'hasav' : ''}">${pph(n) ? avatar(n, 'hav') : '<i>★</i>'}<b>${n}</b><small>${note}</small></span>`).join('')}</div></div>` : ''].join(''))}
       ${r.top ? `<div class="rg-recs"><div><h4>남자 역대 우승 기록 TOP 5</h4>${raceTopList(r.top.m)}</div><div><h4>여자 역대 우승 기록 TOP 5</h4>${raceTopList(r.top.w)}</div></div>` : ''}
       ${courseViz(r)}
