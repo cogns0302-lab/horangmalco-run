@@ -242,4 +242,10 @@ Object.assign(PHOTOS, {
   fun_83: ["11경 83타워.jpg", "CC BY 4.0", "대구광역시"],
   fun_dog: ["당진 면천읍성.jpg", "CC BY-SA 4.0", "Korea Heritage Service"],
   fun_retro: ["2023 Kaseta VHS, magnetofonowa i minikaseta.jpg", "CC BY-SA 4.0", "Jacek Halicki"],
+  f_medoc: ["Marathon du Medoc (5026204842).jpg", "CC BY-SA 2.0", "Jan"],
+  f_wings: ["Wings for Life World Run (Munich, 2024-05-06) 02.jpg", "CC BY-SA 4.0", "Werner100359"],
+  f_b2b: ["Bay to Breakers 2018 San Francisco 01.jpg", "CC BY 2.0", "Carnaval.com Studios"],
+  f_horse: ["Man versus Horse marathon event near Abergwesyn, Powys - geograph.org.uk - 4029381.jpg", "CC BY-SA 2.0", "Roger Kidd"],
+  f_color: ["The Color Run Paris 2014 (60).jpg", "CC BY 2.0", "mpcom1photographe"],
+  f_midnight: ["Midnight sun in Tromsø.jpg", "CC0", "Kawon Kez Sel"],
 });

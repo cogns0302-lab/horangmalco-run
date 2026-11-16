@@ -862,6 +862,7 @@ function motion(root = app) {
     } else {
       el.querySelectorAll('path.d').forEach(p => { try { p.style.setProperty('--len', Math.ceil(p.getTotalLength())); } catch (x) {} });
       el.classList.add('play');
+      if (el.classList.contains('rg-map')) rmFly(el);
     }
   }), { rootMargin: '0px 0px -6% 0px' });
   root.querySelectorAll('[data-count], .grow, .draw, .pop, .race').forEach(el => io.observe(el));
@@ -1753,13 +1754,27 @@ const RACE_AREA = { seoul: '서울특별시', jtbc: '서울특별시', chuncheon
   tokyo: 'Japan', boston: 'United States of America', chicago: 'United States of America', nyc: 'United States of America', bigsur: 'United States of America', london: 'United Kingdom', sydney: 'Australia',
   berlin: 'Germany', capetown: 'South Africa', athens: 'Greece', greatwall: 'China', shanghai: 'China', everest: 'Nepal', valencia: 'Spain', barcelona: 'Spain' };
 /* 대회 위치 지도: 320×200 화면 · 전체 지도 → 대회 지역으로 확대 → 지역 반짝임 + 화면 전체 레이더 */
+/* 레이더 지도 비행: 서울 → (살짝 멀어졌다가) → 대회 지역. 중심·배율을 한 곡선으로 이어서 끊김 없이 */
+function rmFly(box) {
+  const g = box.querySelector('.rm-zoom'); if (!g || g._fly) return;
+  const [sx, sy, zs, tx, ty, z, zm] = g.dataset.f.split(',').map(Number), W = 320, H = 200;
+  const set = (cx, cy, s) => { g.style.transform = `translate(${W / 2}px,${H / 2}px) scale(${s.toFixed(4)}) translate(${(-cx).toFixed(2)}px,${(-cy).toFixed(2)}px)`; };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return set(tx, ty, z);
+  const l0 = Math.log(zs), l1 = Math.log(z), dip = Math.max(0, (l0 + l1) / 2 - Math.log(zm));
+  const ease = p => p < .5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2, D = 2300, start = performance.now() + 250;
+  g._fly = setInterval(() => {
+    const p = Math.max(0, Math.min(1, (performance.now() - start) / D)), e = ease(p);
+    set(sx + (tx - sx) * e, sy + (ty - sy) * e, Math.exp(l0 + (l1 - l0) * e - dip * Math.sin(Math.PI * e)));
+    if (p >= 1) { clearInterval(g._fly); g._fly = 'done'; }
+  }, 16);
+}
 function raceMap(r) {
   const g = RACE_GEO[r.id]; if (!g || typeof MAP_WORLD === 'undefined') return '';
   const [lat, lon, where] = g, km = geoKm(SEOUL, [lat, lon]), kr = lon > 124 && lon < 132 && lat > 33 && lat < 39;
   const C = Math.cos(36 * Math.PI / 180), area = RACE_AREA[r.id], W = 320, H = 200;
   const P = kr ? (la, lo) => [(lo - 124) * C * 40, (39.2 - la) * 40] : (la, lo) => [lo + 180, 85 - la];
   const B = kr ? [40, 14, 235, 250] : [0, 0, 360, 145];       // 지도 범위
-  const z = kr ? 2.3 : 5;                                       // 확대 배율
+  const z = kr ? 3 : 8;                                         // 확대 배율 (지역이 화면을 채우게)
   const [x, y] = P(lat, lon); let [sx, sy] = P(...SEOUL);
   // 태평양을 건너는 대회(미국 등)는 서울을 지도 반대편(±360°)에 두어 점선이 이어지게
   const shift = !kr && Math.abs(x - sx) > 180 ? (x < sx ? -360 : 360) : 0; sx += shift;
@@ -1777,7 +1792,7 @@ function raceMap(r) {
   const hl = kr ? MAP_PROV[area] : MAP_CTRY[area];
   return `<div class="rg-map grow ${kr ? 'kr' : 'w'}"><i class="rm-lock">LOCK ON</i>
     <div class="rm-view"><svg viewBox="0 0 ${W} ${H}" aria-hidden="true">
-      <g class="rm-zoom" style="--z0:${z0};--zm:${zmid};--zt:translate(${W / 2}px,${H / 2}px) scale(${z}) translate(${(-tx).toFixed(1)}px,${(-ty).toFixed(1)}px)">
+      <g class="rm-zoom" data-f="${[sx0, sy0, zs, tx, ty, z, zm].map(v => (+v).toFixed(3)).join(',')}" style="transform:${z0}">
         ${kr ? `<path class="rm-nb" d="${MAP_KR_NB}"/><path class="rm-land d" d="${MAP_KR}"/>` : `<path class="rm-land" d="${MAP_WORLD}"/>${shift ? `<path class="rm-land" d="${MAP_WORLD}" transform="translate(${shift},0)"/>` : ''}`}
         ${hl ? `<path class="rm-hl" d="${hl}"/>` : ''}${route}${far ? `<circle class="rm-seoul" cx="${sx.toFixed(1)}" cy="${sy.toFixed(1)}" r="${(2.4 * k).toFixed(2)}"/>` : ''}
         <g class="rm-pin" style="--px:${x.toFixed(1)}px;--py:${y.toFixed(1)}px"><circle class="rm-pulse" r="${(4.5 * k).toFixed(2)}"/><circle class="rm-dot" r="${(3 * k).toFixed(2)}"/></g></g></svg>
@@ -1802,9 +1817,9 @@ function raceCard(r, i) {
 }
 /* 국내 대회: 국제마라톤 안내 */
 /* 이색 러닝 대회 */
-function funRuns() {
-  return `<div class="fr-wrap"><h3 class="rg-sh">🎉 요즘 뜨는 이색 러닝 대회 <small>먹고 · 놀고 · 즐기는 펀 러닝</small></h3>
-    <div class="fr-grid">${FUN_RUNS.map((f, i) => `<article class="fr-c grow" style="--fc:${f.c};--i:${i}">
+function funRuns(list = FUN_RUNS, title = '🎉 요즘 뜨는 이색 러닝 대회', sub = '먹고 · 놀고 · 즐기는 펀 러닝') {
+  return `<div class="fr-wrap"><h3 class="rg-sh">${title} <small>${sub}</small></h3>
+    <div class="fr-grid">${list.map((f, i) => `<article class="fr-c grow" style="--fc:${f.c};--i:${i}">
       <div class="fr-ph">${PHOTOS[f.ph] ? `<img src="${photoSrc(f.ph)}" alt="" loading="lazy">${credit(f.ph)}` : ''}<span class="fr-e">${f.e}</span><b class="fr-n">${f.n}</b></div>
       <div class="fr-b"><span class="fr-off">${f.off}</span>
         <div class="fr-meta"><span>📅 ${f.when}</span><span>📍 ${f.where}</span><span>🏃 ${f.ev}</span></div>
@@ -1868,7 +1883,7 @@ function viewRaceGuide(sub) {
     ${raceSection('rg-major', kr ? '국내 3대 메이저 마라톤' : '세계 8대 메이저 마라톤', kr ? '서울(동아) · 춘천 · JTBC 서울' : '월드 마라톤 메이저 7개 + 8번째 후보 케이프타운', G.major)}
     ${raceSection('rg-hard', '극악의 난이도 대회', kr ? '러너들 사이에서 가장 힘들다고 꼽히는 코스' : '완주 자체가 도전인 대회', G.hard)}
     ${raceSection('rg-rising', '떠오르는 대회', kr ? '규모와 등급이 빠르게 커지는 대회' : '메이저급으로 주목받는 대회', G.rising)}
-    ${kr ? funRuns() : ''}
+    ${kr ? funRuns() : funRuns(FUN_RUNS_WORLD, '🌍 세계의 이색 러닝 대회', '와인 · 코스튬 · 백야 — 한 번쯤 달려보고 싶은 축제형 레이스')}
     ${kr ? krIntl() : ''}
     ${!kr ? recHub(G.recommend) : ''}
     <section class="rg-sec" id="rg-how"><h2 class="h2">접수 방법</h2><div class="rg-blk b1">${raceReg(kr)}</div>${kr ? `<div class="rg-blk b2">${raceGen()}</div>` : ''}<div class="rg-blk b3"><h3 class="rg-sh">💡 알아두면 좋은 점</h3>${raceHowto(G.howto)}</div><p class="note">신청 시기와 방식은 해마다 바뀔 수 있어요 — 링크의 공식 공지를 꼭 확인하세요 (2026년 11월 기준)</p></section>

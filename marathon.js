@@ -540,3 +540,19 @@ const FUN_RUNS = [
   { e: '📼', n: '레트로 런', off: '그 시절 스타들과 달리는 레트로 런 IN 증평', when: '2026년 11월 14일', where: '충북 증평 · 보강천 시민체육공원', ev: '5km · 10km', ph: 'fun_retro', c: '#db2777',
     pts: ['그 시절 스타들과 함께 달리는 추억 콘셉트', '레트로 패션으로 달리는 재미', '조기 마감된 인기 대회'], link: ['http://n-runplus.co.kr', '대회 홈페이지 ↗'] },
 ];
+
+/* 해외 이색 러닝 대회 */
+const FUN_RUNS_WORLD = [
+  { e: '🍷', n: '메독 마라톤', off: 'Marathon du Médoc', when: '매년 9월', where: '프랑스 보르도 · 메독 와인 산지', ev: '풀코스 (코스튬 필수)', ph: 'f_medoc', c: '#9f1239',
+    pts: ['포도밭 사이를 달리며 와인·굴·스테이크를 맛보는 "세계에서 가장 긴 마라톤"', '해마다 정해지는 주제에 맞춰 모두 분장하고 달려요', '1985년부터 이어진 축제형 마라톤'], link: ['https://www.marathondumedoc.com/', '공식 홈페이지 ↗'] },
+  { e: '🚗', n: '윙스 포 라이프 월드런', off: 'Wings for Life World Run', when: '매년 5월', where: '전 세계 동시 출발 · 앱으로도 참가', ev: '결승선 없음', ph: 'f_wings', c: '#1d4ed8',
+    pts: ['결승선 대신 "캐처 카"가 뒤에서 쫓아와 따라잡히면 끝', '전 세계 러너가 같은 시각에 함께 출발', '참가비 전액을 척수 손상 연구에 기부'], link: ['https://www.wingsforlifeworldrun.com/', '공식 홈페이지 ↗'] },
+  { e: '🦍', n: '베이 투 브레이커스', off: 'Bay to Breakers', when: '매년 5월', where: '미국 샌프란시스코', ev: '12km', ph: 'f_b2b', c: '#ea580c',
+    pts: ['1912년부터 이어진 세계에서 가장 오래된 연례 도로 레이스 중 하나', '고릴라·연어 등 기상천외한 코스튬 러너가 가득', '만(Bay)에서 바다(Breakers)까지 도시를 가로질러요'], link: ['https://www.baytobreakers.com/', '공식 홈페이지 ↗'] },
+  { e: '🐴', n: '사람 대 말 마라톤', off: 'Man versus Horse Marathon', when: '매년 6월', where: '영국 웨일스 · 란우르티드 웰스', ev: '약 35km 산길', ph: 'f_horse', c: '#65a30d',
+    pts: ['사람과 기수가 탄 말이 같은 산길에서 경주', '1980년 시작 — 사람이 이긴 적은 손에 꼽을 정도', '언덕·늪·개울을 건너는 험한 코스'], link: ['https://www.green-events.co.uk/', '공식 홈페이지 ↗'] },
+  { e: '🌈', n: '컬러런', off: 'The Color Run', when: '연중 (세계 각지)', where: '전 세계 여러 도시', ev: '5km 비경쟁', ph: 'f_color', c: '#db2777',
+    pts: ['1km마다 알록달록한 색 가루를 맞으며 달려요', '기록 없는 "세상에서 가장 행복한 5km"', '가족·친구와 처음 달리기에 좋아요'], link: ['https://thecolorrun.com/', '공식 홈페이지 ↗'] },
+  { e: '🌞', n: '미드나잇 선 마라톤', off: 'Midnight Sun Marathon', when: '매년 6월', where: '노르웨이 트롬쇠 (북극권)', ev: '풀·하프·10km', ph: 'f_midnight', c: '#0891b2',
+    pts: ['해가 지지 않는 백야 속에서 밤에 달리는 마라톤', '북극권 도시의 피오르와 다리를 지나는 코스', '오로라 대신 한밤의 태양을 보는 특별한 경험'], link: ['https://msm.no/', '공식 홈페이지 ↗'] },
+];
