@@ -777,7 +777,7 @@ function viewBrandHistory(b) {
     <p class="sec-sub">${B.ko}의 탄생 이야기, 연도별 사건, 매출과 킬러 모델을 한눈에 정리했어요.</p>
     ${histMenu(b)}
     <div class="bhero" style="background:${grad(b)}">
-      <div class="bh-left"><div class="bh-head">${blogo(b, 'big')}<div><h2>${B.name}</h2><span>${B.ko} · ${B.country}</span></div></div>
+      <div class="bh-left"><div class="bh-head"><button class="bh-logo" type="button" onclick="go('find-${b}')" title="${B.ko} 러닝화 보기" aria-label="${B.ko} 러닝화 찾기로 이동">${blogo(b, 'big')}</button><div><h2>${B.name}</h2><span>${B.ko} · ${B.country}</span></div></div>
         ${ST.tag ? `<p class="bh-tag">${esc(ST.tag)}</p>` : ''}
         <div class="facts"><div><small>창립</small><b>${B.founded}년</b></div><div><small>창업자</small><b>${B.founder}</b></div>
           <div><small>본사</small><b>${B.hq}</b></div><div><small>${R ? `최근 매출 (${last[0]})` : '연 매출(근사)'}</small><b>${R ? `${last[1].toLocaleString()}${R.unit}` : (B.revenue ? `약 ${+(B.revenue * 10).toFixed(1)}억 달러` : '비공개')}</b></div></div></div>
@@ -1532,6 +1532,7 @@ function tabify(key) {
   nav.className = 'pg-tabs'; nav.setAttribute('aria-label', '페이지 탭');
   nav.innerHTML = groups.map((g, i) => `<button type="button" data-i="${i}"><i>${i + 1}</i>${esc(short(g.t))}</button>`).join('');
   pre[pre.length - 1].after(nav);
+  { const fb = key.startsWith('history-') && key.slice(8); if (fb && BRANDS[fb]) nav.insertAdjacentHTML('beforeend', `<a class="pg-shoe" href="#find-${fb}">👟 ${BRANDS[fb].ko} 신발 보기</a>`); }
   const show = (i, scroll) => {
     PG_TAB[key] = i;
     groups.forEach((g, j) => g.els.forEach(e => { e.hidden = j !== i; }));
