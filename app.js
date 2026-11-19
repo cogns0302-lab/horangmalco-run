@@ -2069,9 +2069,10 @@ function route() {
   else if (v === 'find') viewFind(arg);
   else if (v === 'tips') viewTips(arg);
   else if (v === 'races') (arg ? viewRaceGuide(arg) : viewRaces());
+  else if (v === 'gear') viewGear(arg);
   else if (v === 'shop') viewShop();
   else viewHome();
-  if (v === 'history' || v === 'rank' || (v === 'races' && arg)) tabify(h);
+  if (v === 'history' || v === 'rank' || v === 'gear' || (v === 'races' && arg)) tabify(h);
   window.scrollTo(0, 0);
   pageEnter();
 }
