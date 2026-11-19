@@ -277,7 +277,7 @@ function gearCard(p, i, brandName) {
 function openGear(id) {
   const p = GEAR_ALL[id]; if (!p) return;
   if (p.shoe && typeof byId !== 'undefined' && byId[p.shoe]) return openShoe(p.shoe);
-  const T = GEAR_TIER[p.t] || ['', '#64748b'], C = GEAR_CATS.find(c => c[0] === p.cat), naver = 'https://search.shopping.naver.com/search/all?query=' + encodeURIComponent(p.n);
+  const T = GEAR_TIER[p.t] || ['', '#64748b'], C = GEAR_CATS.find(c => c[0] === p.cat), naver = 'https://search.shopping.naver.com/search/all?query=' + encodeURIComponent(p.n), coupang = 'https://www.coupang.com/np/search?q=' + encodeURIComponent(p.n);
   const peers = Object.values(GEAR_ALL).filter(x => x.cat === p.cat), rank = [...peers].sort((a, z) => gKrw(a) - gKrw(z)).findIndex(x => x.id === p.id) + 1;
   $('#mbox').innerHTML = `<div class="gmd" style="--tc:${T[1]}"><button class="mx" onclick="closeModal()" aria-label="닫기">×</button>
     <div class="gmd-ph ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}</div>
@@ -287,7 +287,7 @@ function openGear(id) {
       ${p.spec ? `<p class="gmd-sp">${esc(p.spec)}</p>` : ''}
       <div class="gmd-pc"><div><h4>👍 장점</h4><ul>${p.pts.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div><div><h4>👎 단점</h4><ul>${(p.cons.length ? p.cons : ['특별한 단점이 보고되지 않았어요']).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div></div>
       <div class="gmd-meta"><span>💰 같은 분류 ${peers.length}개 중 가격 ${rank}번째로 저렴</span><span>🛒 ${esc(p.shop || '')}</span></div>
-      <div class="gmd-go"><a class="on" href="${p.url}" target="_blank" rel="noopener">${esc(p.shop || '공식몰')} ↗</a><a href="${naver}" target="_blank" rel="noopener">네이버 최저가 ↗</a></div></div></div>`;
+      <div class="gmd-go"><a class="on" href="${p.url}" target="_blank" rel="noopener">${esc(p.shop || '공식몰')}</a>${/coupang.com/.test(p.url) ? '' : `<a class="cp" href="${coupang}" target="_blank" rel="noopener">쿠팡</a>`}<a href="${naver}" target="_blank" rel="noopener">네이버 최저가</a></div></div></div>`;
   $('#modal').classList.add('on'); document.body.style.overflow = 'hidden';
 }
 /* 가격 사다리 */
