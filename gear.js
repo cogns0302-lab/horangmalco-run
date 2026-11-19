@@ -10,6 +10,7 @@ const GEAR_TIER = {
 };
 const GEAR_CATS = [
   ['set', '🎁', '풀세트', '거지 ~ 선수 세트'],
+  ['daiso', '🏪', '다이소', '1천~5천 원 러닝템'],
   ['watch', '⌚', '시계', '러닝워치 · 스마트워치'],
   ['ear', '🎧', '이어폰', '골전도 · 오픈형 · 클립형'],
   ['cap', '🧢', '모자', '캡 · 바이저'],
@@ -199,6 +200,24 @@ const GEAR_CONS = {
   '데카트론 러닝 단목 양말 런 100 (3켤레)': ['쿠션이 얇아요'], '데카트론 러닝 쿠션 중목 양말 런 500 (2켤레)': ['여름엔 두꺼워요'], '인진지 런 라이트웨이트 노쇼': ['신고 벗기 번거로워요'],
   '발레가 히든 컴포트': ['여름엔 두툼해요', '해외 직구'], '피처스 엘리트 라이트 쿠션': ['쿠션이 얇아 장거리엔 아쉬울 수 있어요'], '단터프 런 마이크로 크루': ['울 소재라 여름엔 덥다는 평'],
 };
+GEAR.daiso = {
+  types: [['👕', '의류', '소로나 반팔·경량 반바지 — 3천~5천 원으로 기능성 원단.', '사이즈·색상 품절이 잦아요'], ['🧢', '소품', '캡·선글라스·벨트·양말 — 1천~3천 원.', '내구성은 브랜드 제품보다 약해요'], ['🎧', '전자', '5천 원 무선 이어폰.', '러닝 전용 설계는 아니에요']],
+  rules: [['🏪', '매장 재고부터', '다이소몰 앱 "매장 상품 찾기"로 재고 확인 후 방문하세요.'], ['🔁', '인기템은 품절 반복', 'HEAD 협업 러닝 라인(2026년 5월 출시)은 입고 즉시 품절되기도 해요.'], ['👟', '러닝화·시계는 없어요', '다이소에 러닝화·러닝워치는 없어서 풀세트엔 최저가 제품을 넣었어요.']],
+  items: [
+    { n: '다이소 소로나 라글란 반팔 티', b: '다이소', ty: '상의', t: 'cheap', krw: 5000, img: 'https://cdn.daisomall.co.kr/file/PD/20250502/mQ5JADBoZ2GS3TL2l3qTO202503142531_00_00mQ5JADBoZ2GS3TL2l3qT.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=O202503142531', shop: '다이소몰', pts: ['땀이 빨리 마르는 소로나 원단','5천 원 러닝 티'], cons: ['인기 색상·사이즈 품절이 잦아요'], beg: 1 },
+    { n: '다이소 러닝 라이트 반바지', b: '다이소', ty: '하의', t: 'cheap', krw: 3000, img: 'https://cdn.daisomall.co.kr/file/PD/20260708/Z1lj6ccuMCdhlokMfY4fO202603105071_00_00Z1lj6ccuMCdhlokMfY4f.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=O202603105071', shop: '다이소몰', pts: ['가벼운 폴리에스터 · 허리 밴딩','리뷰 평점 4.7'], cons: ['다이소몰 분류는 여성 하의 — 남성은 사이즈 확인','품절 잦음'], beg: 1 },
+    { n: '다이소 러닝 여성용 라이트 반바지', b: '다이소', ty: '하의', t: 'cheap', krw: 3000, img: 'https://cdn.daisomall.co.kr/file/PD/20260316/IW8meHR3rLfhrLxIuIbd1074444_00_00IW8meHR3rLfhrLxIuIbd.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1074444', shop: '다이소몰', pts: ['여성용 경량 러닝 반바지','3천 원'], cons: ['M 단일 사이즈'] },
+    { n: 'HEAD 나일론 경량 러닝 볼캡', b: '헤드 × 다이소', ty: '모자', t: 'cheap', krw: 3000, img: 'https://cdn.daisomall.co.kr/file/PD/20260422/jd8IJRWAIwQEgz3vkxxq1079465_00_00jd8IJRWAIwQEgz3vkxxq.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1079465', shop: '다이소몰', pts: ['나일론 100% 경량 · 버클 조절','리뷰 평점 4.8 (190건+)'], cons: ['통풍 메쉬는 없어요'], beg: 1 },
+    { n: '다이소 러닝 선글라스', b: '다이소', ty: '선글라스', t: 'cheap', krw: 1000, img: 'https://cdn.daisomall.co.kr/file/PD/20260422/ZOAeERVwFVCjJFAO6Hgx1073820_00_00ZOAeERVwFVCjJFAO6Hgx.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1073820', shop: '다이소몰', pts: ['UV400 · 자외선 최대 99% 차단','단돈 1천 원'], cons: ['편광 아님 · 렌즈 왜곡이 있을 수 있어요'], beg: 1 },
+    { n: '다이소 무선 이어폰', b: '다이소', ty: '이어폰', t: 'cheap', krw: 5000, img: 'https://cdn.daisomall.co.kr/file/PD/20260528/3QZHTLGjQsHIUU1olD7x1069224_00_003QZHTLGjQsHIUU1olD7x.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1069224', shop: '다이소몰', pts: ['자동 페어링 · 터치 조작','5천 원 블루투스'], cons: ['러닝 전용 설계가 아니라 격하게 뛰면 빠질 수 있어요','음질 평가는 엇갈려요'], beg: 1 },
+    { n: '늘어나는 러닝용 소지품 벨트', b: '다이소', ty: '러닝벨트', t: 'cheap', krw: 2000, img: 'https://cdn.daisomall.co.kr/file/PD/20260423/PmdnVJ7wOopdQfMlGx2C1075176_00_00PmdnVJ7wOopdQfMlGx2C.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1075176', shop: '다이소몰', pts: ['밴딩 소재 + 버클로 흔들림 줄임','허리 약 59~76.5cm'], cons: ['주머니 깊이 약 5cm — 큰 폰은 빡빡'], beg: 1 },
+    { n: 'HEAD 남성용 단목 양말', b: '헤드 × 다이소', ty: '양말', t: 'cheap', krw: 1500, img: 'https://cdn.daisomall.co.kr/file/PD/20260709/wm0kQ5DjxGxUhaSJ8R5h1079202_00_00wm0kQ5DjxGxUhaSJ8R5h.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1079202', shop: '다이소몰', pts: ['가볍고 신축성 좋은 러닝 양말','1,500원'], cons: ['쿠션이 얇아요'], beg: 1 },
+    { n: '에버라스트 남성 스포츠 중목 양말 3켤레', b: '에버라스트 × 다이소', ty: '양말', t: 'cheap', krw: 5000, img: 'https://cdn.daisomall.co.kr/file/PD/20240620/3tqgjIIq56m11ZndLvxi1025233_00_003tqgjIIq56m11ZndLvxi.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1025233', shop: '다이소몰', pts: ['발등 메쉬로 통기성','3켤레 5천 원'], cons: ['러닝 전용 쿠션 설계는 아니에요'] },
+    { n: 'HEAD 스포츠 러닝 조끼', b: '헤드 × 다이소', ty: '조끼', t: 'cheap', krw: 5000, img: 'https://cdn.daisomall.co.kr/file/PD/20260903/W0ANXZN3a28cVP1LuD8T1077099_00_00W0ANXZN3a28cVP1LuD8T.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1077099', shop: '다이소몰', pts: ['메쉬 러닝 조끼 · 리뷰 2,900건+','5천 원'], cons: ['물병 수납은 작아요','품절 잦음'] },
+  ],
+  best: [['HEAD 나일론 경량 러닝 볼캡', '리뷰 평점 4.8 — 3천 원 러닝 캡'], ['다이소 소로나 라글란 반팔 티', '5천 원 기능성 러닝 티'], ['늘어나는 러닝용 소지품 벨트', '2천 원 러닝벨트']],
+};
+GEAR_TIPS.daiso = [['🌱', '입문', '1만 원 안팎', ['캡·선글라스·양말부터', '반바지 3천 원'], ['HEAD 나일론 경량 러닝 볼캡', '다이소 러닝 선글라스']], ['🏃', '중급', '2만 원 안팎', ['티 + 반바지 + 벨트 세트', '양말 3켤레 묶음'], ['다이소 소로나 라글란 반팔 티', '늘어나는 러닝용 소지품 벨트']], ['🎒', '장거리', '5천 원', ['메쉬 러닝 조끼', '무선 이어폰'], ['HEAD 스포츠 러닝 조끼', '다이소 무선 이어폰']]];
 /* ---------- 복장 (남자·여자 / 상의·하의) ---------- */
 const DKR = 'https://contents.mediadecathlon.com/', NIKE_IMG = 'https://static.nike.com/a/images/t_default/', NIKE_U = 'u_9ddf04c7-2a9a-4d76-add1-d15af8f0263d,c_scale,fl_relative,w_1.0,h_1.0,fl_layer_apply/';
 GEAR.wear = {
@@ -238,8 +257,8 @@ const SET_SHOES = [
   { id: 'shoe-alpha4', shoe: 'nike-alphafly-4', n: '나이키 알파플라이 4', b: '나이키', t: 'pro', krw: 349000, img: NIKE_IMG + NIKE_U + '7abad782-87f0-479a-91d3-ee01e94e5682/AIR+ZOOM+ALPHAFLY+NEXT%25+4.png', url: 'https://www.nike.com/kr/t/%EB%82%98%EC%9D%B4%ED%82%A4-%EC%95%8C%ED%8C%8C%ED%94%8C%EB%9D%BC%EC%9D%B4-4-%EB%82%A8%EC%84%B1-%EB%A1%9C%EB%93%9C-%EB%A0%88%EC%9D%B4%EC%8B%B1%ED%99%94-BxYAEFvI/IM5546-800', shop: '나이키 코리아', ty: '러닝화', pts: ['RunRepeat 94점 플래그십 레이싱화', '마라톤 기록 단축용'], cons: ['밑창이 빨리 닳아요', '34.9만 원'] },
 ];
 const GEAR_SETS = [
-  { k: 'beggar', e: '🪙', n: '거지 풀세트', sub: '초가성비 — 제일 싼 것만 골라도 달릴 수 있어요', c: '#16a34a',
-    items: [['러닝화', 'shoe-jog'], ['상의', ['데카트론 남성 러닝 반팔티 런 드라이 100', '데카트론 여성 러닝 반팔티 런 드라이 100']], ['하의', ['데카트론 남성 10인치 러닝 숏 타이츠 런 100', '데카트론 여성 투인원 쇼츠 레깅스 런 드라이 100']], ['양말', '데카트론 러닝 단목 양말 런 100 (3켤레)'], ['모자', '데카트론 러닝 캡 모자 V2'], ['벨트', '데카트론 러닝 스마트폰 벨트 베이직 2'], ['시계', 'band11'], ['이어폰', 'QCY 크로스키 C50'], ['선글라스', '락브로스 편광 스포츠 선글라스']] },
+  { k: 'beggar', e: '🪙', n: '거지 풀세트', sub: '다이소 풀세트 — 러닝화·시계만 최저가로', c: '#16a34a',
+    items: [['러닝화', 'shoe-jog'], ['상의', '다이소 소로나 라글란 반팔 티'], ['하의', ['다이소 러닝 라이트 반바지', '다이소 러닝 여성용 라이트 반바지']], ['양말', 'HEAD 남성용 단목 양말'], ['모자', 'HEAD 나일론 경량 러닝 볼캡'], ['벨트', '늘어나는 러닝용 소지품 벨트'], ['시계', 'band11'], ['이어폰', '다이소 무선 이어폰'], ['선글라스', '다이소 러닝 선글라스']] },
   { k: 'begin', e: '🌱', n: '초보 풀세트', sub: '준수한 가성비 — 처음 제대로 시작하는 구성', c: '#2563eb',
     items: [['러닝화', 'shoe-nova6'], ['상의', ['데카트론 남성 러닝 심리스 긴팔티 런 500', '데카트론 여성 러닝 심리스 긴팔티 런 500']], ['하의', ['데카트론 남성 러닝 바지 런 웜 500', '데카트론 여성 러닝 레깅스 런 웜 500']], ['양말', '데카트론 러닝 쿠션 중목 양말 런 500 (2켤레)'], ['모자', '데카트론 러닝 울트라라이트 캡'], ['벨트', '플립벨트 클래식'], ['시계', 'fr70'], ['이어폰', '사운드코어 에어로핏 2'], ['선글라스', 'goodr OG']] },
   { k: 'mid', e: '🏃', n: '중수 풀세트', sub: '중간 가격대에서 평가가 가장 좋은 베스트만', c: '#7c3aed',
@@ -349,7 +368,7 @@ function gearTierGrid(items) {
 }
 
 
-const GSET_PH = { beggar: 'photos/set_beggar.jpg', begin: 'photos/set_begin.jpg', mid: 'photos/set_mid.jpg', pro: 'photos/set_pro.jpg' }; // 풀세트 착용 그림 (Canva AI 생성)
+const GSET_PH = { beggar: 'photos/set_beggar.jpg?v=3', begin: 'photos/set_begin.jpg', mid: 'photos/set_mid.jpg', pro: 'photos/set_pro.jpg' }; // 풀세트 착용 그림 (Canva AI 생성)
 /* 풀세트 */
 function gearSets(g) {
   return `<section class="gset-sec"><div class="gset-h"><h2 class="h2">러닝 풀세트 <small>러닝화 + 복장 + 아이템 9종</small></h2>
@@ -357,7 +376,7 @@ function gearSets(g) {
     <div class="gset">${GEAR_SETS.map((S, si) => { const L = S.items.map(([lab, ref]) => [lab, gFind(Array.isArray(ref) ? ref[g === 'w' ? 1 : 0] : ref)]);
       const tot = L.reduce((a, [, p]) => a + gKrw(p), 0), anyUsd = L.some(([, p]) => !p.krw);
       return `<article class="gs grow" style="--sc:${S.c};--i:${si}">
-        <div class="gs-h"><span>${S.e}</span><div><b>${S.n}</b><small>${S.sub}</small></div></div>${GSET_PH[S.k] ? `<div class="gs-ch ph"><img src="${GSET_PH[S.k]}" alt="${S.n} 착용 사진" loading="lazy"></div>` : ''}
+        <div class="gs-h"><span>${S.e}</span><div><b>${S.n}</b><small>${S.sub}</small></div></div>${GSET_PH[S.k] ? `<div class="gs-ch ph" role="button" tabindex="0" title="아이템 9종 보기" onclick="gearSetOpen(this.closest('.gs').querySelector('.gs-btn'))"><img src="${GSET_PH[S.k]}" alt="${S.n} 착용 사진" loading="lazy"></div>` : ''}
         <div class="gs-t"><span>총 가격</span><b>${cnt(tot, 'int', anyUsd ? '약 ' : '', '원')}</b></div>
         ${anyUsd ? '<small class="gs-n">해외 공식몰 제품은 1달러 ≈ 1,400원으로 환산 · 배송비 별도</small>' : '<small class="gs-n">국내 공식몰 정가 합계 (할인가 별도)</small>'}
         <button type="button" class="gs-btn" onclick="gearSetOpen(this)">아이템 ${L.length}종 보기 ▾</button>
