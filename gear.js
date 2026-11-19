@@ -11,7 +11,7 @@ const GEAR_TIER = {
 const GEAR_CATS = [
   ['set', '🎁', '풀세트', '거지 ~ 선수 세트'],
   ['daiso', '🏪', '다이소', '1천~5천 원 러닝템'],
-  ['watch', '⌚', '시계', '러닝워치 · 스마트워치'],
+  ['watch', '⌚', '워치', '러닝워치 · 스마트워치'],
   ['ear', '🎧', '이어폰', '골전도 · 오픈형 · 클립형'],
   ['cap', '🧢', '모자', '캡 · 바이저'],
   ['vest', '🎒', '조끼', '러닝 베스트 · 하이드레이션'],
@@ -74,7 +74,18 @@ const WATCH_RULES = [
   ['🛰️', '듀얼밴드 GPS', '도심 빌딩 사이에서 페이스가 튀지 않아요. 기록용이면 꼭 확인.'],
   ['⚖️', '무게 40g대', '손목이 가벼워야 풀코스 후반까지 신경 쓰이지 않아요.'],
 ];
-/* 추천 시계 순위 (1~3위는 카드, 4위부터 더보기) */
+/* 워치 추천 순위 — 레벨별 (1~3위 카드, 4위부터 더보기) */
+const WATCH_LV = [
+  ['🌱 입문', '첫 러닝 · 주 1~3회', [['fr70', '가민 러닝 기능을 40만 원 아래로 — 입문 정답'], ['awse3', '아이폰이면 가장 싼 애플워치'], ['band11', '7만 원대로 기록 시작'], ['s5', '20만 원대 듀얼밴드 GPS'], ['fit3', '갤럭시 폰 사용자의 입문 밴드'], ['band10p', '큰 화면 밴드']]],
+  ['🏃 중수', '하프·풀 준비 · 기록 단축', [['fr170', '고도계·결제까지 갖춘 훈련용 가민'], ['gw9', '안드로이드 러너의 일상+러닝 올라운더'], ['srun', '가볍고 깔끔한 러닝 전용'], ['aw12', '아이폰 러너의 올라운더'], ['cheetah2p', '가민 대비 싼 마라톤 지표 워치']]],
+  ['🏆 선수', '서브3 · 울트라 · 트레일', [['fr970', '러닝 톨러런스·지도까지 — 러닝워치 최상위'], ['fr570', '풀코스 기록 도전의 정석'], ['fenix9', '멀티스포츠·트레일 플래그십'], ['srace2', '지도·트레일 최상급'], ['awu4', '애플워치 최상위'], ['gwu2', '트레일·장거리용 갤럭시']]],
+];
+function gearLv(btn, i) {
+  const sec = btn.closest('section');
+  sec.querySelectorAll('.wlv-t button').forEach((b, j) => b.classList.toggle('on', j === i));
+  sec.querySelectorAll('.wlv').forEach((d, j) => { d.hidden = j !== i; if (j === i) { d.querySelectorAll('.grow').forEach(e => e.classList.add('play')); d.classList.remove('pg-in'); void d.offsetWidth; d.classList.add('pg-in'); } });
+}
+/* (예전 단일 순위) */
 const WATCH_RANK = [['fr570', '러닝 기능·배터리·가격 균형이 가장 좋은 "정답" 러닝워치'], ['gw9', '안드로이드 러너의 일상+러닝 올라운더'], ['fr170', '40만 원대로 가민 훈련 기능 대부분'],
   ['awse3', '아이폰 러너의 가장 싼 정답'], ['fr970', '풀코스 기록 도전용 최상위 러닝워치'], ['srun', '가볍고 깔끔한 러닝 전용'], ['fr70', '가민을 가장 싸게 시작'], ['band11', '7만 원대 입문 밴드'],
   ['cheetah2p', '가민 570 대비 싼 마라톤 지표 워치'], ['aw12', '일상과 러닝 모두 무난한 애플워치'], ['srace2', '지도·트레일 최상급'], ['gwu2', '트레일·장거리용 갤럭시'], ['awu4', '애플워치 최상위'],
@@ -421,9 +432,9 @@ function viewGear(cat) {
 function viewGearWatch(head) {
   const W = id => GEAR_ALL[id];
   app.innerHTML = `${head}
-    <section><h2 class="h2">수준별 시계 고르는 팁</h2>
+    <section><h2 class="h2">워치 선택 팁</h2>
       ${gearRules(WATCH_RULES)}${gearLevels(WATCH_TIPS)}</section>
-    <section><h2 class="h2">추천 시계 순위</h2>${gearBest(WATCH_RANK.map(([id, why]) => [W(id), why]))}</section>
+    <section><h2 class="h2">워치 추천 순위</h2><div class="wlv-t">${WATCH_LV.map(([lv, d], i) => `<button type="button" class="${i ? '' : 'on'}" onclick="gearLv(this,${i})"><b>${lv}</b><small>${d}</small></button>`).join('')}</div>${WATCH_LV.map(([lv, d, L], i) => `<div class="wlv" ${i ? 'hidden' : ''}>${gearBest(L.map(([id, why]) => [W(id), why]))}</div>`).join('')}</section>
     <section><h2 class="h2">시장 점유율 · 판매량</h2>
       <div class="gw-kpi">
         <div class="grow"><b>${cnt(46, 'int', '', '%')}</b><span>애플 스마트워치 점유율 1위 (옴디아 2026년 2분기)</span></div>
