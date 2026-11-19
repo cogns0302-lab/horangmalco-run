@@ -349,71 +349,7 @@ function gearTierGrid(items) {
 }
 
 
-/* ---------- 풀세트 캐릭터 (세트 아이템을 모두 착용) ---------- */
-const GCHAR = {
-  beggar: { sp: 'tiger', act: 'cry', say: '흑흑…', cap: '#f1f5f9', brim: '#cbd5e1', glass: 'round', lens: '#f97316', frame: '#334155', ear: 'clip', earC: '#1f2937', watch: '#111827', face: '#334155', top: '#1f2937', sleeve: 'short', bot: '#111827', bType: 'tights', belt: '#8b7fc7', sock: '#f8fafc', shoe: '#9ca3af', sole: '#e5e7eb',
-    tags: ['데카 캡', '락브로스 편광', 'QCY 클립', '샤오미 밴드', '런 100 티', '숏 타이츠', '데카 벨트', '런 100 양말', '조그플로우'] },
-  begin: { sp: 'pig', act: 'jog', say: '헥헥…', cap: '#475569', brim: '#334155', glass: 'round', lens: '#3b82f6', frame: '#0f172a', ear: 'hook', earC: '#111827', watch: '#0f172a', face: '#1e293b', top: '#1f2937', sleeve: 'long', bot: '#111827', bType: 'pants', belt: 'flip', sock: '#111827', shoe: '#d1d5db', sole: '#fb923c',
-    tags: ['울트라라이트 캡', 'goodr OG', '에어로핏 2', '포러너 70', '심리스 긴팔', '런 웜 바지', '플립벨트', '런 500 양말', '노바블라스트 6'] },
-  mid: { sp: 'tiger', act: 'run', say: '가즈아!', cap: '#111827', brim: '#000', glass: 'shield', lens: '#a855f7', frame: '#f8fafc', ear: 'hook', earC: '#111827', watch: '#111827', face: '#0f172a', top: '#111827', sleeve: 'short', bot: '#111827', bType: 'shorts', belt: '#1f2937', sock: '#14b8a6', shoe: '#111827', sole: '#f8fafc',
-    tags: ['나이키 ADV 캡', '스피드크래프트', '오픈핏 2+', '포러너 570', '마일러 반팔', '마일러 쇼츠', '펄스 벨트', '발레가 양말', 'EVO SL'] },
-  pro: { sp: 'tiger', act: 'thumb', say: '최고!', cap: '#111827', brim: '#000', glass: 'wrap', lens: '#475569', frame: '#111827', ear: 'neck', earC: '#111827', watch: '#cbd5e1', face: '#334155', top: '#111827', sleeve: 'none', bot: '#1d4ed8', bType: 'racing', belt: '#f8fafc', sock: '#c4b5fd', shoe: '#fb923c', sole: '#f472b6',
-    tags: ['GOCap SC', '오클리 레이더', '오픈런 프로 2', '페닉스 9', '에어로스위프트 싱글렛', '레이싱 쇼츠', 'S/LAB 벨트', '피처스 양말', '알파플라이 4'] },
-};
-function gearChar(k) {
-  const C = GCHAR[k], pig = C.sp === 'pig', skin = pig ? '#f9a8d4' : '#f59e0b', dark = pig ? '#db2777' : '#7c2d12';
-  const tw = pig ? 64 : 50, tx = 100 - tw / 2;              // 몸통 폭 (돼지는 배가 나와요)
-  const legLen = { tights: 26, pants: 38, shorts: 14, racing: 8 }[C.bType];
-  const leg = (x, cls) => `<g class="${cls}">
-      <rect x="${x}" y="146" width="11" height="40" rx="5" fill="${skin}"/>
-      <rect x="${x - 1}" y="144" width="13" height="${legLen}" rx="5" fill="${C.bot}"/>
-      <rect x="${x}" y="179" width="11" height="9" rx="2" fill="${C.sock}"/>
-      <rect x="${x - 4}" y="186" width="20" height="9" rx="4.5" fill="${C.shoe}"/><rect x="${x - 4}" y="192" width="20" height="3.5" rx="1.7" fill="${C.sole}"/></g>`;
-  const sleeve = h => C.sleeve === 'none' ? '' : `<rect x="-1" y="-2" width="12" height="${h}" rx="5" fill="${C.top}"/>`;
-  const arm = (side) => { const L = side === 'l', x = L ? 100 - tw / 2 - 9 : 100 + tw / 2 - 1;
-    return `<g class="gc-am${side}" style="transform-origin:${x + 5}px 104px"><g transform="translate(${x},102)">
-      <rect x="0" y="0" width="10" height="34" rx="5" fill="${skin}"/>${sleeve(C.sleeve === 'long' ? 33 : 13)}
-      ${L ? `<rect x="-1.5" y="23" width="13" height="6" rx="2" fill="${C.watch}"/><rect x="1.5" y="22" width="7" height="8" rx="2" fill="${C.face}" stroke="${C.watch}" stroke-width="1"/>` : ''}
-      <circle cx="5" cy="37" r="6.5" fill="${skin}"/>${!L && C.act === 'thumb' ? `<rect x="7" y="34" width="5" height="11" rx="2.5" fill="${skin}"/>` : ''}</g></g>`; };
-  const ears = pig ? `<path d="M66 38 L74 14 L88 30 Z" fill="${skin}" stroke="${dark}" stroke-width="1.5"/><path d="M134 38 L126 14 L112 30 Z" fill="${skin}" stroke="${dark}" stroke-width="1.5"/>`
-    : `<circle cx="70" cy="34" r="11" fill="${skin}"/><circle cx="70" cy="34" r="5" fill="#fde68a"/><circle cx="130" cy="34" r="11" fill="${skin}"/><circle cx="130" cy="34" r="5" fill="#fde68a"/>`;
-  const face = pig ? `<ellipse cx="100" cy="78" rx="14" ry="10" fill="#f472b6"/><ellipse cx="95" cy="78" rx="2.4" ry="3.2" fill="${dark}"/><ellipse cx="105" cy="78" rx="2.4" ry="3.2" fill="${dark}"/><circle cx="76" cy="80" r="5" fill="#fb7185" opacity=".5"/><circle cx="124" cy="80" r="5" fill="#fb7185" opacity=".5"/>`
-    : `<path d="M82 46 l6 9 M118 46 l-6 9 M64 64 l9 2 M136 64 l-9 2" stroke="${dark}" stroke-width="3.5" stroke-linecap="round"/><ellipse cx="100" cy="80" rx="17" ry="12" fill="#fff7ed"/><path d="M96 73 h8 l-4 4 z" fill="${dark}"/>`;
-  const mouth = { cry: `<path d="M92 ${pig ? 90 : 88} q8 -7 16 0" stroke="${dark}" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-    jog: `<ellipse cx="100" cy="${pig ? 91 : 88}" rx="4" ry="5" fill="${dark}"/>`, run: `<path d="M91 84 q9 9 18 0" stroke="${dark}" stroke-width="2.5" fill="#fca5a5" stroke-linecap="round"/>`,
-    thumb: `<path d="M89 83 q11 13 22 0 z" fill="${dark}"/><path d="M93 86 q7 5 14 0" fill="#fca5a5"/>` }[C.act];
-  const glass = C.glass === 'shield' ? `<rect x="74" y="55" width="52" height="15" rx="7" fill="${C.lens}" stroke="${C.frame}" stroke-width="3"/><path d="M80 59 l8 0" stroke="#fff" stroke-width="2" opacity=".6"/>`
-    : C.glass === 'wrap' ? `<path d="M72 58 Q100 50 128 58 L126 70 Q113 74 101 66 Q88 74 74 70 Z" fill="${C.lens}" stroke="${C.frame}" stroke-width="3"/><path d="M80 60 l7 -1" stroke="#fff" stroke-width="2" opacity=".6"/>`
-    : `<rect x="77" y="56" width="20" height="14" rx="6" fill="${C.lens}" stroke="${C.frame}" stroke-width="2.5"/><rect x="103" y="56" width="20" height="14" rx="6" fill="${C.lens}" stroke="${C.frame}" stroke-width="2.5"/><path d="M97 62 h6" stroke="${C.frame}" stroke-width="2.5"/><path d="M81 60 l5 0 M107 60 l5 0" stroke="#fff" stroke-width="2" opacity=".6"/>`;
-  const earph = C.ear === 'neck' ? `<circle cx="65" cy="66" r="5" fill="${C.earC}"/><circle cx="135" cy="66" r="5" fill="${C.earC}"/>`
-    : C.ear === 'clip' ? `<rect x="59" y="58" width="8" height="13" rx="4" fill="${C.earC}"/><rect x="133" y="58" width="8" height="13" rx="4" fill="${C.earC}"/>`
-    : `<path d="M66 54 q-8 10 0 20" stroke="${C.earC}" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="67" cy="66" r="4" fill="${C.earC}"/><path d="M134 54 q8 10 0 20" stroke="${C.earC}" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="133" cy="66" r="4" fill="${C.earC}"/>`;
-  const neckband = C.ear === 'neck' ? `<path d="M66 70 Q100 112 134 70" stroke="${C.earC}" stroke-width="4" fill="none"/>` : '';
-  const belt = C.belt === 'flip' ? `<rect x="${tx - 1}" y="132" width="${tw + 2}" height="7" rx="3" fill="#f472b6"/><path d="M${tx + 4} 132 l4 7 M${tx + 16} 132 l4 7 M${tx + 28} 132 l4 7 M${tx + 40} 132 l4 7 M${tx + 52} 132 l4 7" stroke="#facc15" stroke-width="2.5"/>`
-    : `<rect x="${tx - 1}" y="132" width="${tw + 2}" height="7" rx="3" fill="${C.belt}"/><rect x="${96}" y="133" width="8" height="5" rx="1.5" fill="#94a3b8" opacity=".7"/>`;
-  const top = C.sleeve === 'none' ? `<path d="M${tx + 4} 104 h${tw - 8} l3 34 h${-tw + 2} z" fill="${C.top}"/><path d="M${tx + 8} 112 h${tw - 16}" stroke="#7c3aed" stroke-width="3"/>`
-    : `<rect x="${tx}" y="98" width="${tw}" height="42" rx="${pig ? 22 : 14}" fill="${C.top}"/>${C.sleeve === 'short' ? `<path d="M${tx + 8} 106 h${tw - 16}" stroke="#ffffff22" stroke-width="2"/>` : ''}`;
-  const fx = { cry: `<g class="gc-cloud"><ellipse cx="146" cy="20" rx="20" ry="11" fill="#94a3b8"/><ellipse cx="133" cy="24" rx="12" ry="8" fill="#94a3b8"/><path d="M138 34 l-2 6 M147 34 l-2 6 M156 34 l-2 6" stroke="#60a5fa" stroke-width="2.5" stroke-linecap="round"/></g>
-        <path class="gc-tear" d="M85 70 q-3 6 0 9 q3 -3 0 -9" fill="#60a5fa"/><path class="gc-tear t2" d="M115 70 q-3 6 0 9 q3 -3 0 -9" fill="#60a5fa"/>`,
-    jog: `<path class="gc-sweat" d="M140 46 q-4 7 0 10 q4 -3 0 -10" fill="#7dd3fc"/><path class="gc-sweat t2" d="M60 50 q-4 7 0 10 q4 -3 0 -10" fill="#7dd3fc"/><path d="M151 116 q10 3 16 -2" stroke="${skin}" stroke-width="3.5" fill="none" stroke-linecap="round" class="gc-tail"/>`,
-    run: `<g class="gc-speed"><path d="M10 110 h30 M18 130 h26 M8 150 h34 M20 170 h22" stroke="#ffffff55" stroke-width="3" stroke-linecap="round"/></g>`,
-    thumb: `<g class="gc-spark"><path d="M160 40 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#fde047"/><path d="M40 60 l2 6 6 2 -6 2 -2 6 -2 -6 -6 -2 6 -2z" fill="#fde047"/><path d="M168 96 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#fde047"/></g>` }[C.act];
-  return `<svg class="gc gc-${C.act}" viewBox="0 0 200 210" role="img" aria-label="${C.tags.join(', ')} 착용 캐릭터">
-    <ellipse class="gc-shadow" cx="100" cy="199" rx="${pig ? 40 : 32}" ry="5" fill="#0006"/>
-    ${C.act === 'run' ? fx : ''}
-    <g class="gc-all">
-      ${leg(pig ? 84 : 87, 'gc-lgl')}${leg(pig ? 105 : 102, 'gc-lgr')}
-      ${neckband}${arm('l')}
-      <g class="gc-torso">${top}<rect x="${tx + 2}" y="134" width="${tw - 4}" height="14" rx="5" fill="${C.bot}"/>${belt}</g>
-      ${arm('r')}
-      <g class="gc-head">${ears}<circle cx="100" cy="66" r="37" fill="${skin}"/>${face}${earph}${glass}${mouth}
-        <path d="M63 50 Q100 8 137 50 Z" fill="${C.cap}"/><ellipse cx="100" cy="50" rx="44" ry="7" fill="${C.brim}"/><circle cx="100" cy="22" r="3" fill="${C.brim}"/></g>
-      ${C.act !== 'run' ? fx : ''}
-    </g>
-    <g class="gc-say"><rect x="128" y="${C.act === 'cry' ? 150 : 2}" width="${C.say.length * 11 + 14}" height="22" rx="11" fill="#fff"/><text x="${135}" y="${C.act === 'cry' ? 165 : 17}" font-size="12" font-weight="900" fill="#111">${C.say}</text></g>
-  </svg>`;
-}
-
+const GSET_PH = { beggar: 'photos/set_beggar.jpg', begin: 'photos/set_begin.jpg', mid: 'photos/set_mid.jpg', pro: 'photos/set_pro.jpg' }; // 풀세트 착용 그림 (Canva AI 생성)
 /* 풀세트 */
 function gearSets(g) {
   return `<section class="gset-sec"><div class="gset-h"><h2 class="h2">러닝 풀세트 <small>러닝화 + 복장 + 아이템 9종</small></h2>
@@ -421,12 +357,19 @@ function gearSets(g) {
     <div class="gset">${GEAR_SETS.map((S, si) => { const L = S.items.map(([lab, ref]) => [lab, gFind(Array.isArray(ref) ? ref[g === 'w' ? 1 : 0] : ref)]);
       const tot = L.reduce((a, [, p]) => a + gKrw(p), 0), anyUsd = L.some(([, p]) => !p.krw);
       return `<article class="gs grow" style="--sc:${S.c};--i:${si}">
-        <div class="gs-h"><span>${S.e}</span><div><b>${S.n}</b><small>${S.sub}</small></div></div>
-        <div class="gs-ch">${gearChar(S.k)}</div>
-        <div class="gs-col">${L.map(([lab, p], i) => `<div class="gs-ph ${p.cv ? 'cv' : ''} ${i === 0 ? 'big' : ''}" ${gOpen(p.id)} style="--k:${i}" title="${esc(p.n)}">${gImg(p.img, p.n)}<em>${lab}</em></div>`).join('')}</div>
-        <ul class="gs-l">${L.map(([lab, p]) => `<li ${gOpen(p.id)}><i>${lab}</i><b>${esc(p.n)}</b><span>${p.krw ? p.krw.toLocaleString() + '원' : '$' + p.usd}</span></li>`).join('')}</ul>
+        <div class="gs-h"><span>${S.e}</span><div><b>${S.n}</b><small>${S.sub}</small></div></div>${GSET_PH[S.k] ? `<div class="gs-ch ph"><img src="${GSET_PH[S.k]}" alt="${S.n} 착용 사진" loading="lazy"></div>` : ''}
         <div class="gs-t"><span>총 가격</span><b>${cnt(tot, 'int', anyUsd ? '약 ' : '', '원')}</b></div>
-        ${anyUsd ? '<small class="gs-n">해외 공식몰 제품은 1달러 ≈ 1,400원으로 환산 · 배송비 별도</small>' : '<small class="gs-n">국내 공식몰 정가 합계 (할인가 별도)</small>'}</article>`; }).join('')}</div></section>`;
+        ${anyUsd ? '<small class="gs-n">해외 공식몰 제품은 1달러 ≈ 1,400원으로 환산 · 배송비 별도</small>' : '<small class="gs-n">국내 공식몰 정가 합계 (할인가 별도)</small>'}
+        <button type="button" class="gs-btn" onclick="gearSetOpen(this)">아이템 ${L.length}종 보기 ▾</button>
+        <div class="gs-more" hidden>
+        <div class="gs-col">${L.map(([lab, p], i) => `<div class="gs-ph ${p.cv ? 'cv' : ''} ${i === 0 ? 'big' : ''}" ${gOpen(p.id)} style="--k:${i}" title="${esc(p.n)}">${gImg(p.img, p.n)}<em>${lab}</em></div>`).join('')}</div>
+        <ul class="gs-l">${L.map(([lab, p]) => `<li ${gOpen(p.id)}><i>${lab}</i><b>${esc(p.n)}</b><span>${p.krw ? p.krw.toLocaleString() + '원' : '$' + p.usd}</span></li>`).join('')}</ul></div></article>`; }).join('')}</div></section>`;
+}
+function gearSetOpen(btn) {
+  const box = btn.nextElementSibling, open = box.hidden;
+  btn.dataset.t = btn.dataset.t || btn.textContent;
+  box.hidden = !open; btn.textContent = open ? '접기 ▴' : btn.dataset.t;
+  if (open) box.classList.add('on');
 }
 let GEAR_G = 'm';
 function gearSetG(g) { GEAR_G = g; const y = scrollY; viewGear('set'); scrollTo(0, y); }
