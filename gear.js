@@ -80,6 +80,13 @@ const WATCH_LV = [
   ['🏃 중수', '하프·풀 준비 · 기록 단축', [['fr170', '고도계·결제까지 갖춘 훈련용 가민'], ['gw9', '안드로이드 러너의 일상+러닝 올라운더'], ['srun', '가볍고 깔끔한 러닝 전용'], ['aw12', '아이폰 러너의 올라운더'], ['cheetah2p', '가민 대비 싼 마라톤 지표 워치']]],
   ['🏆 선수', '서브3 · 울트라 · 트레일', [['fr970', '러닝 톨러런스·지도까지 — 러닝워치 최상위'], ['fr570', '풀코스 기록 도전의 정석'], ['fenix9', '멀티스포츠·트레일 플래그십'], ['srace2', '지도·트레일 최상급'], ['awu4', '애플워치 최상위'], ['gwu2', '트레일·장거리용 갤럭시']]],
 ];
+function gearLv3() {
+  const row = (p, why, r) => `<li ${gOpen(p.id)}><span class="lv3-n r${r}">${r}</span><span class="lv3-im ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}</span><span class="lv3-tx"><b>${esc(p.n)}</b><strong>${gPrice(p)}</strong><small>${esc(why)}</small></span></li>`;
+  return `<div class="lv3">${WATCH_LV.map(([lv, d, L]) => `<div class="lv3-c"><div class="lv3-h"><b>${lv}</b><small>${d}</small></div>
+    <ol>${L.slice(0, 3).map(([id, why], i) => row(GEAR_ALL[id], why, i + 1)).join('')}</ol>
+    ${L.length > 3 ? `<ol class="lv3-more" hidden>${L.slice(3).map(([id, why], i) => row(GEAR_ALL[id], why, i + 4)).join('')}</ol><button type="button" class="gb-btn" onclick="gearLvMore(this)">더보기 · 4~${L.length}위 ▾</button>` : ''}</div>`).join('')}</div>`;
+}
+function gearLvMore(btn) { const o = btn.previousElementSibling; btn.dataset.t = btn.dataset.t || btn.textContent; o.hidden = !o.hidden; btn.textContent = o.hidden ? btn.dataset.t : '접기 ▴'; }
 function gearLv(btn, i) {
   const sec = btn.closest('section');
   sec.querySelectorAll('.wlv-t button').forEach((b, j) => b.classList.toggle('on', j === i));
@@ -434,7 +441,7 @@ function viewGearWatch(head) {
   app.innerHTML = `${head}
     <section><h2 class="h2">워치 선택 팁</h2>
       ${gearRules(WATCH_RULES)}${gearLevels(WATCH_TIPS)}</section>
-    <section><h2 class="h2">워치 추천 순위</h2><div class="wlv-t">${WATCH_LV.map(([lv, d], i) => `<button type="button" class="${i ? '' : 'on'}" onclick="gearLv(this,${i})"><b>${lv}</b><small>${d}</small></button>`).join('')}</div>${WATCH_LV.map(([lv, d, L], i) => `<div class="wlv" ${i ? 'hidden' : ''}>${gearBest(L.map(([id, why]) => [W(id), why]))}</div>`).join('')}</section>
+    <section><h2 class="h2">워치 추천 순위</h2>${gearLv3()}</section>
     <section><h2 class="h2">시장 점유율 · 판매량</h2>
       <div class="gw-kpi">
         <div class="grow"><b>${cnt(46, 'int', '', '%')}</b><span>애플 스마트워치 점유율 1위 (옴디아 2026년 2분기)</span></div>
