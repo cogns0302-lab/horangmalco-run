@@ -18,7 +18,7 @@ const GEAR_CATS = [
   ['belt', '👝', '러닝벨트', '밴드형 · 파우치형'],
   ['sun', '🕶️', '선글라스', '편광 · 프리즘 렌즈'],
   ['sock', '🧦', '양말', '쿠션 · 발가락 · 메리노'],
-  ['wear', '👕', '복장', '남자 · 여자 · 상의 · 하의'],
+  ['wear', '👕', '의류', '남성 · 여성 · 상의 · 하의'],
 ];
 
 /* ---------- 시계 ---------- */
@@ -151,6 +151,12 @@ const GEAR = {
       { n: '시엘 GOCap SC 컴프', b: '시엘', ty: '경량 5패널', t: 'pro', usd: 60, img: 'https://cdn.shopify.com/s/files/1/0683/8678/3506/files/U-2-CA-0092-BK006_GOCapSC-Comp-WWM26-Tokyo_D1_2026_FRNTL.jpg', url: 'https://cieleathletics.com/products/gocap-sc-comp-wwm26-tokyo', shop: '시엘 공식 (해외)', pts: ['세계 메이저 대회 에디션', '레이스용 초경량 캡'], elite: 1 },
       { n: '새티스파이 플라이트실크 5패널', b: '새티스파이', ty: '경량 5패널', t: 'high', krw: 170000, pn: '공식몰 원화 표시가', img: 'https://cdn.shopify.com/s/files/1/0075/4617/5546/files/31015-66046_Flitesilk-5-panel-pinch-cap-proud_blue_front.jpg', url: 'https://satisfyrunning.com/products/flitesilk-5-panel-pinch-cap-navy-bumper', shop: '새티스파이 공식 (해외)', pts: ['파리 러닝 패션 브랜드', '실크처럼 가벼운 원단'] },
     ],
+    brands: [
+      ["데카트론","#0082c3","프랑스 스포츠용품 유통사 — 러닝 자체 브랜드 킵런(KIPRUN). 국내 공식몰·매장에서 바로 사요.","https://www.decathlon.co.kr/",[["러닝 캡 V2","1.7만 원 기본 캡"],["울트라라이트","접히는 경량 캡"]]],
+      ["시엘","#84cc16","캐나다 러닝 캡 전문 브랜드 — \"러너 모자\" 하면 떠오르는 GOCap.","https://cieleathletics.com/",[["GOCap","데일리 러닝 캡"],["GOCap SC","레이스 경량 캡"]]],
+      ["나이키","#111827","세계 1위 스포츠 브랜드 — 드라이 핏 러닝 라인. 국내 공식몰.","https://www.nike.com/kr/",[["플라이 캡","에어로어댑트 통풍"]]],
+      ["새티스파이","#a16207","파리 러닝 패션 브랜드 — 실크 같은 테크 원단, 하이엔드 가격.","https://satisfyrunning.com/",[["플라이트실크","초경량 5패널"]]],
+    ],
     best: [['시엘 GOCap 클래식', '러너 모자 하면 이것 — 디자인·기능 모두'], ['나이키 드라이 핏 ADV 플라이 캡', '국내 공식몰에서 바로 사는 통풍 캡'], ['데카트론 러닝 캡 모자 V2', '1.7만 원 — 처음 사는 러닝 캡']],
   },
   vest: {
@@ -163,6 +169,12 @@ const GEAR = {
       { n: '네이키드 하이 커패시티 베스트', b: '네이키드', ty: '로드 경량 (2~5L)', t: 'mid', usd: 110, img: 'https://cdn.shopify.com/s/files/1/0596/0866/2196/files/HC_VEST-BLACK-F.jpg', url: 'https://www.nakedsportsinnovations.com/products/naked%C2%AE-high-capacity-running-vest-mens-copy', shop: '네이키드 공식 (해외)', pts: ['밴드형 원단으로 안 흔들려요', '수납 많고 가벼움'] },
       { n: '살로몬 어드밴스드 스킨 12 세트', b: '살로몬', ty: '트레일 (8~12L)', t: 'high', krw: 250000, img: 'https://cdn.shopify.com/s/files/1/0580/9035/6875/files/LC2464300_0_GHO_ADVSKIN12SETBLACK_8c3006c0-bc4f-4991-9c9a-eae89b4620ac.png', url: 'https://salomon.co.kr/products/lc2464300', shop: '살로몬 코리아', pts: ['트레일 러닝 베스트의 표준', '울트라·산악 대회 필수 장비 수납'], elite: 1 },
       { n: '살로몬 S/LAB 센스 6 세트', b: '살로몬', ty: '플라스크 포함 세트', t: 'pro', krw: 280000, img: 'https://cdn.shopify.com/s/files/1/0580/9035/6875/files/LC2855200_0_GHO_S-LABSENSE6SET-BLACK.png', url: 'https://salomon.co.kr/products/lc2855200', shop: '살로몬 코리아', pts: ['엘리트 트레일 선수용 레이싱 베스트', '최소 무게 · 최대 밀착'], elite: 1 },
+    ],
+    brands: [
+      ["살로몬","#0f172a","프랑스 트레일러닝 대표 브랜드 — 러닝 베스트의 표준 \"스킨\" 시리즈. 국내 공식몰.","https://salomon.co.kr/",[["액티브 스킨","입문·로드"],["어드밴스드 스킨","트레일·울트라"],["S/LAB","엘리트 레이싱"]]],
+      ["데카트론","#0082c3","프랑스 스포츠용품 유통사 — 러닝 자체 브랜드 킵런(KIPRUN). 국내 공식몰·매장에서 바로 사요.","https://www.decathlon.co.kr/",[["트레일러닝 베스트","5L 경량"]]],
+      ["네이키드","#ea580c","캐나다 밴드형 러닝 장비 — 원단이 늘어나 몸에 붙어서 안 흔들려요.","https://www.nakedsportsinnovations.com/",[["하이 커패시티","대용량 로드 베스트"]]],
+      ["AONIJIE","#65a30d","중국 초가성비 트레일 브랜드 — 알리에서 살로몬의 3분의 1 가격.","https://www.aonijie.com/",[["트레일 베스트","10L 입문"]]],
     ],
     best: [['살로몬 어드밴스드 스킨 12 세트', '트레일·울트라를 한다면 결국 이 베스트'], ['데카트론 경량 트레일러닝 베스트 5L', '7만 원으로 시작하는 첫 러닝 베스트'], ['살로몬 액티브 스킨 8 세트', '로드 장거리 + 가벼운 트레일 겸용']],
   },
@@ -177,19 +189,46 @@ const GEAR = {
       { n: '네이키드 HC 러닝 밴드', b: '네이키드', ty: '밴드형 (튜브)', t: 'high', usd: 65, img: 'https://cdn.shopify.com/s/files/1/0596/0866/2196/files/HCBand-Black-F_1.jpg', url: 'https://www.nakedsportsinnovations.com/products/naked%C2%AE-hc-running-band', shop: '네이키드 공식 (해외)', pts: ['대용량 — 물병·폴까지', '울트라 러너 인기'], elite: 1 },
       { n: '살로몬 S/LAB 벨트 PNS', b: '살로몬', ty: '밴드형 (튜브)', t: 'pro', krw: 100000, img: 'https://cdn.shopify.com/s/files/1/0580/9035/6875/files/LC3068400_0_GHO_S-LABBELTPNS.png', url: 'https://salomon.co.kr/products/lc3068400', shop: '살로몬 코리아', pts: ['S/LAB 레이스 라인', '엘리트 대회용'], elite: 1 },
     ],
+    brands: [
+      ["살로몬","#0f172a","프랑스 트레일러닝 대표 브랜드 — 러닝 베스트의 표준 \"스킨\" 시리즈. 국내 공식몰.","https://salomon.co.kr/",[["펄스 벨트","로드 레이스"],["S/LAB 벨트","엘리트"]]],
+      ["데카트론","#0082c3","프랑스 스포츠용품 유통사 — 러닝 자체 브랜드 킵런(KIPRUN). 국내 공식몰·매장에서 바로 사요.","https://www.decathlon.co.kr/",[["스마트폰 벨트","1.5만 원 국민 벨트"]]],
+      ["플립벨트","#7c3aed","미국 밴드형 러닝벨트의 원조 — 버클 없는 튜브 벨트.","https://flipbelt.com/",[["클래식","튜브형 밴드"]]],
+      ["네이키드","#ea580c","캐나다 밴드형 러닝 장비 — 원단이 늘어나 몸에 붙어서 안 흔들려요.","https://www.nakedsportsinnovations.com/",[["HC 러닝 밴드","대용량 밴드"]]],
+      ["AONIJIE","#65a30d","중국 초가성비 트레일 브랜드 — 알리에서 살로몬의 3분의 1 가격.","https://www.aonijie.com/",[["러닝 벨트","파우치형 초저가"]]],
+    ],
     best: [['플립벨트 클래식', '안 흔들리는 밴드형의 원조'], ['데카트론 러닝 스마트폰 벨트 베이직 2', '1.5만 원 국민 러닝벨트'], ['살로몬 펄스 벨트', '국내 공식몰에서 사는 레이스 벨트']],
   },
   sun: {
-    types: [['🌊', '편광 렌즈', '물·아스팔트 반사광을 잘라요 — 눈부심 감소.', '화면(시계) 보기가 어두울 때가 있어요'], ['🌈', '프리즘·고대비 렌즈', '노면 굴곡이 또렷 — 오클리 프리즘 등.', '비싸요'], ['🌗', '변색 렌즈', '빛에 따라 어두워졌다 밝아져요 — 새벽·숲길.', '반응에 몇십 초 걸려요']],
-    rules: [['🪶', '30g 안팎 가벼움', '코·귀 자국이 안 생겨요.'], ['🧲', '미끄럼 방지 코패드', '땀 나도 안 흘러내리는지.'], ['🛡️', 'UV400 차단', '싼 제품도 UV 차단 표시는 필수.']],
+    types: [['🌊', '편광 렌즈', '물·아스팔트 반사광을 잘라요 — 눈부심 감소.', '시계 화면이 어둡게 보일 때가 있어요'], ['🌈', '프리즘·고대비 렌즈', '노면 굴곡이 또렷 — 오클리 프리즘 등.', '비싸요'], ['🌗', '변색 렌즈', '빛에 따라 어두워졌다 밝아져요 — 새벽·숲길.', '반응에 몇십 초 걸려요'], ['🛡️', 'UV400 일반 렌즈', '자외선만 막는 기본 렌즈 — 가장 싸요.', '반사광 눈부심은 그대로']],
+    rules: [['🪶', '30g 안팎 가벼움', '코·귀 자국이 안 생겨요.'], ['🧲', '미끄럼 방지 코패드', '땀 나도 안 흘러내리는지. 동양인은 "아시안핏"이 편해요.'], ['🛡️', 'UV400 차단', '싼 제품도 UV 차단 표시는 필수.']],
     items: [
+      { n: '다이소 러닝 선글라스 1천 원', b: '다이소', ty: 'UV400 일반 렌즈', t: 'cheap', krw: 1000, img: 'https://cdn.daisomall.co.kr/file/PD/20260422/ZOAeERVwFVCjJFAO6Hgx1073820_00_00ZOAeERVwFVCjJFAO6Hgx.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1073820', shop: '다이소몰', pts: ['UV400 · 자외선 최대 99% 차단', '단돈 1천 원'], cons: ['편광 아님 · 렌즈 왜곡이 있을 수 있어요', '품절 잦음'], beg: 1 },
       { n: '락브로스 편광 스포츠 선글라스', b: 'ROCKBROS', ty: '편광 렌즈', t: 'cheap', usd: 15, pn: '알리 약 12~50달러 (모델별)', img: 'https://ae-pic-a1.aliexpress-media.com/kf/Sb685b848327e4a56a9a6110b57bce97eL.jpg', url: 'https://ko.aliexpress.com/i/33022724107.html', shop: '알리익스프레스', pts: ['2만 원대 편광·UV400', '자전거·러닝 겸용'], beg: 1 },
       { n: 'goodr OG', b: 'goodr', ty: '편광 렌즈', t: 'cheap', usd: 30, img: 'https://cdn.shopify.com/s/files/1/0084/1616/5946/files/1_MICK_KEITHS_MIDNIGHT_RAMBLE_Side_Transparent_cad0cf3e-dbef-42c4-8d8e-ac03a16efa0e.png', url: 'https://goodr.com/products/mick-and-keiths-midnight-ramble', shop: 'goodr 공식 (해외)', pts: ['"안 미끄러지고 안 튀는" 편광 30달러', '러너 인기 1위 가성비'], beg: 1 },
-      { n: '100% 스피드크래프트', b: '100%', ty: '프리즘·고대비 렌즈', t: 'mid', usd: 149.95, img: 'https://cdn.shopify.com/s/files/1/0042/0190/6234/files/SP26_SPEEDCRAFT_60007-10084_3Q.jpg', url: 'https://www.100percent.com/products/speedcraft-polished-translucent-clear-purple-mirror-lens', shop: '100% 공식 (해외)', pts: ['넓은 실드 렌즈 — 시야 최대', '사이클·러닝 선수 다수 사용'] },
-      { n: '디스트릭트 비전 준야 레이서', b: '디스트릭트 비전', ty: '프리즘·고대비 렌즈', t: 'high', krw: 398379, pn: '공식몰 원화 표시가', img: 'https://cdn.shopify.com/s/files/1/0464/6148/5224/files/DVG003_Grey_001.jpg', url: 'https://districtvision.com/products/junya-racer-slate-d-onyx-mirror', shop: '디스트릭트 비전 공식 (해외)', pts: ['러닝 패션 하이엔드', '초경량 레이서 프레임'] },
+      { n: '리끌로우 TR 셀리파 편광 고글 선글라스', b: '리끌로우', ty: '편광 렌즈', t: 'cheap', krw: 69900, img: 'https://images.kolonmall.com/Prod_Img/10003999/2026/LS1/K1768988636165006GY01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1768988636165006GY01', shop: '코오롱몰', pts: ['국내 브랜드 편광 고글형 · 7만 원대', '코오롱몰 평점 4.9'], cons: ['해외 스포츠 브랜드보다 인지도가 낮아요'] },
+      { n: '리끌로우 KLAY 변색 고글 선글라스', b: '리끌로우', ty: '변색 렌즈', t: 'cheap', krw: 69900, img: 'https://images.kolonmall.com/Prod_Img/10003999/2026/LS1/K1769504680043010WH01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1769504680043010WH01', shop: '코오롱몰', pts: ['새벽·밤에도 쓰는 변색 렌즈 · 7만 원대', '코오롱몰 평점 4.8'], cons: ['변색 반응에 수십 초 걸려요'], beg: 1 },
+      { n: '소다몬 리트론 RT3301', b: '소다몬', ty: '변색 렌즈', t: 'mid', krw: 149000, img: 'https://images.kolonmall.com/Prod_Img/10003795/2024/LS1/K1710400915305051BL03_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1710400915305051BL03', shop: '코오롱몰', pts: ['변색 + 편광 렌즈를 한 번에', '국내 스포츠 아이웨어 브랜드'], cons: ['렌즈가 커서 얼굴이 작으면 부담'] },
+      { n: '100% 허드슨', b: '100%', ty: 'UV400 일반 렌즈', t: 'mid', krw: 150000, img: 'https://images.kolonmall.com/Prod_Img/10003602/2025/LS1/K1788508078021042BR01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1788508078021042BR01', shop: '코오롱몰 백퍼센트', pts: ['일상·러닝 겸용 라이프스타일 프레임', '15만 원으로 100% 입문'], cons: ['실드형보다 옆 시야가 좁아요'] },
+      { n: '100% 스피드크래프트 XS', b: '100%', ty: '프리즘·고대비 렌즈', t: 'mid', krw: 200000, img: 'https://images.kolonmall.com/Prod_Img/10003602/2020/LS1/K1788511709568035BR01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1788511709568035BR01', shop: '코오롱몰 백퍼센트', pts: ['얼굴이 작은 러너용 작은 실드', '스피드크래프트보다 8만 원 저렴'], cons: ['얼굴이 크면 작아요'] },
+      { n: '100% 스피드크래프트', b: '100%', ty: '프리즘·고대비 렌즈', t: 'mid', krw: 280000, pn: '컬러·렌즈별 28~30만 원', img: 'https://images.kolonmall.com/Prod_Img/10003602/2024/LS1/K1788511063188086BR01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1788511063188086BR01', shop: '코오롱몰 백퍼센트', pts: ['넓은 실드 렌즈 — 시야 최대', '사이클·러닝 선수 다수 사용'] },
+      { n: '오클리 수트로', b: '오클리', ty: '프리즘·고대비 렌즈', t: 'high', krw: 287000, pn: '코오롱몰 할인가 수시 변동', img: 'https://images.kolonmall.com/Prod_Img/10003821/2024/LS1/K1764223697133086NO01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1764223697133086NO01', shop: '코오롱몰 오클리', pts: ['큰 실드형 프리즘 — 러닝·사이클 인기', '아시안핏 코패드'], cons: ['얼굴 작으면 렌즈가 커 보여요'] },
+      { n: '오클리 EV제로 패스', b: '오클리', ty: '프리즘·고대비 렌즈', t: 'high', krw: 303000, pn: '코오롱몰 할인가 수시 변동', img: 'https://images.kolonmall.com/Prod_Img/10003821/2025/LS1/K1764223698204061NO01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1764223698204061NO01', shop: '코오롱몰 오클리', pts: ['테 없는 초경량 실드 — 시야가 넓어요', '아시안핏'], cons: ['렌즈가 노출돼 흠집에 약해요'] },
+      { n: '오클리 수트로 라이트', b: '오클리', ty: '프리즘·고대비 렌즈', t: 'high', krw: 303000, pn: '코오롱몰 할인가 수시 변동', img: 'https://images.kolonmall.com/Prod_Img/10003821/2024/LS1/K1764223680772029NO01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1764223680772029NO01', shop: '코오롱몰 오클리', pts: ['수트로의 하프 프레임 경량 버전', '아래쪽 시야가 트여 노면이 잘 보여요'], elite: 1 },
+      { n: '오클리 수트로 라이트 변색', b: '오클리', ty: '변색 렌즈', t: 'high', krw: 352000, img: 'https://images.kolonmall.com/Prod_Img/10003821/2024/LS1/K1764223667137044NO01_LS1.jpg', url: 'https://www.kolonmall.com/Product/K1764223667137044NO01', shop: '코오롱몰 오클리', pts: ['새벽부터 한낮까지 하나로 — 변색 프리즘', '울트라·장거리 러너용'], cons: ['35만 원대'] },
+      { n: '디스트릭트 비전 준야 레이서', b: '디스트릭트 비전', ty: '프리즘·고대비 렌즈', t: 'high', krw: 398379, pn: '공식몰 원화 표시가', img: 'https://cdn.shopify.com/s/files/1/0464/6148/5224/files/DVG003_Grey_001.jpg', url: 'https://districtvision.com/products/junya-racer-slate-d-onyx-mirror', shop: '디스트릭트 비전 공식 (해외)', pts: ['러닝 패션 하이엔드', '초경량 레이서 프레임'], elite: 1 },
       { n: '오클리 레이더 EV 패스', b: '오클리', ty: '프리즘·고대비 렌즈', t: 'pro', usd: 244, img: 'https://assets2.oakley.com/prod-onecp-record-files/pieyewear/38bb5876-a40c-4880-9348-b35f004b5e7c/0OO9208__920852__P21__shad__qt.png', url: 'https://www.oakley.com/en-us/product/W0OO9208', shop: '오클리 공식 (미국)', pts: ['엘리트 마라토너·사이클 선수 대표 선글라스', '프리즘 렌즈로 노면이 또렷'], elite: 1 },
     ],
-    best: [['오클리 레이더 EV 패스', '대회 사진 속 선수들이 쓰는 그 선글라스'], ['goodr OG', '3만 원대로 안 흘러내리는 편광'], ['100% 스피드크래프트', '넓은 시야의 실드형']],
+    brands: [
+      ['오클리', '#dc2626', '스포츠 선글라스 대표 브랜드 (모회사 에실로룩소티카) — 노면이 또렷한 프리즘 렌즈. 국내는 코오롱몰 등 공식 판매처.', 'https://www.oakley.com/', [['레이더 EV', '선수 대표 실드'], ['수트로', '큰 실드형'], ['EV제로', '테 없는 초경량']]],
+      ['100%', '#0f172a', '미국 사이클·모토크로스 아이웨어 — 넓은 실드 렌즈. 국내는 코오롱몰 백퍼센트관.', 'https://www.100percent.com/', [['스피드크래프트', '실드형 대표'], ['허드슨', '라이프스타일']]],
+      ['goodr', '#ec4899', '미국 러닝 선글라스 브랜드 — 30달러 편광, 땀에도 안 미끄러지는 코팅.', 'https://goodr.com/', [['OG', '데일리 러닝 편광']]],
+      ['리끌로우', '#0ea5e9', '국내 아이웨어 브랜드 — 7만 원대 편광·변색 고글형 러닝 선글라스.', 'https://www.kolonmall.com/Search?keyword=%EB%A6%AC%EB%81%8C%EB%A1%9C%EC%9A%B0', [['TR 셀리파', '편광 고글형'], ['KLAY', '변색 고글형']]],
+      ['소다몬', '#16a34a', '국내 스포츠 아이웨어 브랜드 — 변색과 편광을 합친 렌즈.', 'https://www.kolonmall.com/Search?keyword=%EC%86%8C%EB%8B%A4%EB%AA%AC', [['리트론', '변색+편광']]],
+      ['디스트릭트 비전', '#64748b', '뉴욕 러닝 패션 아이웨어 — 초경량 레이서 프레임.', 'https://districtvision.com/', [['준야 레이서', '하이엔드 레이서']]],
+      ['락브로스', '#f59e0b', '중국 자전거·러닝 용품 브랜드 — 알리에서 1~5만 원대 편광.', 'https://ko.aliexpress.com/i/33022724107.html', [['편광 스포츠', '초가성비']]],
+      ['다이소', '#e11d48', '1천 원 균일가 러닝 선글라스 — 편광은 아니지만 UV400.', 'https://www.daisomall.co.kr/', [['러닝 선글라스', 'UV400 1천 원']]],
+    ],
+    best: [['오클리 레이더 EV 패스', '대회 사진 속 선수들이 쓰는 그 선글라스'], ['goodr OG', '3만 원대로 안 흘러내리는 편광'], ['100% 스피드크래프트', '넓은 시야의 실드형'], ['오클리 수트로 라이트', '국내 공식 판매 오클리 중 러너 인기'], ['리끌로우 KLAY 변색 고글 선글라스', '7만 원대 변색 렌즈']],
   },
   sock: {
     types: [['🧽', '쿠션형', '발바닥 두툼 — 장거리·초보 충격 완화.', '여름엔 더워요'], ['🖐️', '발가락 양말', '발가락 사이 마찰을 막아 물집 방지 — 울트라 러너 필수.', '신기 번거로워요'], ['🐑', '메리노 울', '땀·냄새에 강하고 사계절 — 오래가요.', '비싸요']],
@@ -202,16 +241,23 @@ const GEAR = {
       { n: '피처스 엘리트 라이트 쿠션', b: '피처스', ty: '쿠션형', t: 'high', usd: 19, img: 'https://feetures.com/cdn/shop/files/Elite_LC_Tab_LilacBreeze_E5090857_1.jpg', url: 'https://feetures.com/products/elite-light-cushion-no-show-tab', shop: '피처스 공식 (해외)', pts: ['아치 압박 · 좌우 구분 설계', '얇고 밀착 — 레이스용'], elite: 1 },
       { n: '단터프 런 마이크로 크루', b: '단터프', ty: '메리노 울', t: 'high', usd: 23, img: 'https://cdn.shopify.com/s/files/1/1354/8177/files/1071_Whitenew.png', url: 'https://darntough.com/products/mens-merino-wool-run-micro-crew-cushioned-ultra-lightweight-running-socks', shop: '단터프 공식 (해외)', pts: ['메리노 울 · 평생 보증', '사계절 · 냄새 적음'] },
     ],
+    brands: [
+      ["데카트론","#0082c3","프랑스 스포츠용품 유통사 — 러닝 자체 브랜드 킵런(KIPRUN). 국내 공식몰·매장에서 바로 사요.","https://www.decathlon.co.kr/",[["런 100","3켤레 기본"],["런 500","쿠션 중목"]]],
+      ["발레가","#0d9488","남아공 러닝 양말 브랜드 — 푹신한 쿠션과 깊은 뒤꿈치.","https://balega.com/",[["히든 컴포트","쿠션 노쇼"]]],
+      ["인진지","#2563eb","미국 발가락 양말 브랜드 — 울트라 러너의 물집 방지 필수템.","https://www.injinji.com/",[["런","라이트웨이트 발가락 양말"]]],
+      ["피처스","#9333ea","미국 러닝 양말 — 좌우 구분·아치 압박 설계.","https://feetures.com/",[["엘리트","얇은 레이스 양말"]]],
+      ["단터프","#b45309","미국 버몬트 메리노 울 양말 — 평생 보증.","https://darntough.com/",[["런","메리노 러닝 양말"]]],
+    ],
     best: [['발레가 히든 컴포트', '첫 "좋은 러닝 양말"로 가장 무난'], ['인진지 런 라이트웨이트 노쇼', '물집이 잦다면 발가락 양말'], ['데카트론 러닝 쿠션 중목 양말 런 500', '2켤레 7,900원 가성비']],
   },
 };
 const GEAR_TIPS = {
   ear: [['🌱', '입문', '5만 원 이하', ['오픈형 클립·이어훅부터', '빠지지 않는지만 확인'], ['QCY 크로스키 C50', '사운드코어 에어로핏 2']], ['🏃', '중급', '20~30만 원', ['오픈형 이어훅 · 골전도', '방수·배터리 8시간+'], ['샥즈 오픈핏 2+', '보스 스포츠 오픈 이어버드']], ['🏆', '선수·대회', '25~37만 원', ['골전도 헤드형이 정석', '심박 측정 이어폰도 선택지'], ['샥즈 오픈런 프로 2', '파워비츠 프로 2']]],
-  cap: [['🌱', '입문', '2만 원 안팎', ['가볍고 속건되는 캡', '뒤 조절 끈'], ['데카트론 러닝 캡 모자 V2', '데카트론 러닝 울트라라이트 캡']], ['🏃', '중급', '4~6만 원', ['납작 접히는 러닝 캡', '반사 로고'], ['시엘 GOCap 클래식', '나이키 드라이 핏 ADV 플라이 캡']], ['🏆', '선수·대회', '6만 원+', ['초경량 5패널', '대회 에디션'], ['시엘 GOCap SC 컴프']]],
-  vest: [['🌱', '입문', '7~10만 원', ['로드 5L면 충분', '포켓 수 · 무게'], ['데카트론 경량 트레일러닝 베스트 5L']], ['🏃', '중급', '15~18만 원', ['플라스크 포함 세트', '흔들림 테스트'], ['살로몬 액티브 스킨 8 세트']], ['🏆', '트레일·울트라', '25~28만 원', ['필수 장비 수납 12L', '레이싱 S/LAB'], ['살로몬 어드밴스드 스킨 12 세트', '살로몬 S/LAB 센스 6 세트']]],
-  belt: [['🌱', '입문', '2만 원 이하', ['폰만 들어가면 OK', '밴드형이 덜 흔들려요'], ['데카트론 러닝 스마트폰 벨트 베이직 2']], ['🏃', '중급', '3~5만 원', ['젤·키·폰 분리 수납', '배번 고리'], ['플립벨트 클래식', '살로몬 펄스 벨트']], ['🏆', '대회·울트라', '9~10만 원', ['물병·폴까지 수납', '레이스 전용'], ['네이키드 HC 러닝 밴드', '살로몬 S/LAB 벨트 PNS']]],
-  sun: [['🌱', '입문', '2~5만 원', ['UV400 + 편광', '미끄럼 방지'], ['락브로스 편광 스포츠 선글라스', 'goodr OG']], ['🏃', '중급', '20만 원대', ['넓은 시야 실드형', '고대비 렌즈'], ['100% 스피드크래프트']], ['🏆', '선수·대회', '30만 원+', ['프리즘 렌즈 · 초경량', '교체 렌즈'], ['오클리 레이더 EV 패스', '디스트릭트 비전 준야 레이서']]],
-  sock: [['🌱', '입문', '켤레당 2~4천 원', ['쿠션형 + 뒤꿈치 탭', '여러 켤레 돌려 신기'], ['데카트론 러닝 단목 양말 런 100 (3켤레)']], ['🏃', '중급', '2만 원대', ['좌우 구분 설계', '봉제선 없는 앞코'], ['발레가 히든 컴포트', '피처스 엘리트 라이트 쿠션']], ['🏆', '장거리·울트라', '2~3만 원대', ['발가락 양말로 물집 방지', '메리노 울'], ['인진지 런 라이트웨이트 노쇼', '단터프 런 마이크로 크루']]],
+  cap: [['🌱', '입문', '2만 원 안팎', ['가볍고 속건되는 캡', '뒤 조절 끈'], ['데카트론 러닝 캡 모자 V2', '데카트론 러닝 울트라라이트 캡']], ['🏃', '중급', '4~6만 원', ['납작 접히는 러닝 캡', '반사 로고'], ['시엘 GOCap 클래식', '나이키 드라이 핏 ADV 플라이 캡']], ['🏆', '선수·대회', '6만 원+', ['초경량 5패널', '대회 에디션'], ['시엘 GOCap SC 컴프', '새티스파이 플라이트실크 5패널']]],
+  vest: [['🌱', '입문', '7~10만 원', ['로드 5L면 충분', '포켓 수 · 무게'], ['데카트론 경량 트레일러닝 베스트 5L', 'AONIJIE 10L 트레일 베스트 C9116']], ['🏃', '중급', '15~18만 원', ['플라스크 포함 세트', '흔들림 테스트'], ['살로몬 액티브 스킨 8 세트', '네이키드 하이 커패시티 베스트']], ['🏆', '트레일·울트라', '25~28만 원', ['필수 장비 수납 12L', '레이싱 S/LAB'], ['살로몬 어드밴스드 스킨 12 세트', '살로몬 S/LAB 센스 6 세트']]],
+  belt: [['🌱', '입문', '2만 원 이하', ['폰만 들어가면 OK', '밴드형이 덜 흔들려요'], ['데카트론 러닝 스마트폰 벨트 베이직 2', 'AONIJIE 러닝 벨트']], ['🏃', '중급', '3~5만 원', ['젤·키·폰 분리 수납', '배번 고리'], ['플립벨트 클래식', '살로몬 펄스 벨트']], ['🏆', '대회·울트라', '9~10만 원', ['물병·폴까지 수납', '레이스 전용'], ['네이키드 HC 러닝 밴드', '살로몬 S/LAB 벨트 PNS']]],
+  sun: [['🌱', '입문', '1천~7만 원', ['UV400 + 편광', '미끄럼 방지'], ['goodr OG', '리끌로우 TR 셀리파 편광 고글 선글라스']], ['🏃', '중급', '15~30만 원', ['넓은 시야 실드형', '고대비·변색 렌즈'], ['100% 스피드크래프트', '소다몬 리트론 RT3301']], ['🏆', '선수·대회', '30만 원+', ['프리즘 렌즈 · 초경량', '교체 렌즈'], ['오클리 레이더 EV 패스', '오클리 수트로 라이트']]],
+  sock: [['🌱', '입문', '켤레당 2~4천 원', ['쿠션형 + 뒤꿈치 탭', '여러 켤레 돌려 신기'], ['데카트론 러닝 단목 양말 런 100 (3켤레)', '데카트론 러닝 쿠션 중목 양말 런 500 (2켤레)']], ['🏃', '중급', '2만 원대', ['좌우 구분 설계', '봉제선 없는 앞코'], ['발레가 히든 컴포트', '피처스 엘리트 라이트 쿠션']], ['🏆', '장거리·울트라', '2~3만 원대', ['발가락 양말로 물집 방지', '메리노 울'], ['인진지 런 라이트웨이트 노쇼', '단터프 런 마이크로 크루']]],
 };
 
 /* ---------- 제품별 단점 (상세 팝업) ---------- */
@@ -282,9 +328,17 @@ GEAR.wear = {
     { n: '새티스파이 테크실크 5인치 쇼츠 (여성)', b: '새티스파이', g: 'w', part: 'bottom', ty: '쇼츠', t: 'high', krw: 360000, pn: '공식몰 원화 표시가', img: 'https://cdn.shopify.com/s/files/1/0075/4617/5546/files/22017-00000_tech-silk-5-shorts_black_front_b13f63a2-3c41-4fa8-af6f-7ab465a673af.jpg', url: 'https://satisfyrunning.com/products/techsilk-5-shorts-black-women', shop: '새티스파이 공식 (해외)', pts: ['실크 같은 테크 원단', '러닝 패션 최상위'], cons: ['쇼츠 하나 36만 원', '해외 직구'] },
     { n: '나이키 에어로스위프트 여성 3인치 쇼츠', b: '나이키', g: 'w', part: 'bottom', ty: '레이싱 쇼츠', t: 'pro', krw: 105000, img: NIKE_IMG + 'e9894cf4-bc97-452d-af9b-963bdfb6d399/AS+W+NK+ARSWFT+DFADVMR3INSHORT.png', url: 'https://www.nike.com/kr/t/%EB%82%98%EC%9D%B4%ED%82%A4-%EC%97%90%EC%96%B4%EB%A1%9C%EC%8A%A4%EC%9C%84%ED%94%84%ED%8A%B8-%EC%97%AC%EC%84%B1-%EB%93%9C%EB%9D%BC%EC%9D%B4-%ED%95%8F-adv-%EB%AF%B8%EB%93%9C%EB%9D%BC%EC%9D%B4%EC%A6%88-%EB%B8%8C%EB%A6%AC%ED%94%84-%EB%9D%BC%EC%9D%B8%EB%93%9C-3%EC%9D%B8%EC%B9%98-%EB%9F%AC%EB%8B%9D-%EC%87%BC%EC%B8%A0-sKfhxF4d/FN2329-010', shop: '나이키 코리아', pts: ['선수용 레이싱 쇼츠', '브리프 라인드'], elite: 1, cons: ['짧아서 일상 착용은 부담'] },
   ],
+  brands: [
+    ["나이키","#111827","세계 1위 스포츠 브랜드 — 드라이 핏 러닝 라인. 국내 공식몰.","https://www.nike.com/kr/",[["마일러","남성 데일리"],["스위프트","여성 데일리"],["에어로스위프트","엘리트 레이스 킷"]]],
+    ["데카트론","#0082c3","프랑스 스포츠용품 유통사 — 러닝 자체 브랜드 킵런(KIPRUN). 국내 공식몰·매장에서 바로 사요.","https://www.decathlon.co.kr/",[["런 드라이 100","1만 원 기능성 티"],["런 500","심리스 긴팔·겨울 하의"]]],
+    ["새티스파이","#a16207","파리 러닝 패션 브랜드 — 실크 같은 테크 원단, 하이엔드 가격.","https://satisfyrunning.com/",[["오라라이트","초경량 티"],["테크실크","실크 쇼츠"]]],
+  ],
   best: [['나이키 마일러 드라이 핏 UV 반팔 러닝 탑', '러너 교복 — 무난한 중간값'], ['데카트론 남성 러닝 심리스 긴팔티 런 500', '11월 지금 입기 좋은 3만 원 긴팔'], ['나이키 스위프트 여성 투인원 러닝 쇼츠', '여성 러너 인기 하의']],
 };
-GEAR_TIPS.wear = [['🌱', '입문', '상·하의 2~5만 원', ['데카트론 기능성 티 + 쇼츠/타이츠', '면 티는 피하기'], ['데카트론 남성 러닝 반팔티 런 드라이 100', '데카트론 여성 투인원 쇼츠 레깅스 런 드라이 100']], ['🏃', '중급', '상·하의 10~15만 원', ['브리프 라인드 쇼츠', '계절별 긴팔·타이츠'], ['나이키 마일러 드라이 핏 UV 반팔 러닝 탑', '나이키 스위프트 여성 투인원 러닝 쇼츠']], ['🏆', '선수·대회', '상·하의 20만 원+', ['싱글렛 + 레이싱 쇼츠', '초경량 원단'], ['나이키 에어로스위프트 남성 싱글렛', '나이키 에어로스위프트 여성 싱글렛']]];
+GEAR_TIPS.wear = {
+  m: [['🌱', '입문', '상·하의 2~7만 원', ['데카트론 기능성 티 + 숏 타이츠', '면 티는 피하기'], ['데카트론 남성 러닝 반팔티 런 드라이 100', '데카트론 남성 10인치 러닝 숏 타이츠 런 100']], ['🏃', '중급', '상·하의 10만 원 안팎', ['브리프 라인드 쇼츠', '계절별 긴팔·타이츠'], ['나이키 마일러 드라이 핏 UV 반팔 러닝 탑', '나이키 마일러 7인치 브리프 라인드 쇼츠']], ['🏆', '선수·대회', '상·하의 23만 원+', ['싱글렛 + 레이싱 쇼츠', '초경량 원단'], ['나이키 에어로스위프트 남성 싱글렛', '나이키 에어로스위프트 2인치 쇼츠']]],
+  w: [['🌱', '입문', '상·하의 4~8만 원', ['데카트론 기능성 티 + 투인원 쇼츠', '면 티는 피하기'], ['데카트론 여성 러닝 반팔티 런 드라이 100', '데카트론 여성 투인원 쇼츠 레깅스 런 드라이 100']], ['🏃', '중급', '상·하의 15만 원 안팎', ['투인원 쇼츠', '계절별 긴팔·레깅스'], ['나이키 스위프트 여성 반팔 러닝 탑', '나이키 스위프트 여성 투인원 러닝 쇼츠']], ['🏆', '선수·대회', '상·하의 22만 원+', ['싱글렛 + 레이싱 쇼츠', '초경량 원단'], ['나이키 에어로스위프트 여성 싱글렛', '나이키 에어로스위프트 여성 3인치 쇼츠']]],
+};
 
 /* ---------- 풀세트 (러닝화 + 아이템) ---------- */
 const SET_SHOES = [
@@ -304,9 +358,28 @@ const GEAR_SETS = [
     items: [['러닝화', 'shoe-alpha4'], ['상의', ['나이키 에어로스위프트 남성 싱글렛', '나이키 에어로스위프트 여성 싱글렛']], ['하의', ['나이키 에어로스위프트 2인치 쇼츠', '나이키 에어로스위프트 여성 3인치 쇼츠']], ['양말', '피처스 엘리트 라이트 쿠션'], ['모자', '시엘 GOCap SC 컴프'], ['벨트', '살로몬 S/LAB 벨트 PNS'], ['시계', 'fenix9'], ['이어폰', '샥즈 오픈런 프로 2'], ['선글라스', '오클리 레이더 EV 패스']] },
 ];
 
+
+/* ---------- 브랜드 시장 점유율 (공개 자료가 있는 분류만 그래프) ---------- */
+const GEAR_SHARE = {
+  watch: { t: '세계 스마트워치 출하 점유율', src: '옴디아 · 2026년 2분기 출하량', d: [['애플', 46, '애플워치'], ['삼성', 15, '삼성 갤럭시'], ['가민', 15, '가민'], ['기타', 24, '']] },
+  ear: { t: '오픈형 오디오 시장 — 기술별 비중', src: 'Market Intelo · 오픈형 웨어러블 오디오 시장 2025', d: [['골전도 (샥즈 주력)', 44.2, '샥즈'], ['공기전도 오픈형·클립형 등', 55.8, '']] },
+  sun: { t: '세계 스포츠 아이웨어 점유율', src: 'GM Insights · 스포츠 아이웨어 시장 2025', d: [['에실로룩소티카 (오클리 모회사)', 19, '오클리'], ['나이키·아디다스·데카트론·사필로 합계', 33, ''], ['기타 브랜드', 48, '']] },
+};
+/* 브랜드별 점유율 한 줄 (수치가 없으면 '비공개') */
+const GEAR_BSH = {
+  '애플워치': ['46%', '세계 스마트워치 출하 1위 · 출하 전년 대비 +14% (옴디아·카운터포인트)'],
+  '삼성 갤럭시': ['15%', '가민과 공동 2위 — 대수는 근소하게 앞서요 · 1분기 출하 −28%'],
+  '가민': ['15%', '1년 새 11% → 15% · 출하 +11% — 포러너 시리즈가 견인'],
+  '샤오미': ['17%', '화면 있는 스마트밴드 시장 2위 (옴디아) — 스마트워치 전체에선 "기타"에 포함'],
+  '샥즈': ['1위', '오픈형·골전도 이어폰 시장 선두 브랜드 — 골전도가 오픈형 시장의 44% (정확한 브랜드 비율은 조사마다 달라 비공개)'],
+  '애플·비츠': ['1위권', '무선 이어폰(TWS) 전체 시장 세계 1위권 — 러닝 이어폰만 따로 집계한 자료는 없어요'],
+  '오클리': ['19%+', '모회사 에실로룩소티카 기준 세계 스포츠 아이웨어 1위 (오클리 단독 수치는 비공개)'],
+  '나이키': ['세계 1위', '세계 스포츠용품 매출 1위 브랜드 — 이 분류만 따로 집계한 점유율은 없어요'],
+  '데카트론': ['상위권', '세계 스포츠 아이웨어 상위 5개사 중 하나 (GM Insights) — 이 분류만의 점유율은 비공개'],
+};
 /* ---------- 제품 목록 (상세 팝업용 id) ---------- */
 const GEAR_ALL = {};
-WATCHES.forEach(p => { p.cat = 'watch'; p.b = WATCH_BRANDS[p.wb].n; GEAR_ALL[p.id] = p; });
+WATCHES.forEach(p => { p.cat = 'watch'; p.b = WATCH_BRANDS[p.wb].n; p.ty = /band|fit3/.test(p.id) ? '밴드' : ['garmin', 'suunto', 'amazfit'].includes(p.wb) ? '러닝워치' : '스마트워치'; GEAR_ALL[p.id] = p; });
 Object.values(GEAR).forEach(G => { G.lineup = G.items.filter(p => p.lineup); G.items = G.items.filter(p => !p.lineup); });
 Object.entries(GEAR).forEach(([c, G]) => [...G.items, ...G.lineup].forEach((p, i) => { p.cat = c; p.id = p.id || c + '-' + i; GEAR_ALL[p.id] = p; }));
 SET_SHOES.forEach(p => { p.cat = 'shoe'; GEAR_ALL[p.id] = p; });
@@ -320,10 +393,10 @@ const gPrice = p => p.krw ? `₩${p.krw.toLocaleString()}` : `$${p.usd}`;
 const gMan = v => v >= 10000 ? (v / 10000).toFixed(v % 10000 ? 1 : 0).replace(/\.0$/, '') + '만' : v.toLocaleString();
 const gImg = (src, alt) => `<img src="${src}" alt="${esc(alt)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg')">`;
 const gOpen = id => `onclick="openGear('${id}')" role="button" tabindex="0"`;
-function gearCard(p, i, brandName) {
+function gearCard(p, i, brandName, rk) {
   const T = GEAR_TIER[p.t];
   return `<div class="gi grow" ${gOpen(p.id)} style="--tc:${T[1]};--i:${i}">
-    <div class="gi-ph ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}<span class="gi-t">${T[0]}</span>${p.ty ? `<span class="gi-ty">${p.ty}</span>` : ''}</div>
+    <div class="gi-ph ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}<span class="gi-t">${T[0]}</span>${rk ? `<span class="gi-rk r${rk}">${rk}위</span>` : ''}${p.ty ? `<span class="gi-ty">${p.ty}</span>` : ''}</div>
     <div class="gi-b"><small>${esc(brandName || p.b || '')}</small><b>${esc(p.n)}</b>
       <div class="gi-p"><strong>${gPrice(p)}</strong>${p.usd && !p.krw ? `<em>약 ${Math.round(p.usd * GEAR_USD / 10000).toLocaleString()}만 원</em>` : ''}</div>
       ${p.pn ? `<span class="gi-pn">${esc(p.pn)}</span>` : ''}${p.spec ? `<span class="gi-sp">${esc(p.spec)}</span>` : ''}
@@ -443,68 +516,93 @@ function gearSetOpen(btn) {
 let GEAR_G = 'm';
 function gearSetG(g) { GEAR_G = g; const y = scrollY; viewGear('set'); scrollTo(0, y); }
 
+/* 브랜드 이름 통일 */
+const G_BN = { '킵런': '데카트론', 'ROCKBROS': '락브로스', '애플': '애플·비츠', '비츠': '애플·비츠', '앤커': '앤커 사운드코어', '헤드 × 다이소': '다이소', '에버라스트 × 다이소': '다이소' };
+const gBn = p => G_BN[p.b] || p.b;
+const WATCH_SITE = { samsung: 'https://www.samsung.com/sec/watches/all-watches/', apple: 'https://www.apple.com/kr/watch/', garmin: 'https://www.garmin.com/ko-KR/', xiaomi: 'https://www.mi.com/kr/', suunto: 'https://www.kolonmall.com/Search?keyword=%EC%88%9C%ED%86%A0', amazfit: 'https://www.coupang.com/np/search?q=%EC%96%B4%EB%A9%94%EC%9D%B4%EC%A6%88%ED%95%8F' };
+/* 인기순: 추천 순위(best) → 초보·엘리트 추천 → 나머지 */
+function gearPop(cat, items) {
+  if (cat === 'watch') return WATCH_RANK.map(([id]) => GEAR_ALL[id]).filter(p => items.includes(p));
+  const best = GEAR[cat].best.map(b => gFind(b[0])).filter(p => p && items.includes(p));
+  return [...best, ...items.filter(p => !best.includes(p)).sort((a, z) => (z.elite || 0) + (z.beg || 0) - (a.elite || 0) - (a.beg || 0))];
+}
+/* 2. 제품 추천: 분류 칩 + 정렬 (인기순 · 가격순) */
+let GREC = [];
+function gearRec(cat, items) {
+  const pop = gearPop(cat, items), k = GREC.push(pop) - 1;
+  const order = cat === 'wear' ? ['상의', '하의'] : [...(cat === 'watch' ? ['밴드', '스마트워치', '러닝워치'] : GEAR[cat].types.map(t => t[1])), ...new Set(items.map(p => p.ty))];
+  const tyOf = p => cat === 'wear' ? (p.part === 'top' ? '상의' : '하의') : p.ty;
+  const tys = [...new Set(order)].filter(t => items.some(p => tyOf(p) === t));
+  const chip = (t, n, on) => `<button type="button" class="${on ? 'on' : ''}" data-f="${t}" onclick="gearRecF(this)">${t} <i>${n}</i></button>`;
+  return `<div class="grc" data-k="${k}" data-cat="${cat}" data-f="전체" data-s="pop">
+    <div class="grc-bar"><div class="gd-f">${chip('전체', items.length, 1)}${tys.map(t => chip(t, items.filter(p => tyOf(p) === t).length)).join('')}</div>
+      <div class="grc-s">${[['pop', '🔥 인기순'], ['lo', '💰 낮은 가격순'], ['hi', '💎 높은 가격순']].map(([v, n], i) => `<button type="button" class="${i ? '' : 'on'}" data-s="${v}" onclick="gearRecS(this)">${n}</button>`).join('')}</div></div>
+    <div class="g-tl sm">${Object.entries(GEAR_TIER).filter(([t]) => items.some(p => p.t === t)).map(([t, [n, c, d]]) => `<div style="--tc:${c}"><b>${n}</b><small>${d}</small></div>`).join('<i>→</i>')}</div>
+    <div class="gi-grid grc-g"></div><p class="grc-n">인기순 = 러너 추천·리뷰 수·판매 순위를 종합한 편집 순위예요 (공식 판매 집계 아님).</p></div>`;
+}
+function gearRecDraw(box) {
+  const cat = box.dataset.cat, f = box.dataset.f, srt = box.dataset.s, tyOf = p => cat === 'wear' ? (p.part === 'top' ? '상의' : '하의') : p.ty;
+  let L = GREC[box.dataset.k].filter(p => f === '전체' || tyOf(p) === f);
+  if (srt !== 'pop') L = [...L].sort((a, z) => (gKrw(a) - gKrw(z)) * (srt === 'lo' ? 1 : -1));
+  const g = box.querySelector('.grc-g');
+  g.style.setProperty('--cols', gCols(L.length));
+  g.innerHTML = L.map((p, i) => gearCard(p, i, cat === 'watch' ? WATCH_BRANDS[p.wb].n : gBn(p), srt === 'pop' ? i + 1 : 0)).join('');
+  g.querySelectorAll('.grow').forEach(e => e.classList.add('play'));
+}
+function gearRecF(btn) { const box = btn.closest('.grc'); box.dataset.f = btn.dataset.f; btn.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn)); gearRecDraw(box); }
+function gearRecS(btn) { const box = btn.closest('.grc'); box.dataset.s = btn.dataset.s; btn.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn)); gearRecDraw(box); }
+/* 3. 브랜드: 브랜드를 누르면 점유율 + 라인업 + 구매 링크 */
+function gearBrandList(cat, items) {
+  if (cat === 'watch') return Object.entries(WATCH_BRANDS).map(([k, B]) => ({ n: B.n, c: B.c, desc: B.os, site: WATCH_SITE[k], pros: B.pros, cons: B.cons, L: items.filter(p => p.wb === k) }));
+  return GEAR[cat].brands.map(([n, c, desc, site, lines]) => ({ n, c, desc, site, lines, L: items.filter(p => gBn(p) === n) })).filter(B => B.L.length);
+}
+function gearBrandTab(cat, items) {
+  const list = gearBrandList(cat, items), S = GEAR_SHARE[cat];
+  return `<div class="gbx"><p class="gbx-hint">브랜드를 누르면 시장 점유율과 라인업이 나와요</p>
+    <div class="gbx-t">${list.map((B, i) => `<button type="button" class="${i ? '' : 'on'}" style="--bc:${B.c}" onclick="gearBrandOpen(this,${i})"><i></i>${esc(B.n)}<small>${B.L.length}</small></button>`).join('')}</div>
+    ${list.map((B, i) => { const sh = GEAR_BSH[B.n];
+      return `<div class="gbx-p" style="--bc:${B.c}" ${i ? 'hidden' : ''}>
+      <div class="gbx-top"><div class="gbx-info"><b>${esc(B.n)}</b><p>${esc(B.desc)}</p>
+          ${B.lines ? `<div class="gbr-l">${B.lines.map(([l, d]) => `<span><b>${l}</b>${d}</span>`).join('')}</div>` : ''}
+          ${B.pros ? `<div class="gwb-pc"><div><h5>👍 장점</h5><ul>${B.pros.map(x => `<li>${x}</li>`).join('')}</ul></div><div><h5>👎 단점</h5><ul>${B.cons.map(x => `<li>${x}</li>`).join('')}</ul></div></div>` : ''}
+          <a class="gbx-site" href="${B.site}" target="_blank" rel="noopener">공식 홈페이지</a></div>
+        <div class="gbx-sh"><h4>📊 시장 점유율</h4><div class="gbx-v"><b>${sh ? sh[0] : '비공개'}</b><span>${sh ? esc(sh[1]) : '이 분류는 브랜드별 시장 점유율을 공개한 조사 자료가 없어요'}</span></div>
+          ${S ? `<div class="gsb"><small>${S.t}</small>${S.d.map(([l, v, b]) => `<div class="gsb-r ${b === B.n ? 'on' : ''}"><span>${l}</span><em><i style="--w:${v}%"></i></em><b>${v}%</b></div>`).join('')}<small class="gsb-src">출처: ${S.src} · 세계 기준 (국내만 따로 집계한 공개 자료 없음)</small></div>` : ''}</div></div>
+      <h4 class="gbx-lh">${esc(B.n)} 제품 ${B.L.length}개</h4>
+      <div class="gbr-g" style="--cols:${Math.min(6, Math.max(B.L.length, 4))}">${[...B.L].sort((a, z) => gKrw(a) - gKrw(z)).map(p => { const q = encodeURIComponent(p.n); return `<div class="gbr-c" ${gOpen(p.id)}><span class="gbr-im ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}</span><b>${esc(p.n)}</b><small>${esc(p.ty || '')} · ${GEAR_TIER[p.t][0]}</small><strong>${gPrice(p)}</strong>
+        <span class="gbr-a" onclick="event.stopPropagation()"><a href="${p.url}" target="_blank" rel="noopener">공식</a><a href="https://search.shopping.naver.com/search/all?query=${q}" target="_blank" rel="noopener">네이버</a><a class="cp" href="https://www.coupang.com/np/search?q=${q}" target="_blank" rel="noopener">쿠팡</a></span></div>`; }).join('')}</div></div>`; }).join('')}</div>`;
+}
+function gearBrandOpen(btn, i) {
+  const box = btn.closest('.gbx');
+  box.querySelectorAll('.gbx-t button').forEach((b, j) => b.classList.toggle('on', j === i));
+  box.querySelectorAll('.gbx-p').forEach((p, j) => { p.hidden = j !== i; if (j === i) { p.classList.remove('pg-in'); void p.offsetWidth; p.classList.add('pg-in'); } });
+}
+/* 의류: 탭마다 남성·여성 (모든 탭이 함께 바뀌어요) */
+let GEAR_WG = 'm';
+const gGen = () => `<div class="gset-g gg-t">${[['m', '👨 남성'], ['w', '👩 여성']].map(([g, n]) => `<button type="button" data-g="${g}" class="${GEAR_WG === g ? 'on' : ''}" onclick="gearWG('${g}')">${n}</button>`).join('')}</div>`;
+function gearWG(g) { GEAR_WG = g; app.querySelectorAll('.gg-t button').forEach(b => b.classList.toggle('on', b.dataset.g === g)); app.querySelectorAll('.gg-b').forEach(d => { d.hidden = d.dataset.g !== g; d.querySelectorAll('.grow').forEach(e => e.classList.add('play')); }); }
+const gByG = f => [['m'], ['w']].map(([g]) => `<div class="gg-b" data-g="${g}" ${GEAR_WG === g ? '' : 'hidden'}>${f(g)}</div>`).join('');
+
 function viewGear(cat) {
   if (!GEAR_CATS.some(c => c[0] === cat)) cat = 'set';
   const C = GEAR_CATS.find(c => c[0] === cat);
   const sub = `<p class="sec-sub">거지 세트부터 선수용까지 — 2026년 11월 국내 공식몰 가격 기준이에요. 모든 사진·제품을 누르면 사진·장단점·구매 링크가 나와요.</p>`;
   if (cat === 'set') { app.innerHTML = `<h1 class="sec-title">러닝 아이템</h1>${sub}${gearMenu(cat)}${gearSets(GEAR_G)}`; return motion(); }
   const head = `<h1 class="sec-title">러닝 아이템 · ${C[2]}</h1>${sub}${gearMenu(cat)}`;
-  if (cat === 'watch') return viewGearWatch(head);
   if (cat === 'daiso') return viewGearDaiso(head);
-  const G = GEAR[cat], tips = GEAR_TIPS[cat].map(([ic, lv, bud, need, picks]) => [ic, lv, '', bud, need, picks]);
-  const used = new Set(G.best.map(b => b[0])), rank = [...G.best.map(([n, why]) => [gFind(n), why]), ...G.items.filter(p => !used.has(p.n)).sort((a, z) => (z.elite || 0) + (z.beg || 0) - (a.elite || 0) - (a.beg || 0)).map(p => [p, p.pts[0]])];
-  const body = cat === 'wear'
-    ? [['m', '👨 남자'], ['w', '👩 여자']].map(([g, gn]) => `<section><h2 class="h2">${gn} 복장</h2>${[['top', '상의'], ['bottom', '하의']].map(([pt, pn]) => `<h3 class="g-sh">${gn.slice(3)} ${pn}</h3>${gearTierGrid(G.items.filter(p => p.g === g && p.part === pt))}`).join('')}</section>`).join('')
-    : `<section><h2 class="h2">제품 추천</h2>${gearTierGrid(G.items)}</section>`;
-  const brandSec = G.brands ? `<section><h2 class="h2">브랜드</h2>${gearBrands(G)}</section>` : '';
-  app.innerHTML = `${head}
-    <section><h2 class="h2">${C[2]} 선택 팁</h2>
-      <div class="gtype">${G.types.map(([ic, n, d, minus], i) => `<div class="grow" style="--i:${i}"><span>${ic}</span><b>${n}</b><p>${d}</p><small>− ${minus}</small></div>`).join('')}</div>
-      ${gearRules(G.rules)}<h3 class="g-sh">수준별 추천</h3>${gearLevels(tips)}</section>
-    <section><h2 class="h2">추천 ${C[2]} 순위</h2>${gearBest(rank)}<h3 class="g-sh">가격 한눈에 보기</h3>${gearLadder(G.items)}${gearRank(cat, G.items)}</section>
-    ${body}${brandSec}
-    <p class="note">가격은 2026년 11월 각 공식몰 표시 정가예요 (할인가 별도). 해외 공식몰 제품은 배송비·관세가 붙을 수 있고, 알리 제품은 판매자마다 가격이 달라요.</p>`;
+  GREC = [];
+  const W = cat === 'wear', items = cat === 'watch' ? WATCHES : GEAR[cat].items, G = GEAR[cat];
+  const tipLv = L => gearLevels(L.map(([ic, lv, bud, need, picks]) => [ic, lv, '', bud, need, picks]));
+  const tips = cat === 'watch' ? `${gearRules(WATCH_RULES)}${gearLevels(WATCH_TIPS)}`
+    : `<div class="gtype">${G.types.map(([ic, n, d, minus], i) => `<div class="grow" style="--i:${i}"><span>${ic}</span><b>${n}</b><p>${d}</p><small>− ${minus}</small></div>`).join('')}</div>
+      ${gearRules(G.rules)}<h3 class="g-sh">수준별 추천</h3>${W ? gByG(g => tipLv(GEAR_TIPS.wear[g])) : tipLv(GEAR_TIPS[cat])}`;
+  const rec = (cat === 'watch' ? `<h3 class="g-sh">레벨별 추천 순위</h3>${gearLv3()}<h3 class="g-sh">분류별 인기 순위</h3>` : '') + (W ? gByG(g => gearRec(cat, items.filter(p => p.g === g))) : gearRec(cat, items));
+  const brand = W ? gByG(g => gearBrandTab(cat, items.filter(p => p.g === g))) : gearBrandTab(cat, cat === 'ear' ? [...items, ...G.lineup] : items);
+  const h2 = (t, x) => `<section><h2 class="h2">${t}</h2>${W ? gGen() : ''}${x}</section>`;
+  app.innerHTML = `${head}${h2(C[2] + ' 선택 팁', tips)}${h2('제품 추천', rec)}${h2('브랜드', brand)}
+    <p class="note">가격은 2026년 11월 각 공식몰 표시 정가예요 (할인가 별도). 해외 공식몰 제품은 배송비·관세가 붙을 수 있고, 알리 제품은 판매자마다 가격이 달라요. 네이버·쿠팡 링크는 해당 제품명 검색 결과로 연결돼요.</p>`;
+  app.querySelectorAll('.grc').forEach(gearRecDraw);
   motion();
-}
-function viewGearWatch(head) {
-  const W = id => GEAR_ALL[id];
-  app.innerHTML = `${head}
-    <section><h2 class="h2">워치 선택 팁</h2>
-      ${gearRules(WATCH_RULES)}${gearLevels(WATCH_TIPS)}</section>
-    <section><h2 class="h2">워치 추천 순위</h2>${gearLv3()}</section>
-    <section><h2 class="h2">시장 점유율 · 판매량</h2>
-      <div class="gw-kpi">
-        <div class="grow"><b>${cnt(46, 'int', '', '%')}</b><span>애플 스마트워치 점유율 1위 (옴디아 2026년 2분기)</span></div>
-        <div class="grow" style="--i:1"><b>${cnt(15, 'int', '', '%')}</b><span>삼성·가민 공동 2위 — 대수는 삼성이 근소 우위</span></div>
-        <div class="grow" style="--i:2"><b>${cnt(11, 'int', '+', '%')}</b><span>가민 출하 성장 (전년 대비)</span></div></div>
-      <div class="gw-ch two">
-        <div class="card"><h4>브랜드 점유율</h4><div class="gw-cv"><canvas id="gwc2"></canvas></div><small>${WATCH_MKT.om.src}</small></div>
-        <div class="card"><h4>출하량 증감</h4><div class="gw-cv"><canvas id="gwc3"></canvas></div><small>${WATCH_MKT.gr.src}</small></div></div>
-      <p class="note">국내 판매만 따로 집계한 공개 자료가 없어 국내에 공식 판매되는 브랜드의 세계 집계만 표시했어요. 수치는 판매가 아닌 출하량 기준이에요.</p>
-      <h3 class="g-sh">순위 · 가격순 · 수준별 추천</h3>${gearRank('watch', WATCHES)}${gearLadder(WATCHES)}</section>
-    <section><h2 class="h2">브랜드별 최신 모델</h2>
-      ${Object.entries(WATCH_BRANDS).map(([k, B]) => `<div class="gwb" style="--bc:${B.c}">
-        <div class="gwb-h"><b>${B.n}</b><span>${B.os}</span></div>
-        <div class="gwb-pc"><div><h5>👍 장점</h5><ul>${B.pros.map(x => `<li>${x}</li>`).join('')}</ul></div><div><h5>👎 단점</h5><ul>${B.cons.map(x => `<li>${x}</li>`).join('')}</ul></div></div>
-        <div class="gi-grid" style="--cols:${gCols(WATCHES.filter(w => w.wb === k).length)}">${WATCHES.filter(w => w.wb === k).map((p, i) => gearCard(p, i, B.n)).join('')}</div></div>`).join('')}
-      <p class="note">국내 공식 판매 모델만 넣었어요 (삼성닷컴·애플·가민코리아·샤오미코리아·코오롱몰 순토·국내 출시 어메이즈핏). 가격은 2026년 11월 공식 정가예요. 갤럭시 핏4는 아직 출시 전이에요.</p></section>`;
-  motion();
-  gearWatchCharts();
-}
-function gearWatchCharts() {
-  const make = () => {
-    if (!chartBase()) return;
-    const D = WATCH_MKT.om;
-    charts.push(new Chart($('#gwc2'), { type: 'doughnut', data: { labels: D.d.map(x => x[0]), datasets: [{ data: D.d.map(x => x[1]), backgroundColor: D.d.map(x => x[2]), borderColor: tok('--card'), borderWidth: 2 }] },
-      options: { maintainAspectRatio: false, cutout: '58%', animation: { animateRotate: true, duration: 1400 }, plugins: { legend: { position: 'bottom', labels: { boxWidth: 10, font: { size: 11 } } }, tooltip: { callbacks: { label: c => ` ${c.label} ${c.raw}%` } } } } }));
-    const g = WATCH_MKT.gr.d;
-    charts.push(new Chart($('#gwc3'), { type: 'bar', data: { labels: g.map(x => x[0]), datasets: [{ data: g.map(x => x[1]), backgroundColor: g.map(x => x[1] >= 0 ? '#16a34a' : '#dc2626'), borderRadius: 6 }] },
-      options: { indexAxis: 'y', maintainAspectRatio: false, animation: { duration: 1400 }, plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ` ${c.raw > 0 ? '+' : ''}${c.raw}%` } } }, scales: { x: { grid: { color: tok('--line') }, ticks: { callback: v => v + '%' } }, y: { grid: { display: false } } } } }));
-  };
-  const box = app.querySelector('.gw-ch'); if (!box) return;
-  if (!('IntersectionObserver' in window)) return make();
-  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); make(); } }, { rootMargin: '0px 0px -10% 0px' });
-  io.observe(box);
 }
 /* 다이소: 종류별 분류만 (모두 가성비라 등급·순위 없음) */
 const DAISO_TYPES = ['상의', '하의', '양말', '모자', '조끼', '러닝벨트', '선글라스', '이어폰'];
