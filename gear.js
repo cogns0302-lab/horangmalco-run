@@ -116,8 +116,27 @@ const GEAR = {
       { cv: 1, n: '파워비츠 프로 2', b: '비츠', ty: '커널형 스포츠', t: 'high', krw: 369000, img: 'https://store.storeimages.cdn-apple.com/1/as-images.apple.com/is/MX743?wid=1200&hei=630&fmt=jpeg&qlt=95', url: 'https://www.apple.com/kr/shop/product/mx743zp/a/powerbeats-pro-2-%EA%B3%A0%EC%84%B1%EB%8A%A5-%EC%9D%B4%EC%96%B4%EB%B2%84%EB%93%9C-%EC%9D%BC%EB%A0%89%ED%8A%B8%EB%A6%AD-%EC%98%A4%EB%A0%8C%EC%A7%80', shop: '애플 공식', pts: ['심박 측정 · 노이즈 캔슬링', '이어훅으로 절대 안 빠져요 · 최대 45시간'], elite: 1 },
       { cv: 1, n: '에어팟 프로 3', b: '애플', ty: '커널형 스포츠', t: 'high', krw: 369000, img: 'https://www.apple.com/v/airpods-pro/t/images/meta/og__c0ceegchesom_overview.png', url: 'https://www.apple.com/kr/shop/buy-airpods/airpods-pro-3', shop: '애플 공식', pts: ['운동 중 심박 측정', '노캔 최강 — 러닝 땐 주변음 모드로'] },
       { n: '보스 울트라 오픈 이어버드 2세대', b: '보스', ty: '이어커프·클립형', t: 'high', krw: 359000, img: 'https://cdn.imweb.me/thumbnail/20261109/42ee0a4f5fca3.jpg', url: 'https://www.bose.co.kr/408/?idx=426', shop: '보스 공식', pts: ['클립형 하이엔드 음질', '2026년 9월 출시'] },
-      { n: '샥즈 오픈핏 프로', b: '샥즈', ty: '오픈형 이어훅', t: 'high', krw: 369000, img: 'https://static.shokz.co.kr/resource/2026/08/24/OpenFit_Pro________6a8c0c670d55e.webp', url: 'https://shokz.co.kr/shop/all', shop: '샥즈 공식', pts: ['2026년 3월 출시 직후 완판 화제', '샥즈 오픈형 최상위'] },
-      { n: '샥즈 오픈스윔 프로', b: '샥즈', ty: '수영·철인용', t: 'pro', krw: 319000, img: 'https://static.shokz.co.kr/resource/2026/08/24/OpenSwim_Pro_____6a8bacf8c152d.webp', url: 'https://shokz.co.kr/shop/all', shop: '샥즈 공식', pts: ['수영·러닝 모두 — 철인 3종 훈련', '내장 MP3 + 블루투스'], elite: 1 },
+      { n: '샥즈 오픈핏 프로', b: '샥즈', ty: '오픈형 이어훅', t: 'high', krw: 369000, img: 'https://static.shokz.co.kr/resource/2026/08/24/OpenFit_Pro________6a8c0c670d55e.webp', url: 'https://shokz.co.kr/shop/openfit-pro', shop: '샥즈 공식', pts: ['2026년 3월 출시 직후 완판 화제', '샥즈 오픈형 최상위'] },
+{ n: '샥즈 오픈무브', b: '샥즈', ty: '골전도 헤드형', t: 'cheap', krw: 119000, img: 'https://static.shokz.co.kr/resource/2026/07/29/Openmove_____6a69b6025fb94.webp', url: 'https://shokz.co.kr/shop/1633507126', shop: '샥즈 공식', pts: ['샥즈 골전도 입문 모델 — 12만 원', 'IP55 · 최대 6시간'], cons: ['오픈런보다 배터리·방수가 약해요'], beg: 1 },
+      { n: '샥즈 오픈런 에어 2', b: '샥즈', ty: '골전도 헤드형', t: 'mid', krw: 215000, img: 'https://static.shokz.co.kr/resource/2026/09/14/OpenRunAir2-______-___-__________01_6aa79dfa03270.webp', url: 'https://shokz.co.kr/shop/openrun-air-2', shop: '샥즈 공식', pts: ['2026 신제품 — 오픈런 계열 경량 모델', '스탠다드·미니 사이즈'], cons: ['프로 2보다 저음이 약해요'] },
+      { n: '샥즈 오픈핏 에어 2', b: '샥즈', ty: '오픈형 이어훅', t: 'mid', krw: 215000, img: 'https://static.shokz.co.kr/resource/2026/08/19/___1_6a85527e522bb.webp', url: 'https://shokz.co.kr/shop/openfit-air-2', shop: '샥즈 공식', pts: ['2026 신제품 — 가벼운 오픈형 이어훅', '오픈핏 2+보다 7만 원 저렴'], cons: ['무선 충전·고급 기능은 2+에만'] },
+      { n: '샥즈 오픈닷 에어', b: '샥즈', ty: '이어커프·클립형', t: 'mid', krw: 199000, img: 'https://static.shokz.co.kr/resource/2026/07/06/Opendots_Air________6a4b81984899a.webp', url: 'https://shokz.co.kr/shop/opendots-air', shop: '샥즈 공식', pts: ['2026 신제품 — 샥즈 클립형 중 가장 저렴', '가볍고 작아요'], cons: ['오픈닷 2보다 배터리·음질이 낮아요'] },
+      { n: '샥즈 오픈닷 원', b: '샥즈', ty: '이어커프·클립형', t: 'mid', krw: 231200, img: 'https://static.shokz.co.kr/resource/2026/07/06/Opendots_2________6a4b8319b7478.webp', url: 'https://shokz.co.kr/shop/opendotsone', shop: '샥즈 공식', pts: ['샥즈 첫 클립형 이어폰', '할인가 23만 원대'], cons: ['신형 오픈닷 2가 나왔어요'] },
+      { n: '샥즈 오픈닷 2', b: '샥즈', ty: '이어커프·클립형', t: 'high', krw: 299000, img: 'https://static.shokz.co.kr/resource/2026/07/06/Opendots2________6a4b81252f99a.webp', url: 'https://shokz.co.kr/shop/opendots-2', shop: '샥즈 공식', pts: ['샥즈 클립형 플래그십 · 돌비 오디오', 'IP57 · 최대 40시간'], cons: ['29.9만 원'] },
+      { n: '샥즈 오픈컴 2', b: '샥즈', ty: '업무·통화용', t: 'mid', krw: 214000, img: 'https://static.shokz.co.kr/resource/2026/07/29/Opencomm_2_6a69b6f2ebe1e.webp', url: 'https://shokz.co.kr/shop/opencomm2', shop: '샥즈 공식', pts: ['붐 마이크 달린 골전도 — 통화·업무용', '러닝 중 통화가 잦다면'], cons: ['러닝 전용보다 무거워요'], lineup: 1 },
+      { n: '샥즈 오픈컴 2 UC', b: '샥즈', ty: '업무·통화용', t: 'high', krw: 279000, img: 'https://static.shokz.co.kr/resource/2026/07/20/OpenComm_2_UC_USB-A_6a545ab91e57b_6a5dcfe2ed37a.webp', url: 'https://shokz.co.kr/shop/opencomm2uc', shop: '샥즈 공식', pts: ['USB 동글 포함 화상회의용', '노이즈 캔슬링 마이크'], cons: ['러닝용은 아니에요'], lineup: 1 },
+      { n: '샥즈 오픈밋', b: '샥즈', ty: '업무·통화용', t: 'mid', krw: 197400, img: 'https://static.shokz.co.kr/resource/2026/07/09/OpenMeet_6a4f76d1b829e.webp', url: 'https://shokz.co.kr/shop/openmeet', shop: '샥즈 공식', pts: ['오픈형 업무용 헤드셋', '장시간 착용 편안'], cons: ['러닝용은 아니에요'], lineup: 1 },
+      { n: 'QCY 크로스키 C30S', b: 'QCY', ty: '이어커프·클립형', t: 'cheap', usd: 47.99, img: 'https://www.qcy.com/cdn/shop/files/T33_S_-_-1_9b21bfe4-ac4f-4fdd-9556-5ed93f57cca3.png', url: 'https://www.qcy.com/products/qcy-crossky-c30s', shop: 'QCY 공식 (해외) · 국내 쿠팡·네이버 판매', pts: ['Hi-Res · 재생 40시간', 'IPX5 방수'], cons: ['국내가는 판매처마다 달라요'] },
+      { n: '다이소 무선 이어폰 5천 원', b: '다이소', ty: '커널형 스포츠', t: 'cheap', krw: 5000, img: 'https://cdn.daisomall.co.kr/file/PD/20260528/3QZHTLGjQsHIUU1olD7x1069224_00_003QZHTLGjQsHIUU1olD7x.jpg', url: 'https://www.daisomall.co.kr/pd/pdr/SCR_PDR_0001?pdNo=1069224', shop: '다이소몰', pts: ['5천 원 블루투스 · 자동 페어링', '분실해도 부담 없어요'], cons: ['러닝 전용 설계가 아니라 빠질 수 있어요', '음질 평가는 엇갈려요'], beg: 1 },
+      { n: '샥즈 오픈스윔 프로', b: '샥즈', ty: '수영·철인용', t: 'pro', krw: 319000, img: 'https://static.shokz.co.kr/resource/2026/08/24/OpenSwim_Pro_____6a8bacf8c152d.webp', url: 'https://shokz.co.kr/shop/OpenSwimPro', shop: '샥즈 공식', pts: ['수영·러닝 모두 — 철인 3종 훈련', '내장 MP3 + 블루투스'], elite: 1 },
+    ],
+    brands: [
+      ['샥즈', '#f97316', '골전도·오픈형 이어폰 세계 1위 브랜드 (옛 이름 애프터샥즈, 2021년 변경). 킵초게 등 엘리트 마라토너를 후원해요.', 'https://shokz.co.kr/', [['오픈런', '골전도 헤드형 · 러닝 정석'], ['오픈무브', '골전도 입문'], ['오픈스윔', '수영·철인'], ['오픈핏', '오픈형 이어훅'], ['오픈닷', '이어커프·클립형'], ['오픈컴·오픈밋', '업무·통화용']]],
+      ['보스', '#111827', '미국 오디오 브랜드 — 오픈형에서도 보스 특유의 음질.', 'https://www.bose.co.kr/', [['울트라 오픈', '이어커프·클립형 하이엔드'], ['스포츠 오픈', '운동용 오픈형 이어훅']]],
+      ['애플·비츠', '#64748b', '아이폰과 최고의 연동 — 심박 측정이 되는 운동용 이어폰.', 'https://www.apple.com/kr/airpods/', [['에어팟 프로', '노캔 커널형 · 심박'], ['파워비츠 프로', '이어훅 스포츠 · 심박']]],
+      ['앤커 사운드코어', '#0ea5e9', '가성비 오디오 브랜드 — 각도 조절 오픈형 이어훅.', 'https://www.soundcore.com/', [['에어로핏', '오픈형 이어훅']]],
+      ['QCY', '#16a34a', '중국 초가성비 브랜드 — 쿠팡·네이버·알리에서 3~5만 원대.', 'https://www.qcy.com/', [['크로스키', '오픈형 클립·이어훅']]],
+      ['다이소', '#e11d48', '5천 원 균일가 — 러닝 전용은 아니지만 입문용으로 부담 없어요.', 'https://www.daisomall.co.kr/', [['무선 이어폰', '5천 원 블루투스']]],
     ],
     best: [['샥즈 오픈런 프로 2', '귀를 열고 안 흔들리는 러닝 이어폰의 정석'], ['샥즈 오픈핏 2+', '골전도가 답답하면 — 가장 편한 오픈형'], ['QCY 크로스키 C50', '5만 원 아래로 오픈형을 써보고 싶다면']],
   },
@@ -210,7 +229,7 @@ const GEAR_CONS = {
   '데카트론 러닝 캡 모자 V2': ['디자인이 단순해요'], '데카트론 러닝 울트라라이트 캡': ['챙이 짧아요'], '시엘 GOCap 클래식': ['해외 직구 · 배송비'], '나이키 드라이 핏 ADV 플라이 캡': ['깊이가 얕아 머리 큰 사람은 작을 수 있어요'],
   '시엘 GOCap SC 컴프': ['해외 직구 · 한정 에디션'], '새티스파이 플라이트실크 5패널': ['17만 원으로 비싸요', '해외 직구'],
   'AONIJIE 10L 트레일 베스트 C9116': ['판매자마다 품질 편차', '배송이 오래 걸려요'], '데카트론 경량 트레일러닝 베스트 5L': ['물을 많이 못 넣어요'], '살로몬 액티브 스킨 8 세트': ['장거리 트레일엔 수납 부족'],
-  '네이키드 하이 커패시티 베스트': ['해외 직구', '사이즈 고르기 까다로워요'], '살로몬 어드밴스드 스킨 12 세트': ['25만 원', '로드 러닝엔 과해요'], '살로몬 S/LAB 센스 6 세트': ['28만 원', '수납이 최소라 초보에겐 불편'],
+  '네이키드 하이 커패시티 베스트': ['해외 직구', '사이즈 선택이 까다로워요'], '살로몬 어드밴스드 스킨 12 세트': ['25만 원', '로드 러닝엔 과해요'], '살로몬 S/LAB 센스 6 세트': ['28만 원', '수납이 최소라 초보에겐 불편'],
   '데카트론 러닝 스마트폰 벨트 베이직 2': ['큰 폰은 빡빡할 수 있어요'], 'AONIJIE 러닝 벨트': ['판매자마다 품질 편차'], '플립벨트 클래식': ['허리 사이즈를 정확히 골라야 해요', '해외 직구'],
   '살로몬 펄스 벨트': ['물병 수납은 작아요'], '네이키드 HC 러닝 밴드': ['해외 직구', '짐을 많이 넣으면 무거워요'], '살로몬 S/LAB 벨트 PNS': ['10만 원'],
   '락브로스 편광 스포츠 선글라스': ['렌즈 품질 편차', '코패드가 쉽게 닳아요'], 'goodr OG': ['랩 형태가 아니라 옆 빛은 들어와요', '해외 직구'], '100% 스피드크래프트': ['렌즈가 커서 얼굴 작으면 부담'],
@@ -288,7 +307,8 @@ const GEAR_SETS = [
 /* ---------- 제품 목록 (상세 팝업용 id) ---------- */
 const GEAR_ALL = {};
 WATCHES.forEach(p => { p.cat = 'watch'; p.b = WATCH_BRANDS[p.wb].n; GEAR_ALL[p.id] = p; });
-Object.entries(GEAR).forEach(([c, G]) => G.items.forEach((p, i) => { p.cat = c; p.id = p.id || c + '-' + i; GEAR_ALL[p.id] = p; }));
+Object.values(GEAR).forEach(G => { G.lineup = G.items.filter(p => p.lineup); G.items = G.items.filter(p => !p.lineup); });
+Object.entries(GEAR).forEach(([c, G]) => [...G.items, ...G.lineup].forEach((p, i) => { p.cat = c; p.id = p.id || c + '-' + i; GEAR_ALL[p.id] = p; }));
 SET_SHOES.forEach(p => { p.cat = 'shoe'; GEAR_ALL[p.id] = p; });
 const gFind = k => GEAR_ALL[k] || Object.values(GEAR_ALL).find(p => p.n === k);
 Object.values(GEAR_ALL).forEach(p => { p.cons = p.cons || GEAR_CONS[p.id] || GEAR_CONS[p.n] || []; });
@@ -383,6 +403,15 @@ function gearRankShow(btn, k) {
   box.querySelectorAll('.grk-t button').forEach(b => b.classList.toggle('on', b === btn));
   box.querySelectorAll('.grk-l').forEach(l => { l.hidden = l.dataset.k !== k; if (!l.hidden) { l.classList.remove('pg-in'); void l.offsetWidth; l.classList.add('pg-in'); } });
 }
+function gearBrands(G) {
+  const bn = p => p.b === '애플' || p.b === '비츠' ? '애플·비츠' : p.b === '앤커' ? '앤커 사운드코어' : p.b;
+  const all = [...G.items, ...(G.lineup || [])];
+  return '<div class="gbr-w">' + G.brands.map(([n, c, desc, site, lines]) => { const L = all.filter(p => bn(p) === n).sort((a, z) => gKrw(a) - gKrw(z));
+    return `<div class="gbr ${L.length < 6 ? 'sm' : ''}" style="--bc:${c};--n:${L.length}"><div class="gbr-h"><div><b>${n}</b><p>${desc}</p></div><a href="${site}" target="_blank" rel="noopener">공식 홈페이지</a></div>
+      <div class="gbr-l">${lines.map(([l, d]) => `<span><b>${l}</b>${d}</span>`).join('')}</div>
+      <div class="gbr-g" style="--cols:${L.length < 6 ? L.length : L.length <= 6 ? 6 : [7, 6, 5].sort((x, y) => ((x - L.length % x) % x) - ((y - L.length % y) % y) || y - x)[0]}">${L.map(p => { const q = encodeURIComponent(p.n); return `<div class="gbr-c" ${gOpen(p.id)}><span class="gbr-im ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}</span><b>${esc(p.n)}</b><small>${esc(p.ty || '')}</small><strong>${gPrice(p)}</strong>
+        <span class="gbr-a" onclick="event.stopPropagation()"><a href="${p.url}" target="_blank" rel="noopener">공식</a><a href="https://search.shopping.naver.com/search/all?query=${q}" target="_blank" rel="noopener">네이버</a><a class="cp" href="https://www.coupang.com/np/search?q=${q}" target="_blank" rel="noopener">쿠팡</a></span></div>`; }).join('')}</div></div>`; }).join('') + '</div>';
+}
 function gearTierGrid(items) {
   const tiers = Object.keys(GEAR_TIER).filter(t => items.some(p => p.t === t));
   return `<div class="g-tl">${tiers.map((t, i) => `<div style="--tc:${GEAR_TIER[t][1]}"><b>${GEAR_TIER[t][0]}</b><span>${items.filter(p => p.t === t).length}개</span><small>${GEAR_TIER[t][2]}</small></div>`).join('<i>→</i>')}</div>
@@ -426,13 +455,14 @@ function viewGear(cat) {
   const used = new Set(G.best.map(b => b[0])), rank = [...G.best.map(([n, why]) => [gFind(n), why]), ...G.items.filter(p => !used.has(p.n)).sort((a, z) => (z.elite || 0) + (z.beg || 0) - (a.elite || 0) - (a.beg || 0)).map(p => [p, p.pts[0]])];
   const body = cat === 'wear'
     ? [['m', '👨 남자'], ['w', '👩 여자']].map(([g, gn]) => `<section><h2 class="h2">${gn} 복장</h2>${[['top', '상의'], ['bottom', '하의']].map(([pt, pn]) => `<h3 class="g-sh">${gn.slice(3)} ${pn}</h3>${gearTierGrid(G.items.filter(p => p.g === g && p.part === pt))}`).join('')}</section>`).join('')
-    : `<section><h2 class="h2">가성비부터 선수용까지</h2>${gearTierGrid(G.items)}</section>`;
+    : `<section><h2 class="h2">제품 추천</h2>${gearTierGrid(G.items)}</section>`;
+  const brandSec = G.brands ? `<section><h2 class="h2">브랜드</h2>${gearBrands(G)}</section>` : '';
   app.innerHTML = `${head}
-    <section><h2 class="h2">${C[2]} 고르는 팁</h2>
+    <section><h2 class="h2">${C[2]} 선택 팁</h2>
       <div class="gtype">${G.types.map(([ic, n, d, minus], i) => `<div class="grow" style="--i:${i}"><span>${ic}</span><b>${n}</b><p>${d}</p><small>− ${minus}</small></div>`).join('')}</div>
       ${gearRules(G.rules)}<h3 class="g-sh">수준별 추천</h3>${gearLevels(tips)}</section>
     <section><h2 class="h2">추천 ${C[2]} 순위</h2>${gearBest(rank)}<h3 class="g-sh">가격 한눈에 보기</h3>${gearLadder(G.items)}${gearRank(cat, G.items)}</section>
-    ${body}
+    ${body}${brandSec}
     <p class="note">가격은 2026년 11월 각 공식몰 표시 정가예요 (할인가 별도). 해외 공식몰 제품은 배송비·관세가 붙을 수 있고, 알리 제품은 판매자마다 가격이 달라요.</p>`;
   motion();
 }
