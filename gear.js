@@ -317,7 +317,11 @@ function gearLadder(list) {
     <div class="gl-leg">${Object.values(GEAR_TIER).map(([n, c]) => `<span style="--tc:${c}"><i></i>${n}</span>`).join('')}<small>막대 = 가격 (해외가는 1달러 ≈ 1,400원으로 환산 · 로그 눈금) · 누르면 상세 정보</small></div></div>`;
 }
 function gearMenu(cur) {
-  return `<nav class="gm">${GEAR_CATS.map(([k, ic, n, d]) => `<a href="#gear-${k}" class="${k === cur ? 'on' : ''} ${k === 'set' ? 'set' : ''}"><span>${ic}</span><b>${n}</b><small>${d}</small></a>`).join('')}</nav>`;
+  const set = cur === 'set', g = GEAR_G;
+  return `<div class="gm-h"><h3 class="g-sh">분류별 보기</h3><div class="gset-g">
+      <a href="#gear" class="gm-set ${set ? 'on' : ''}">🎁 러닝 풀세트</a>
+      ${set ? `<button type="button" class="${g === 'm' ? 'on' : ''}" onclick="gearSetG('m')">👨 남성</button><button type="button" class="${g === 'w' ? 'on' : ''}" onclick="gearSetG('w')">👩 여성</button>` : ''}</div></div>
+    <nav class="gm">${GEAR_CATS.filter(c => c[0] !== 'set').map(([k, ic, n, d]) => `<a href="#gear-${k}" class="${k === cur ? 'on' : ''}"><span>${ic}</span><b>${n}</b><small>${d}</small></a>`).join('')}</nav>`;
 }
 function gearRules(rules) {
   return `<div class="gr">${rules.map(([ic, t, d], i) => `<div class="grow" style="--i:${i}"><span>${ic}</span><b>${t}</b><p>${d}</p></div>`).join('')}</div>`;
@@ -371,8 +375,7 @@ function gearTierGrid(items) {
 const GSET_PH = { beggar: 'photos/set_beggar.jpg?v=3', begin: 'photos/set_begin.jpg', mid: 'photos/set_mid.jpg', pro: 'photos/set_pro.jpg' }; // 풀세트 착용 그림 (Canva AI 생성)
 /* 풀세트 */
 function gearSets(g) {
-  return `<section class="gset-sec"><div class="gset-h"><h2 class="h2">러닝 풀세트 <small>러닝화 + 복장 + 아이템 9종</small></h2>
-      <div class="gset-g"><button type="button" class="${g === 'm' ? 'on' : ''}" onclick="gearSetG('m')">👨 남성</button><button type="button" class="${g === 'w' ? 'on' : ''}" onclick="gearSetG('w')">👩 여성</button></div></div>
+  return `<section class="gset-sec" id="gset">
     <div class="gset">${GEAR_SETS.map((S, si) => { const L = S.items.map(([lab, ref]) => [lab, gFind(Array.isArray(ref) ? ref[g === 'w' ? 1 : 0] : ref)]);
       const tot = L.reduce((a, [, p]) => a + gKrw(p), 0), anyUsd = L.some(([, p]) => !p.krw);
       return `<article class="gs grow" style="--sc:${S.c};--i:${si}">
@@ -397,7 +400,7 @@ function viewGear(cat) {
   if (!GEAR_CATS.some(c => c[0] === cat)) cat = 'set';
   const C = GEAR_CATS.find(c => c[0] === cat);
   const sub = `<p class="sec-sub">거지 세트부터 선수용까지 — 2026년 11월 국내 공식몰 가격 기준이에요. 모든 사진·제품을 누르면 사진·장단점·구매 링크가 나와요.</p>`;
-  if (cat === 'set') { app.innerHTML = `<h1 class="sec-title">러닝 아이템</h1>${sub}${gearSets(GEAR_G)}<h3 class="g-sh">분류별로 보기</h3>${gearMenu(cat)}`; return motion(); }
+  if (cat === 'set') { app.innerHTML = `<h1 class="sec-title">러닝 아이템</h1>${sub}${gearMenu(cat)}${gearSets(GEAR_G)}`; return motion(); }
   const head = `<h1 class="sec-title">러닝 아이템 · ${C[2]}</h1>${sub}${gearMenu(cat)}`;
   if (cat === 'watch') return viewGearWatch(head);
   const G = GEAR[cat], tips = GEAR_TIPS[cat].map(([ic, lv, bud, need, picks]) => [ic, lv, '', bud, need, picks]);
