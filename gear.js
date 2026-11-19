@@ -403,6 +403,7 @@ function viewGear(cat) {
   if (cat === 'set') { app.innerHTML = `<h1 class="sec-title">러닝 아이템</h1>${sub}${gearMenu(cat)}${gearSets(GEAR_G)}`; return motion(); }
   const head = `<h1 class="sec-title">러닝 아이템 · ${C[2]}</h1>${sub}${gearMenu(cat)}`;
   if (cat === 'watch') return viewGearWatch(head);
+  if (cat === 'daiso') return viewGearDaiso(head);
   const G = GEAR[cat], tips = GEAR_TIPS[cat].map(([ic, lv, bud, need, picks]) => [ic, lv, '', bud, need, picks]);
   const used = new Set(G.best.map(b => b[0])), rank = [...G.best.map(([n, why]) => [gFind(n), why]), ...G.items.filter(p => !used.has(p.n)).sort((a, z) => (z.elite || 0) + (z.beg || 0) - (a.elite || 0) - (a.beg || 0)).map(p => [p, p.pts[0]])];
   const body = cat === 'wear'
@@ -456,4 +457,18 @@ function gearWatchCharts() {
   if (!('IntersectionObserver' in window)) return make();
   const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { io.disconnect(); make(); } }, { rootMargin: '0px 0px -10% 0px' });
   io.observe(box);
+}
+/* 다이소: 종류별 분류만 (모두 가성비라 등급·순위 없음) */
+const DAISO_TYPES = ['상의', '하의', '양말', '모자', '조끼', '러닝벨트', '선글라스', '이어폰'];
+function viewGearDaiso(head) {
+  const L = GEAR.daiso.items, chip = (t, n) => `<button type="button" class="${t === '전체' ? 'on' : ''}" onclick="gearDaisoF(this,'${t}')">${t} <i>${n}</i></button>`;
+  app.innerHTML = `${head}
+    <div class="gd-f">${chip('전체', L.length)}${DAISO_TYPES.filter(t => L.some(p => p.ty === t)).map(t => chip(t, L.filter(p => p.ty === t).length)).join('')}</div>
+    <div class="gi-grid gd-grid" style="--cols:5">${L.map((p, i) => gearCard(p, i).replace('<div class="gi grow"', `<div data-ty="${p.ty}" class="gi grow"`)).join('')}</div>
+    <p class="note">${GEAR.daiso.rules.map(r => `${r[0]} ${r[2]}`).join(' · ')}</p>`;
+  motion();
+}
+function gearDaisoF(btn, t) {
+  btn.parentNode.querySelectorAll('button').forEach(b => b.classList.toggle('on', b === btn));
+  app.querySelectorAll('.gd-grid .gi').forEach(c => { c.hidden = t !== '전체' && c.dataset.ty !== t; c.classList.add('play'); });
 }
