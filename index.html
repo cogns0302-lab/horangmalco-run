@@ -2284,6 +2284,58 @@ p,.sec-sub,.note{text-wrap:pretty}
   .gw-ch.two{grid-template-columns:1fr}
   .glv-pk .glv-im{width:96px;height:96px}
 }
+/* ===== 풀세트 캐릭터 모션 ===== */
+.gs-ch{position:relative;height:210px;border-radius:16px;overflow:hidden;background:radial-gradient(circle at 50% 38%,color-mix(in srgb,var(--sc) 45%,transparent),transparent 65%),linear-gradient(180deg,#0000 70%,#ffffff10 70%)}
+.gs-ch .gc{position:absolute;left:50%;top:0;height:100%;transform:translateX(-50%)}
+.gc *{transform-box:view-box}
+.gc-lgl{transform-origin:93px 148px}.gc-lgr{transform-origin:108px 148px}
+.gc-head{transform-origin:100px 100px}
+.gc-say{transform-origin:150px 20px}
+@media (prefers-reduced-motion:no-preference){
+  /* 거지: 울면서 덜덜 */
+  .gc-cry .gc-all{animation:gcShake .35s ease-in-out infinite}
+  .gc-cry .gc-head{animation:gcSob 1.4s ease-in-out infinite}
+  .gc-cry .gc-tear{animation:gcTear 1.1s ease-in infinite}.gc-cry .gc-tear.t2{animation-delay:.55s}
+  .gc-cry .gc-cloud{animation:gcCloud 3s ease-in-out infinite}
+  .gc-cry .gc-amr{animation:gcWipe 1.4s ease-in-out infinite}
+  /* 초보 돼지: 헥헥 뒤뚱 조깅 */
+  .gc-jog .gc-all{animation:gcBob .5s ease-in-out infinite alternate}
+  .gc-jog .gc-lgl{animation:gcLeg .5s ease-in-out infinite alternate}.gc-jog .gc-lgr{animation:gcLeg .5s ease-in-out infinite alternate-reverse}
+  .gc-jog .gc-aml{animation:gcArm .5s ease-in-out infinite alternate-reverse}.gc-jog .gc-amr{animation:gcArm .5s ease-in-out infinite alternate}
+  .gc-jog .gc-torso{animation:gcBelly .5s ease-in-out infinite alternate}
+  .gc-jog .gc-sweat{animation:gcSweat 1s ease-in infinite}.gc-jog .gc-sweat.t2{animation-delay:.5s}
+  .gc-jog .gc-tail{animation:gcTail .25s ease-in-out infinite alternate;transform-origin:151px 116px}
+  /* 중수: 전력 질주 */
+  .gc-run .gc-all{animation:gcRun .3s ease-in-out infinite alternate}
+  .gc-run .gc-lgl{animation:gcStride .3s ease-in-out infinite alternate}.gc-run .gc-lgr{animation:gcStride .3s ease-in-out infinite alternate-reverse}
+  .gc-run .gc-aml{animation:gcSwing .3s ease-in-out infinite alternate-reverse}.gc-run .gc-amr{animation:gcSwing .3s ease-in-out infinite alternate}
+  .gc-run .gc-speed{animation:gcSpeed .45s linear infinite}
+  /* 선수: 따봉 */
+  .gc-thumb .gc-amr{animation:gcThumb 2.4s cubic-bezier(.3,1.4,.5,1) infinite}
+  .gc-thumb .gc-all{animation:gcProud 2.4s ease-in-out infinite}
+  .gc-thumb .gc-spark{animation:gcSpark 1.2s ease-in-out infinite alternate;transform-origin:100px 70px}
+  .gc-say{animation:gcSay 2.4s ease-in-out infinite}
+}
+.gc-thumb .gc-amr{transform:rotate(-150deg)}
+@keyframes gcShake{0%,100%{transform:translateX(0)}50%{transform:translateX(1.5px)}}
+@keyframes gcSob{0%,100%{transform:rotate(0) translateY(0)}50%{transform:rotate(-3deg) translateY(2px)}}
+@keyframes gcTear{0%{transform:translateY(0);opacity:1}80%{opacity:1}100%{transform:translateY(34px);opacity:0}}
+@keyframes gcCloud{0%,100%{transform:translateX(0)}50%{transform:translateX(-8px)}}
+@keyframes gcWipe{0%,100%{transform:rotate(0)}50%{transform:rotate(-40deg)}}
+@keyframes gcBob{from{transform:translateY(0)}to{transform:translateY(-5px)}}
+@keyframes gcLeg{from{transform:rotate(-14deg)}to{transform:rotate(14deg)}}
+@keyframes gcArm{from{transform:rotate(-22deg)}to{transform:rotate(22deg)}}
+@keyframes gcBelly{from{transform:scaleY(1)}to{transform:scaleY(.96) translateY(3px)}}
+@keyframes gcSweat{0%{transform:translate(0,0);opacity:0}20%{opacity:1}100%{transform:translate(6px,18px);opacity:0}}
+@keyframes gcTail{from{transform:rotate(-15deg)}to{transform:rotate(15deg)}}
+@keyframes gcRun{from{transform:translateY(0) rotate(4deg)}to{transform:translateY(-7px) rotate(4deg)}}
+@keyframes gcStride{from{transform:rotate(-38deg)}to{transform:rotate(38deg)}}
+@keyframes gcSwing{from{transform:rotate(-50deg)}to{transform:rotate(50deg)}}
+@keyframes gcSpeed{from{transform:translateX(30px);opacity:.2}50%{opacity:1}to{transform:translateX(-30px);opacity:0}}
+@keyframes gcThumb{0%{transform:rotate(0)}25%,85%{transform:rotate(-150deg)}55%{transform:rotate(-140deg)}100%{transform:rotate(0)}}
+@keyframes gcProud{0%,100%{transform:translateY(0)}30%{transform:translateY(-6px)}45%{transform:translateY(0)}}
+@keyframes gcSpark{from{transform:scale(.7);opacity:.4}to{transform:scale(1.15);opacity:1}}
+@keyframes gcSay{0%,15%{transform:scale(0)}25%,85%{transform:scale(1)}100%{transform:scale(0)}}
 /* ===== 방문자 수 (오른쪽 위) ===== */
 .vc{margin-left:auto;display:flex;gap:6px;flex:none}
 .vc span{display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:64px;padding:4px 10px;border-radius:10px;background:#ffffff10;border:1px solid #ffffff1f;line-height:1.1}
@@ -2381,15 +2433,15 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwmxth3z"></script>
-<script src="photos.js?v=mwmxth3z"></script>
-<script src="history.js?v=mwmxth3z"></script>
-<script src="maps.js?v=mwmxth3z"></script>
-<script src="marathon.js?v=mwmxth3z"></script>
-<script src="stories.js?v=mwmxth3z"></script>
-<script src="reviews.js?v=mwmxth3z"></script>
-<script src="train.js?v=mwmxth3z"></script>
-<script src="gear.js?v=mwmxth3z"></script>
-<script src="app.js?v=mwmxth3z"></script>
+<script src="data.js?v=mwmy2558"></script>
+<script src="photos.js?v=mwmy2558"></script>
+<script src="history.js?v=mwmy2558"></script>
+<script src="maps.js?v=mwmy2558"></script>
+<script src="marathon.js?v=mwmy2558"></script>
+<script src="stories.js?v=mwmy2558"></script>
+<script src="reviews.js?v=mwmy2558"></script>
+<script src="train.js?v=mwmy2558"></script>
+<script src="gear.js?v=mwmy2558"></script>
+<script src="app.js?v=mwmy2558"></script>
 </body>
 </html>
