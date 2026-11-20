@@ -662,12 +662,57 @@ function gearBrandList(cat, items) {
   if (cat === 'watch') return Object.entries(WATCH_BRANDS).map(([k, B]) => ({ n: B.n, c: B.c, desc: B.os, site: WATCH_SITE[k], pros: B.pros, cons: B.cons, L: items.filter(p => p.wb === k) }));
   return GEAR[cat].brands.map(([n, c, desc, site, lines]) => ({ n, c, desc, site, lines, L: items.filter(p => gBn(p) === n) })).filter(B => B.L.length);
 }
+
+/* ---------- 브랜드 종합 (인포그래픽) ---------- */
+const GEAR_SALES = {"ear":[["무선이어폰 판매 TOP 5","다나와 2026 상반기 판매량",[["애플","에어팟 프로 3"],["애플","에어팟 4 ANC"],["삼성","갤럭시 버즈3 프로"],["삼성","갤럭시 버즈4 프로"],["삼성","갤럭시 버즈3 FE"]]],["골전도 이어폰 판매 TOP 5","다나와 2026년 5~6월 판매량",[["샥즈","오픈런 프로 2"],["샥즈","오픈런 프로 2 미니"],["브리츠","BZ-BONE9 PLUS"],["샥즈","오픈스윔 프로"],["샥즈","오픈런 USB-C"]]],["5만 원 이하 이어폰 판매 TOP 5","다나와 최근 3개월 실판매 (2026년 9월 발표)",[["앤커","사운드코어 P31i","판매 비중 44%"],["QCY","멜로버즈 프로 HT08","17%"],["애플","이어팟 USB-C","10%"],["QCY","크로스키 C50","8%"],["브리츠","BZ-BONE X5","7%"]]]],"wear_m":[["반팔","",[["무신사 스탠다드 스포츠","[3팩] 베이직 스포츠 숏슬리브",32920],["언더아머","테크 2.0 반팔티",37050],["드릭스","액티브 컴프레션 테크핏 하프 슬리브",29900]]],["긴팔","",[["무신사 스탠다드 스포츠","드라이액트 퓨즈 롱슬리브",46550],["노스페이스","베인 긴팔 티",57000],["무신사 스탠다드 스포츠","코튼드라이 스티치 롱슬리브",33220]]],["쇼츠","",[["무신사 스탠다드 스포츠","[2팩] 퀵드라이 7인치 쇼츠",44330],["룰루레몬","페이스 브레이커 라인드 쇼츠 5인치",65000],["하글로프스","림 퓨즈 2 숏",126280]]],["타이츠","",[["무신사 스탠다드 스포츠","컴포트액트 롱타이즈",55440],["무신사 스탠다드 스포츠","컴프레션 레깅스",34100],["룰루레몬","패스트 앤 프리 하프 타이츠 8인치",138000]]],["바람막이","",[["살로몬","슬레이트 옥타 안감 자켓",320000],["무신사 스탠다드 스포츠","3-Layer 방수 바람막이",133220],["무신사 스탠다드 스포츠","[시티러닝] 벤틸레이션 바람막이",39900]]]],"wear_w":[["반팔","",[["무신사 스탠다드 스포츠","[2팩] 베이직 스포츠 숏슬리브 우먼",33220],["무신사 스탠다드 스포츠","써모메쉬 오버핏 숏슬리브 우먼",55440],["에이치덱스","에어 드라이 숏 슬리브 W",32000]]],["긴팔","",[["무신사 스탠다드 스포츠","퀵드라이 퓨즈 롱슬리브 우먼",44330],["무신사 스탠다드 스포츠","템프드라이 그리드 하이넥 롱슬리브 우먼",52770],["나이키","스위프트 에어로 핏 쿼터집 러닝 탑 W",105000]]],["쇼츠","",[["에이치덱스","어시스트 모션 매쉬 쇼츠 W",49000],["리복","Running AOP 쇼츠",11710],["노스페이스","여성 아이스펄스 쇼츠",46800]]],["레깅스","",[["헤링본","하이라이즈 부츠컷 기모레깅스",11900],["테슬라","모션 컴포트 데일리 와이드 레깅스",24360],["룰루레몬","Nulux 하이라이즈 타이츠 25인치",118000]]],["바람막이","",[["나이키","스위프트 리펠 패커블 러닝 재킷 W",139500],["무신사 스탠다드 스포츠","[시티러닝] 슈퍼 쏘닉 바람막이 우먼",61000],["노스페이스","화이트라벨 여성 올레마 LT 자켓",142200]]]]};
+['watch', 'sun', 'cap', 'vest', 'belt', 'sock', 'wear'].forEach(k => { GEAR_SHARE[k].base = 40; }); GEAR_SHARE_W.m.base = GEAR_SHARE_W.w.base = 200;
+GEAR_SALES.watch = [['다나와 인기 TOP 5', '다나와 「스마트워치」 인기상품순 · 판매와 조회 반영 (2026년 11월 20일)', [["삼성전자","갤럭시워치9 40mm LTE"],["삼성전자","갤럭시워치9 44mm 블루투스"],["삼성전자","갤럭시워치9 40mm 블루투스"],["샤오미","레드미 워치6"],["삼성전자","갤럭시워치 울트라 2 47mm LTE"]]]];
+GEAR_SALES.sun = [['다나와 인기 TOP 5', '다나와 「스포츠 선글라스」 인기상품순 · 판매와 조회 반영 (2026년 11월 20일)', [["오클리","수트로 라이트 로우 브릿지 핏"],["체인지마스터","14g 초경량 편광 변색 스포츠선글라스"],["오클리","아이자켓 리덕스 프리즘"],["락브로스","스포츠 편광고글 10134"],["오클리","홀브룩 XL 프리즘"]]]];
+GEAR_SALES.cap = [['다나와 인기 TOP 5', '다나와 「러닝 모자」 인기상품순 · 판매와 조회 반영 (2026년 11월 20일)', [["아디다스","러닝 X 아디제로 라이트웨이트 캡 (블랙)"],["나이키","드라이 핏 ADV 플라이 에어로빌 캡"],["아디다스","러닝 X 아디제로 라이트웨이트 캡 (화이트)"],["나이키","드라이 핏 ADV 플라이 리플렉티브 캡"],["아디다스","러닝 X 아디제로 라이트웨이트 캡 (그레이)"]]]];
+GEAR_SALES.vest = [['다나와 인기 TOP 5', '다나와 「트레일러닝 베스트」 인기상품순 · 판매와 조회 반영 (2026년 11월 20일)', [["아디다스","러닝 클라이마쿨 베스트"],["나이키","ACG 고트 팩 베스트"],["아디다스","테렉스 엑스페리어 트레일 러닝 베스트 2.5"],["나이키","러닝 베스트 5L"],["디스커버리 익스페디션","미를론 베스트 백"]]]];
+GEAR_SALES.belt = [['다나와 인기 TOP 5', '다나와 「러닝벨트」 인기상품순 · 판매와 조회 반영 (2026년 11월 20일)', [["아디다스","런 웨이스트백"],["아디다스","러닝 멀티 포켓 벨트"],["나이키","슬림 4.0 러닝 웨이스트백"],["르까프","러닝용 소형 힙색"],["나이키","슬림 4.0 러닝 웨이스트 팩"]]]];
+GEAR_SALES.sock = [['다나와 인기 TOP 5', '다나와 「러닝 양말」 인기상품순 · 판매와 조회 반영 (2026년 11월 20일)', [["인진지","라이너 쿨맥스 발가락 양말"],["요넥스","스포츠 쿠션 단목·중목 양말"],["나이키","러닝 라이트웨이트 마이크로 크루 삭스"],["뉴발란스","PF 컴프레션 러닝 크루삭스"],["오니지","발가락 등산양말 클레버"]]]];
+const GX_PAL = ['#f5a300', '#38bdf8', '#f472b6', '#a3e635', '#c084fc', '#fb923c', '#2dd4bf', '#facc15', '#94a3b8', '#e879f9', '#4ade80', '#60a5fa'];
+function gearOverview(cat, g, list, S) {
+  const rows = S.all.slice(0, 12), sum = rows.reduce((a, r) => a + r[1], 0), etc = +(100 - sum).toFixed(1), top3 = +rows.slice(0, 3).reduce((a, r) => a + r[1], 0).toFixed(1);
+  const col = (n, i) => GX_PAL[i % GX_PAL.length];
+  const idx = n => list.findIndex(B => B.n === n);
+  const C = 2 * Math.PI * 62; let acc = 0;
+  const segs = [...rows.slice(0, 8), ['기타', +(100 - rows.slice(0, 8).reduce((a, r) => a + r[1], 0)).toFixed(1)]].filter(r => r[1] > 0).map(([n, v], i) => { const len = C * v / 100, off = -C * acc / 100; acc += v;
+    return `<circle class="gx-seg" r="62" cx="80" cy="80" stroke="${n === '기타' ? '#475569' : col(n, i)}" stroke-dasharray="${len.toFixed(2)} ${C.toFixed(2)}" stroke-dashoffset="${off.toFixed(2)}" style="--d:${(i * 0.12).toFixed(2)}s"><title>${n} ${v}%</title></circle>`; }).join('');
+  const dec = v => (v % 1 ? 1 : 0);
+  const rowsH = [...rows, ...(etc > 0 ? [['기타', etc]] : [])].map(([n, v], i) => { const k = idx(n), cnt = S.base && n !== '기타' ? Math.round(v * S.base / 100) : 0;
+    return `<div class="gx-r" style="--c:${n === '기타' ? '#475569' : col(n, i)};--w:${Math.max(1.5, v / Math.max(rows[0][1], etc) * 100)}%;--i:${i}"><span class="gx-n">${n === '기타' ? '·' : i + 1}</span>
+      ${k >= 0 ? `<button type="button" class="gx-b" onclick="gearBrandOpen(this.closest('.gbx').querySelectorAll('.gbx-t button')[${k + 1}],${k + 1})">${esc(n)}</button>` : `<span class="gx-b">${esc(n)}</span>`}
+      <em><i></i></em><b><span data-cu="${v}" data-d="${dec(v)}">0</span>%</b>${S.base ? `<small>${cnt ? cnt + '개' : ''}</small>` : ''}</div>`; }).join('');
+  const SL = GEAR_SALES[g ? cat + '_' + g : cat];
+  const sales = SL ? `<h4 class="gx-h">🏆 ${g ? '분류별 판매 TOP 3 · 무신사 판매금액순' : cat === 'ear' ? '판매 순위 · 다나와 판매 데이터' : '판매·인기 순위'}</h4><div class="gx-sales">${SL.map(([t, sub, L], si) => `<div class="gx-s" style="--i:${si}"><div class="gx-st"><b>${t}</b>${sub ? `<small>${sub}</small>` : ''}</div><ol>${L.map(([b, n, p], i) => `<li><i class="r${i + 1}">${i + 1}</i><span><em>${esc(b)}</em>${esc(n)}</span>${p ? `<strong>${typeof p === 'number' ? p.toLocaleString() + '원' : p}</strong>` : ''}</li>`).join('')}</ol></div>`).join('')}</div>` : '';
+  return `<div class="gbx-p gx" style="--bc:#f5a300">
+    <div class="gx-kpi">
+      <div><small>점유율 1위</small><b>${esc(rows[0][0])}</b><strong><span data-cu="${rows[0][1]}" data-d="${dec(rows[0][1])}">0</span>%</strong></div>
+      <div><small>TOP 3 합계</small><b>${rows.slice(0, 3).map(r => esc(r[0])).join(' · ')}</b><strong><span data-cu="${top3}" data-d="${dec(top3)}">0</span>%</strong></div>
+      <div><small>${S.base ? '집계한 판매 상위 제품' : '집계 기준'}</small><b>${S.base ? '판매·인기 상위' : '판매량 비중'}</b><strong>${S.base ? `<span data-cu="${S.base}">0</span>개` : '100%'}</strong></div>
+      <div><small>이 페이지 라인업</small><b>추천 브랜드</b><strong><span data-cu="${list.length}">0</span>개</strong></div></div>
+    <div class="gx-main"><div class="gx-dn"><svg viewBox="0 0 160 160"><circle r="62" cx="80" cy="80" class="gx-bg"></circle>${segs}</svg><div class="gx-c"><small>1위</small><b>${esc(rows[0][0])}</b><strong><span data-cu="${rows[0][1]}" data-d="${dec(rows[0][1])}">0</span>%</strong></div></div>
+      <div class="gx-bars"><h4>${esc(S.t)}</h4>${rowsH}</div></div>
+    ${sales}
+    <small class="gsb-src">출처: ${S.src}</small></div>`;
+}
+function gearCU(root) {
+  if (!root) return;
+  root.querySelectorAll('[data-cu]').forEach(e => { const v = +e.dataset.cu, d = +(e.dataset.d || 0), t0 = performance.now();
+    const f = t => { const k = Math.min(1, (t - t0) / 1200), x = v * (1 - Math.pow(1 - k, 3)); e.textContent = x.toFixed(d); if (k < 1) requestAnimationFrame(f); }; requestAnimationFrame(f); });
+  root.classList.remove('go'); void root.offsetWidth; root.classList.add('go');
+}
+const gearCUVis = () => app.querySelectorAll('.gbx-p.gx').forEach(p => { if (p.offsetParent && !p.hidden) gearCU(p); });
+document.addEventListener('pg-show', () => setTimeout(gearCUVis, 30));
 function gearBrandTab(cat, items, g) {
   const S0 = (g && GEAR_SHARE_W[g]) || GEAR_SHARE[cat], rkOf = n => { const i = S0.all.findIndex(r => r[0] === n); return i < 0 ? 99 : i; }, list = gearBrandList(cat, items).sort((a, z) => rkOf(a.n) - rkOf(z.n)), S = (g && GEAR_SHARE_W[g]) || GEAR_SHARE[cat], S5 = S.all.slice(0, S.n || 5), etc = +(100 - S5.reduce((x, r) => x + r[1], 0)).toFixed(1);
-  return `<div class="gbx"><p class="gbx-hint">브랜드를 누르면 시장 점유율과 라인업이 나와요</p>
-    <div class="gbx-t">${list.map((B, i) => `<button type="button" class="${i ? '' : 'on'}" style="--bc:${B.c}" onclick="gearBrandOpen(this,${i})"><i></i>${esc(B.n)}<small>${B.L.length}</small></button>`).join('')}</div>
+  return `<div class="gbx"><p class="gbx-hint">📊 종합에서 전체 브랜드 순위를, 브랜드를 누르면 점유율과 라인업을 볼 수 있어요</p>
+    <div class="gbx-t"><button type="button" class="on gbx-all" style="--bc:#f5a300" onclick="gearBrandOpen(this,0)"><i></i>📊 종합</button>${list.map((B, i) => `<button type="button" style="--bc:${B.c}" onclick="gearBrandOpen(this,${i + 1})"><i></i>${esc(B.n)}<small>${B.L.length}</small></button>`).join('')}</div>
+    ${gearOverview(cat, g, list, S)}
     ${list.map((B, i) => { const rk = S.all.findIndex(r => r[0] === B.n), ex = (GEAR_BSH[cat] || {})[B.n], sh = ex || (rk >= 0 ? [S.all[rk][1] + '%', S.t.replace(' 중 제품 비중', '') + ' · ' + (rk + 1) + '위'] : ['순위 밖', S.t.replace(' 중 제품 비중', '') + ' 안에 이 브랜드 제품이 없어요 (국내 판매가 적거나 해외 직구 위주)']);
-      return `<div class="gbx-p" style="--bc:${B.c}" ${i ? 'hidden' : ''}>
+      return `<div class="gbx-p" style="--bc:${B.c}" hidden>
       <div class="gbx-top"><div class="gbx-info"><b>${esc(B.n)}</b><p>${esc(B.desc)}</p>
           ${B.lines ? `<div class="gbr-l">${B.lines.map(([l, d]) => `<span><b>${l}</b>${d}</span>`).join('')}</div>` : ''}
           ${B.pros ? `<div class="gwb-pc"><div><h5>👍 장점</h5><ul>${B.pros.map(x => `<li>${x}</li>`).join('')}</ul></div><div><h5>👎 단점</h5><ul>${B.cons.map(x => `<li>${x}</li>`).join('')}</ul></div></div>` : ''}
@@ -681,12 +726,12 @@ function gearBrandTab(cat, items, g) {
 function gearBrandOpen(btn, i) {
   const box = btn.closest('.gbx');
   box.querySelectorAll('.gbx-t button').forEach((b, j) => b.classList.toggle('on', j === i));
-  box.querySelectorAll('.gbx-p').forEach((p, j) => { p.hidden = j !== i; if (j === i) { p.classList.remove('pg-in'); void p.offsetWidth; p.classList.add('pg-in'); } });
+  box.querySelectorAll('.gbx-p').forEach((p, j) => { p.hidden = j !== i; if (j === i) { p.classList.remove('pg-in'); void p.offsetWidth; p.classList.add('pg-in'); if (p.classList.contains('gx')) gearCU(p); } });
 }
 /* 의류: 탭마다 남성·여성 (모든 탭이 함께 바뀌어요) */
 let GEAR_WG = 'm';
 const gGen = () => `<div class="gset-g gg-t">${[['m', '👨 남성'], ['w', '👩 여성']].map(([g, n]) => `<button type="button" data-g="${g}" class="${GEAR_WG === g ? 'on' : ''}" onclick="gearWG('${g}')">${n}</button>`).join('')}</div>`;
-function gearWG(g) { GEAR_WG = g; app.querySelectorAll('.gg-t button').forEach(b => b.classList.toggle('on', b.dataset.g === g)); app.querySelectorAll('.gg-b').forEach(d => { d.hidden = d.dataset.g !== g; d.querySelectorAll('.grow').forEach(e => e.classList.add('play')); }); }
+function gearWG(g) { GEAR_WG = g; app.querySelectorAll('.gg-t button').forEach(b => b.classList.toggle('on', b.dataset.g === g)); app.querySelectorAll('.gg-b').forEach(d => { d.hidden = d.dataset.g !== g; d.querySelectorAll('.grow').forEach(e => e.classList.add('play')); }); gearCUVis(); }
 const gByG = f => [['m'], ['w']].map(([g]) => `<div class="gg-b" data-g="${g}" ${GEAR_WG === g ? '' : 'hidden'}>${f(g)}</div>`).join('');
 
 function viewGear(cat) {
