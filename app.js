@@ -213,7 +213,7 @@ function viewHome() {
   app.innerHTML = `
   <section class="hero">
     <div style="position:relative;z-index:1">
-      <h1>내 몸에 맞는<br><em>목적별 러닝화 베스트 3</em></h1>
+      <h1>내 몸에 맞는<br><em>러닝화 베스트 3</em></h1>
       <p>키 · 몸무게 · 성별 · 나이 · 족형 · 달리는 목적을 입력하면 RunRepeat 실측 80점 이상 모델 중 나에게 맞는 베스트 3를 골라드려요.</p>
       <ul><li>RunRepeat 실측 리뷰 80점+ 모델만 추천</li><li>${Object.keys(BRANDS).length}개 브랜드 · ${SHOES.length}개 모델 분석</li><li>체격(BMI) · 나이 · 목적에 맞춰 쿠션·반발·안정성 매칭</li></ul>
     </div>
