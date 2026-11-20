@@ -164,6 +164,16 @@ const GEAR = {
       { n: "에디파이어 컴포 베이스 프로", b: "에디파이어", ty: "오픈형 이어훅", t: "mid", krw: 109000, pn: "KREAM 공식 브랜드샵 판매가 (할인 반영)", img: "https://kream-phinf.pstatic.net/MjAyNjExMTBfODYg/MDAxNzk0MjgyNDU5OTky.Q7kBffVkWDMDbkeTYD6TmO39R8-xlxOVxr5e0v3HFAIg.d3ZRDSFfeEeGAk-zinFVW9XJmmttXfDj-YkEbqW4aUAg.PNG/p_0dd6f51d488c4438890494f1fbe5ea6a.png", url: "https://kream.co.kr/products/1176639", shop: "KREAM 에디파이어 공식", pts: ["컴포 베이스 상위 모델 (2026년 11월 신제품)","저음 강화 오픈형"], cons: ["국내 리뷰가 아직 적어요"] },
       { n: "에디파이어 에보버즈 프로", b: "에디파이어", ty: "일상용 무선", t: "cheap", krw: 89000, pn: "KREAM 공식 브랜드샵 판매가 (할인 반영)", img: "https://kream-phinf.pstatic.net/MjAyNjA3MzFfMTgw/MDAxNzg1NDg3MzQwMjg2.vPy5HAbGNax5Vg5GgOL6q5quQR_pZ5twWE7CbIF4Y9Mg.YG0L7ynUBXnqfGidU7ARLgE_smQFFyGilAYjKQgTbxUg.PNG/p_e20ae8bbdefe4665ba59e7cf4f26ec74.png", url: "https://kream.co.kr/products/1019149", shop: "KREAM 에디파이어 공식", pts: ["9만 원 아래 노이즈 캔슬링","일상 겸용"], cons: ["러닝 고정 장치가 없어요"] },
       { n: "에디파이어 네오버즈 프로 3", b: "에디파이어", ty: "일상용 무선", t: "mid", krw: 159000, pn: "KREAM 공식 브랜드샵 판매가 (할인 반영)", img: "https://kream-phinf.pstatic.net/MjAyNjA3MDhfMTU2/MDAxNzgzNDkzNDI1MTYx.2lZNllwOeil917xqJaQ5XL6w3cmKyb7lgmuWkwaQlkQg.WTxBjHK5Eoil2yPTOxcPpopPnX0cHSD8ErpAddMHnLMg.PNG/p_0f06ce9d7575464a9dc4e7d65a2cff25.png", url: "https://kream.co.kr/products/689287", shop: "KREAM 에디파이어 공식", pts: ["에디파이어 하이파이 플래그십 · 노캔","음질 중심"], cons: ["러닝 고정 장치가 없어요"] },
+      { n: "QCY 크로스키 C70", b: 'QCY', ty: "이어커프·클립형", t: 'cheap', usd: 69.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/CT03_02_d414a27e-ce74-4907-bc35-fb1e2ecb8aec.png", url: "https://www.qcy.com/products/qcy-crossky-c70-open-ear-clip-on-earbuds", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["크로스키 상위 클립형 · 통화용 골전도 센서 마이크","압박 없는 실리콘 착용"], cons: ["7만 원대면 사운드코어 C40i 등과 비교해 보세요"] },
+      { n: "QCY 크로스키 C50i", b: 'QCY', ty: "이어커프·클립형", t: 'cheap', usd: 37.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/CT12_01_05e3000d-db25-4d0a-8c82-1072ca86d040.png", url: "https://www.qcy.com/products/qcy-crossky-c50i", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["LDAC 고음질 · 재생 최대 42시간","다나와 빅스마일데이 이어폰 판매 2위 (2026년 11월)"], cons: ["격하게 뛰면 흔들림 개인차"], beg: 1 },
+      { n: "QCY 크로스키 C30", b: 'QCY', ty: "이어커프·클립형", t: 'cheap', usd: 37.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/QT33_-1_ce02fcee-fba9-470f-8a58-c375228f3683.png", url: "https://www.qcy.com/products/qcy-crossky-c30", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["C자형 오픈 클립 · 마이크 4개","방수"], cons: ["음질은 C50i보다 단순"] },
+      { n: "QCY 멜로버즈 프로", b: 'QCY', ty: "일상용 무선", t: 'cheap', usd: 47.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/HT08_-1_aca60518-7636-48a3-adf8-a2df012c997b.png", url: "https://www.qcy.com/products/qcy-melobuds-pro", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["LDAC · 최대 46dB 노이즈 캔슬링","다나와 5만 원 이하 이어폰 판매 2위 (2026년 9월)"], cons: ["러닝 고정 장치가 없어요"] },
+      { n: "QCY 멜로버즈 N70", b: 'QCY', ty: "일상용 무선", t: 'cheap', usd: 59.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/8ee163965c752b4df31d594396825cee.png", url: "https://www.qcy.com/products/qcy-melobuds-n70", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["듀얼 드라이버 · LDAC · 최대 56dB 노캔","무선 충전"], cons: ["러닝 고정 장치가 없어요"] },
+      { n: "QCY 멜로버즈 N60", b: 'QCY', ty: "일상용 무선", t: 'cheap', usd: 39.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/A_45b48068-2e28-4578-b7f8-2c64c6bcd8ad.png", url: "https://www.qcy.com/products/qcy-melobuds-n60", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["동축 듀얼 드라이버 · 최대 56dB 노캔","재생 최대 45시간"], cons: ["러닝 고정 장치가 없어요"] },
+      { n: "QCY 멜로버즈 N50", b: 'QCY', ty: "일상용 무선", t: 'cheap', usd: 33.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/HT12_-2_221ed393-b2a1-411c-a4b1-f86f6ed5d72a.png", url: "https://www.qcy.com/products/qcy-melobuds-n50", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["3만 원대 적응형 노캔 · 마이크 6개","EQ 프리셋 9종"], cons: ["러닝 고정 장치가 없어요"] },
+      { n: "QCY T13 프로", b: 'QCY', ty: "일상용 무선", t: 'cheap', usd: 24.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/HT23_-2_008999fe-f4b4-4206-83f6-f14667df739c.png", url: "https://www.qcy.com/products/qcy-t13-pro", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["2만 원대 노캔 · IPX4 방수","재생 최대 47시간"], cons: ["러닝 고정 장치가 없어요"], beg: 1 },
+      { n: "QCY T13 ANC2", b: 'QCY', ty: "일상용 무선", t: 'cheap', usd: 46.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/1_e616678c-52a0-4dcc-8463-005d1f32c00a.jpg", url: "https://www.qcy.com/products/qcy-t13-anc2-active-noise-canceling-wireless-earbuds", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["하이브리드 노캔 · 주변음 모드","가성비 입문"], cons: ["러닝 고정 장치가 없어요"] },
+      { n: "QCY T13 ANC", b: 'QCY', ty: "일상용 무선", t: 'cheap', usd: 32.99, img: "https://cdn.shopify.com/s/files/1/0639/3492/2809/files/01_e1a505d9-3849-4a73-9b6f-8a3a1730d6f3.png", url: "https://www.qcy.com/products/qcy-t13-anc", shop: "QCY 공식 (해외) · 국내 쿠팡·네이버 판매", pts: ["3만 원대 적응형 노캔 · 바람 소리 감소","무선 충전"], cons: ["러닝 고정 장치가 없어요"] },
       { n: '샥즈 오픈스윔 프로', b: '샥즈', ty: '수영·철인용', t: 'pro', krw: 319000, img: 'https://static.shokz.co.kr/resource/2026/08/24/OpenSwim_Pro_____6a8bacf8c152d.webp', url: 'https://shokz.co.kr/shop/OpenSwimPro', shop: '샥즈 공식', pts: ['수영·러닝 모두 — 철인 3종 훈련', '내장 MP3 + 블루투스'], elite: 1 },
     ],
     brands: [
@@ -175,7 +185,7 @@ const GEAR = {
       ['브리츠', '#b45309', '국내 음향 브랜드 — 2~10만 원대 골전도·귀찌형 러닝 이어폰. KREAM 공식 브랜드샵·11번가 공식 스토어.', 'https://kream.co.kr/brand-stores/britz', [['BONE', '골전도 러닝용'], ['BoneWave', '완전 방수 골전도'], ['CLIP', '귀찌형 오픈']]],
       ['베이스어스', '#0f766e', '중국 모바일 액세서리 브랜드 — 2~10만 원대 오픈형 이어훅·스포츠 이어폰. KREAM 공식 브랜드샵.', 'https://www.baseus.com/', [['MC', '오픈형 에어쿠션'], ['BC', '오픈형 입문'], ['E20s', '스포츠 커널형'], ['보위', '노캔 일상용']]],
       ['에디파이어', '#475569', '중국 오디오 브랜드 (스피커로 유명) — 4~16만 원대 오픈형·노캔 이어폰. KREAM 공식 브랜드샵.', 'https://www.edifier.com/', [['컴포', '오픈형 · 클립형'], ['에보버즈·네오버즈', '노캔 일상용']]],
-      ['QCY', '#16a34a', '중국 초가성비 브랜드 — 쿠팡·네이버·알리에서 3~5만 원대.', 'https://www.qcy.com/', [['크로스키', '오픈형 클립·이어훅']]],
+      ['QCY', '#16a34a', '중국 초가성비 브랜드 — 다나와 5만 원 이하 이어폰 거래액 1위. 쿠팡·네이버·알리에서 2~7만 원대.', 'https://www.qcy.com/', [['크로스키', '클립형 오픈'], ['멜로버즈', '노캔 일상용'], ['T13', '입문 무선']]],
       ['다이소', '#e11d48', '5천 원 균일가 — 러닝 전용은 아니지만 입문용으로 부담 없어요.', 'https://www.daisomall.co.kr/', [['무선 이어폰', '5천 원 블루투스']]],
     ],
     best: [['샥즈 오픈런 프로 2', '귀를 열고 안 흔들리는 러닝 이어폰의 정석'], ['샥즈 오픈핏 2+', '골전도가 답답하면 — 가장 편한 오픈형'], ['QCY 크로스키 C50', '5만 원 아래로 오픈형을 써보고 싶다면']],
@@ -400,23 +410,9 @@ const GEAR_SETS = [
 
 
 /* ---------- 브랜드 시장 점유율 (공개 자료가 있는 분류만 그래프) ---------- */
-const GEAR_SHARE = {
-  watch: { t: '세계 스마트워치 출하 점유율', src: '옴디아 · 2026년 2분기 출하량', d: [['애플', 46, '애플워치'], ['삼성', 15, '삼성 갤럭시'], ['가민', 15, '가민'], ['기타', 24, '']] },
-  ear: { t: '오픈형 오디오 시장 — 기술별 비중', src: 'Market Intelo · 오픈형 웨어러블 오디오 시장 2025', d: [['골전도 (샥즈 주력)', 44.2, '샥즈'], ['공기전도 오픈형·클립형 등', 55.8, '']] },
-  sun: { t: '세계 스포츠 아이웨어 점유율', src: 'GM Insights · 스포츠 아이웨어 시장 2025', d: [['에실로룩소티카 (오클리 모회사)', 19, '오클리'], ['나이키·아디다스·데카트론·사필로 합계', 33, ''], ['기타 브랜드', 48, '']] },
-};
-/* 브랜드별 점유율 한 줄 (수치가 없으면 '비공개') */
-const GEAR_BSH = {
-  '애플워치': ['46%', '세계 스마트워치 출하 1위 · 출하 전년 대비 +14% (옴디아·카운터포인트)'],
-  '삼성 갤럭시': ['15%', '가민과 공동 2위 — 대수는 근소하게 앞서요 · 1분기 출하 −28%'],
-  '가민': ['15%', '1년 새 11% → 15% · 출하 +11% — 포러너 시리즈가 견인'],
-  '샤오미': ['17%', '화면 있는 스마트밴드 시장 2위 (옴디아) — 스마트워치 전체에선 "기타"에 포함'],
-  '샥즈': ['1위', '오픈형·골전도 이어폰 시장 선두 브랜드 — 골전도가 오픈형 시장의 44% (정확한 브랜드 비율은 조사마다 달라 비공개)'],
-  '애플·비츠': ['1위권', '무선 이어폰(TWS) 전체 시장 세계 1위권 — 러닝 이어폰만 따로 집계한 자료는 없어요'],
-  '오클리': ['19%+', '모회사 에실로룩소티카 기준 세계 스포츠 아이웨어 1위 (오클리 단독 수치는 비공개)'],
-  '나이키': ['세계 1위', '세계 스포츠용품 매출 1위 브랜드 — 이 분류만 따로 집계한 점유율은 없어요'],
-  '데카트론': ['상위권', '세계 스포츠 아이웨어 상위 5개사 중 하나 (GM Insights) — 이 분류만의 점유율은 비공개'],
-};
+const GEAR_SHARE = {"watch":{"t":"다나와 「스마트워치」 인기순위 상위 40개 중 제품 비중","src":"다나와 「스마트워치」 검색 인기상품순 상위 40개 제품의 브랜드 비중 (2026년 11월 20일 직접 집계) · 판매와 조회가 함께 반영된 순위라 판매량 그 자체는 아니에요 · 다나와 2025 연말결산에선 스마트워치 판매 1위 삼성, 2위 애플","all":[["삼성 갤럭시",27.5],["애플워치",25],["가민",20],["샤오미",7.5],["어메이즈핏",7.5]]},"ear":{"t":"다나와 이어폰·헤드폰 판매량 비중","src":"다나와 2026 상반기 이어폰·헤드폰 결산 (2026년 1~6월 다나와 판매량 기준)","all":[["애플·비츠",26.2],["삼성",17.1],["소니",9.3],["샥즈",8],["QCY",4.8]]},"sun":{"t":"다나와 「스포츠 선글라스」 인기순위 상위 40개 중 제품 비중","src":"다나와 「스포츠 선글라스」 검색 인기상품순 상위 40개 제품의 브랜드 비중 (2026년 11월 20일 직접 집계) · 판매와 조회가 함께 반영된 순위라 판매량 그 자체는 아니에요","all":[["오클리",42.5],["루디프로젝트",10],["락브로스",5],["오클랜즈",5],["체인지마스터",2.5]]},"cap":{"t":"다나와 「러닝 모자」 인기순위 상위 40개 중 제품 비중","src":"다나와 「러닝 모자」 검색 인기상품순 상위 40개 제품의 브랜드 비중 (2026년 11월 20일 직접 집계) · 판매와 조회가 함께 반영된 순위라 판매량 그 자체는 아니에요","all":[["아디다스",40],["나이키",12.5],["노스페이스",10],["푸마",10],["블랙야크",7.5],["살로몬",2.5]]},"vest":{"t":"다나와 「트레일러닝 베스트」 인기순위 상위 40개 중 제품 비중","src":"다나와 「트레일러닝 베스트」 검색 인기상품순 상위 40개 제품의 브랜드 비중 (2026년 11월 20일 직접 집계) · 판매와 조회가 함께 반영된 순위라 판매량 그 자체는 아니에요","all":[["아디다스",15],["블랙야크",15],["노스페이스",12.5],["나이키",7.5],["코오롱스포츠",7.5],["살로몬",7.5]]},"belt":{"t":"다나와 「러닝벨트」 인기순위 상위 40개 중 제품 비중","src":"다나와 「러닝벨트」 검색 인기상품순 상위 40개 제품의 브랜드 비중 (2026년 11월 20일 직접 집계) · 판매와 조회가 함께 반영된 순위라 판매량 그 자체는 아니에요","all":[["살로몬",15],["나이키",12.5],["아디다스",10],["노스페이스",7.5],["블랙야크",7.5]]},"sock":{"t":"다나와 「러닝 양말」 인기순위 상위 40개 중 제품 비중","src":"다나와 「러닝 양말」 검색 인기상품순 상위 40개 제품의 브랜드 비중 (2026년 11월 20일 직접 집계) · 판매와 조회가 함께 반영된 순위라 판매량 그 자체는 아니에요","all":[["나이키",17.5],["뉴발란스",17.5],["SMP스포츠",12.5],["아디다스",10],["요넥스",5],["인진지",2.5],["데카트론",2.5]]},"wear":{"t":"다나와 「러닝 티셔츠」 인기순위 상위 40개 중 제품 비중","src":"다나와 「러닝 티셔츠」 검색 인기상품순 상위 40개 제품의 브랜드 비중 (2026년 11월 20일 직접 집계) · 판매와 조회가 함께 반영된 순위라 판매량 그 자체는 아니에요","all":[["나이키",57.5],["뉴발란스",7.5],["아디다스",5]]}};
+/* 분류별 브랜드 보충 수치 (다나와 기사 기준) */
+const GEAR_BSH = {"ear":{"샥즈":["93%","골전도 이어폰 거래액 비중 1위 (다나와 2026년 5~6월) · 이어폰·헤드폰 전체 판매량 4위 8.0%"],"브리츠":["7%","골전도 이어폰 거래액 2위 (다나와 2026년 5~6월) · 5만 원 이하 이어폰 거래액 3위 8%"],"QCY":["33%","5만 원 이하 이어폰 거래액 1위 (다나와 2026년 9월 발표) · 이어폰·헤드폰 전체 판매량 5위 4.8%"],"앤커 사운드코어":["20%","5만 원 이하 이어폰 거래액 2위 (다나와 2026년 9월 발표) · 사운드코어 P31i 판매 비중 44%로 1위"]}};
 /* ---------- 제품 목록 (상세 팝업용 id) ---------- */
 const GEAR_ALL = {};
 WATCHES.forEach(p => { p.cat = 'watch'; p.b = WATCH_BRANDS[p.wb].n; p.ty = /band|fit3/.test(p.id) ? '밴드' : ['garmin', 'suunto', 'amazfit'].includes(p.wb) ? '러닝워치' : '스마트워치'; GEAR_ALL[p.id] = p; });
@@ -432,6 +428,7 @@ const gKrw = p => p.krw || (p.usd ? Math.round(p.usd * GEAR_USD) : 0);
 const gPrice = p => p.krw ? `₩${p.krw.toLocaleString()}` : `$${p.usd}`;
 const gMan = v => v >= 10000 ? (v / 10000).toFixed(v % 10000 ? 1 : 0).replace(/\.0$/, '') + '만' : v.toLocaleString();
 const gImg = (src, alt) => `<img src="${src}" alt="${esc(alt)}" loading="lazy" referrerpolicy="no-referrer" onerror="this.parentNode.classList.add('noimg')">`;
+const gShopLab = p => /coupang\.com/.test(p.url) ? '쿠팡' : /aliexpress/.test(p.url) ? '알리' : /해외|미국/.test(p.shop || '') ? '공식(해외)' : '공식';
 const gOpen = id => `onclick="openGear('${id}')" role="button" tabindex="0"`;
 function gearCard(p, i, brandName, rk) {
   const T = GEAR_TIER[p.t];
@@ -457,7 +454,7 @@ function openGear(id) {
       ${p.spec ? `<p class="gmd-sp">${esc(p.spec)}</p>` : ''}
       <div class="gmd-pc"><div><h4>👍 장점</h4><ul>${p.pts.map(x => `<li>${esc(x)}</li>`).join('')}</ul></div><div><h4>👎 단점</h4><ul>${(p.cons.length ? p.cons : ['특별한 단점이 보고되지 않았어요']).map(x => `<li>${esc(x)}</li>`).join('')}</ul></div></div>
       <div class="gmd-meta"><span>💰 같은 분류 ${peers.length}개 중 가격 ${rank}번째로 저렴</span><span>🛒 ${esc(p.shop || '')}</span></div>
-      <div class="gmd-go"><a class="on" href="${p.url}" target="_blank" rel="noopener">${esc(p.shop || '공식몰')}</a>${/coupang.com/.test(p.url) ? '' : `<a class="cp" href="${coupang}" target="_blank" rel="noopener">쿠팡</a>`}<a href="${naver}" target="_blank" rel="noopener">네이버 최저가</a></div></div></div>`;
+      <div class="gmd-go"><a class="on" href="${p.url}" target="_blank" rel="noopener">${gShopLab(p)}</a>${/coupang.com/.test(p.url) ? '' : `<a class="cp" href="${coupang}" target="_blank" rel="noopener">쿠팡</a>`}<a href="${naver}" target="_blank" rel="noopener">네이버 최저가</a></div></div></div>`;
   $('#modal').classList.add('on'); document.body.style.overflow = 'hidden';
 }
 /* 가격 사다리 */
@@ -523,7 +520,7 @@ function gearBrands(G) {
     return `<div class="gbr ${L.length < 6 ? 'sm' : ''}" style="--bc:${c};--n:${L.length}"><div class="gbr-h"><div><b>${n}</b><p>${desc}</p></div><a href="${site}" target="_blank" rel="noopener">공식 홈페이지</a></div>
       <div class="gbr-l">${lines.map(([l, d]) => `<span><b>${l}</b>${d}</span>`).join('')}</div>
       <div class="gbr-g" style="--cols:${L.length < 6 ? L.length : L.length <= 6 ? 6 : [7, 6, 5].sort((x, y) => ((x - L.length % x) % x) - ((y - L.length % y) % y) || y - x)[0]}">${L.map(p => { const q = encodeURIComponent(p.n); return `<div class="gbr-c" ${gOpen(p.id)}><span class="gbr-im ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}</span><b>${esc(p.n)}</b><small>${esc(p.ty || '')}</small><strong>${gPrice(p)}</strong>
-        <span class="gbr-a" onclick="event.stopPropagation()"><a href="${p.url}" target="_blank" rel="noopener">공식</a><a href="https://search.shopping.naver.com/search/all?query=${q}" target="_blank" rel="noopener">네이버</a><a class="cp" href="https://www.coupang.com/np/search?q=${q}" target="_blank" rel="noopener">쿠팡</a></span></div>`; }).join('')}</div></div>`; }).join('') + '</div>';
+        <span class="gbr-a" onclick="event.stopPropagation()"><a href="${p.url}" target="_blank" rel="noopener">${gShopLab(p)}</a><a href="https://search.shopping.naver.com/search/all?query=${q}" target="_blank" rel="noopener">네이버</a><a class="cp" href="https://www.coupang.com/np/search?q=${q}" target="_blank" rel="noopener">쿠팡</a></span></div>`; }).join('')}</div></div>`; }).join('') + '</div>';
 }
 function gearTierGrid(items) {
   const tiers = Object.keys(GEAR_TIER).filter(t => items.some(p => p.t === t));
@@ -597,20 +594,20 @@ function gearBrandList(cat, items) {
   return GEAR[cat].brands.map(([n, c, desc, site, lines]) => ({ n, c, desc, site, lines, L: items.filter(p => gBn(p) === n) })).filter(B => B.L.length);
 }
 function gearBrandTab(cat, items) {
-  const list = gearBrandList(cat, items), S = GEAR_SHARE[cat];
+  const list = gearBrandList(cat, items), S = GEAR_SHARE[cat], S5 = S.all.slice(0, 5), etc = +(100 - S5.reduce((x, r) => x + r[1], 0)).toFixed(1);
   return `<div class="gbx"><p class="gbx-hint">브랜드를 누르면 시장 점유율과 라인업이 나와요</p>
     <div class="gbx-t">${list.map((B, i) => `<button type="button" class="${i ? '' : 'on'}" style="--bc:${B.c}" onclick="gearBrandOpen(this,${i})"><i></i>${esc(B.n)}<small>${B.L.length}</small></button>`).join('')}</div>
-    ${list.map((B, i) => { const sh = GEAR_BSH[B.n];
+    ${list.map((B, i) => { const rk = S.all.findIndex(r => r[0] === B.n), ex = (GEAR_BSH[cat] || {})[B.n], sh = ex || (rk >= 0 ? [S.all[rk][1] + '%', S.t.replace(' 중 제품 비중', '') + ' · ' + (rk + 1) + '위'] : ['순위 밖', S.t.replace(' 중 제품 비중', '') + ' 안에 이 브랜드 제품이 없어요 (국내 판매가 적거나 해외 직구 위주)']);
       return `<div class="gbx-p" style="--bc:${B.c}" ${i ? 'hidden' : ''}>
       <div class="gbx-top"><div class="gbx-info"><b>${esc(B.n)}</b><p>${esc(B.desc)}</p>
           ${B.lines ? `<div class="gbr-l">${B.lines.map(([l, d]) => `<span><b>${l}</b>${d}</span>`).join('')}</div>` : ''}
           ${B.pros ? `<div class="gwb-pc"><div><h5>👍 장점</h5><ul>${B.pros.map(x => `<li>${x}</li>`).join('')}</ul></div><div><h5>👎 단점</h5><ul>${B.cons.map(x => `<li>${x}</li>`).join('')}</ul></div></div>` : ''}
           <a class="gbx-site" href="${B.site}" target="_blank" rel="noopener">공식 홈페이지</a></div>
-        <div class="gbx-sh"><h4>📊 시장 점유율</h4><div class="gbx-v"><b>${sh ? sh[0] : '비공개'}</b><span>${sh ? esc(sh[1]) : '이 분류는 브랜드별 시장 점유율을 공개한 조사 자료가 없어요'}</span></div>
-          ${S ? `<div class="gsb"><small>${S.t}</small>${S.d.map(([l, v, b]) => `<div class="gsb-r ${b === B.n ? 'on' : ''}"><span>${l}</span><em><i style="--w:${v}%"></i></em><b>${v}%</b></div>`).join('')}<small class="gsb-src">출처: ${S.src} · 세계 기준 (국내만 따로 집계한 공개 자료 없음)</small></div>` : ''}</div></div>
+        <div class="gbx-sh"><h4>📊 시장 점유율</h4><div class="gbx-v"><b>${sh[0]}</b><span>${esc(sh[1])}</span></div>
+          <div class="gsb"><small>${S.t}</small>${[...S5, ['기타', etc]].map(([l, v]) => `<div class="gsb-r ${l === B.n ? 'on' : ''}"><span>${l}</span><em><i style="--w:${v}%"></i></em><b>${v}%</b></div>`).join('')}<small class="gsb-src">출처: ${S.src}</small></div></div></div>
       <h4 class="gbx-lh">${esc(B.n)} 제품 ${B.L.length}개</h4>
       <div class="gbr-g" style="--cols:${Math.min(6, Math.max(B.L.length, 4))}">${[...B.L].sort((a, z) => gKrw(a) - gKrw(z)).map(p => { const q = encodeURIComponent(p.n); return `<div class="gbr-c" ${gOpen(p.id)}><span class="gbr-im ${p.cv ? 'cv' : ''}">${gImg(p.img, p.n)}</span><b>${esc(p.n)}</b><small>${esc(p.ty || '')} · ${GEAR_TIER[p.t][0]}</small><strong>${gPrice(p)}</strong>
-        <span class="gbr-a" onclick="event.stopPropagation()"><a href="${p.url}" target="_blank" rel="noopener">공식</a><a href="https://search.shopping.naver.com/search/all?query=${q}" target="_blank" rel="noopener">네이버</a><a class="cp" href="https://www.coupang.com/np/search?q=${q}" target="_blank" rel="noopener">쿠팡</a></span></div>`; }).join('')}</div></div>`; }).join('')}</div>`;
+        <span class="gbr-a" onclick="event.stopPropagation()"><a href="${p.url}" target="_blank" rel="noopener">${gShopLab(p)}</a><a href="https://search.shopping.naver.com/search/all?query=${q}" target="_blank" rel="noopener">네이버</a><a class="cp" href="https://www.coupang.com/np/search?q=${q}" target="_blank" rel="noopener">쿠팡</a></span></div>`; }).join('')}</div></div>`; }).join('')}</div>`;
 }
 function gearBrandOpen(btn, i) {
   const box = btn.closest('.gbx');
