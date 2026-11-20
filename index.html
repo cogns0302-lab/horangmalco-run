@@ -1027,9 +1027,9 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
 .tl-eye{font-size:12px;font-weight:900;letter-spacing:.14em;color:#ffc233}
 .tl-hero h1{margin:8px 0 10px;font-size:clamp(30px,4.4vw,46px);font-weight:900;letter-spacing:-.03em;line-height:1.1}
 .tl-hero p{margin:0;color:#e9e2d3;font-size:14.5px;line-height:1.7}.tl-hero p b{color:#ffc233}
-.tl-dist{display:flex;gap:4px;height:64px;align-items:stretch;position:relative;z-index:1}
-.tl-seg{flex:0 0 var(--w);min-width:34px;border:0;border-radius:10px;background:linear-gradient(160deg,var(--c2),var(--c1));color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;line-height:1.1;padding:0}
-.tl-seg b{font-size:20px;font-weight:900}.tl-seg span{font-size:11.5px;font-weight:800;opacity:.9}
+.tl-dist{display:flex;flex-direction:column;align-items:center;gap:4px;width:min(340px,100%);justify-self:end;position:relative;z-index:1}
+.tl-seg{flex:none;width:var(--k);height:32px;border:0;border-radius:0;clip-path:polygon(var(--in) 0,calc(100% - var(--in)) 0,100% 100%,0 100%);background:linear-gradient(160deg,var(--c2),var(--c1));color:#fff;display:flex;flex-direction:row;align-items:center;justify-content:center;gap:7px;cursor:pointer;line-height:1;padding:0;transition:filter .2s}.tl-seg:hover{filter:brightness(1.15)}
+.tl-seg b{font-size:17px;font-weight:900}.tl-seg span{font-size:12px;font-weight:800;opacity:.92}
 .tl-filter{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
 .tl-filter button{border:1.5px solid var(--line);background:var(--card);color:var(--ink);border-radius:99px;padding:7px 14px;font-weight:800;font-size:13.5px;cursor:pointer}
 .tl-filter button small{color:var(--sub);font-weight:700;margin-left:2px}
@@ -1061,11 +1061,11 @@ footer{border-top:1px solid var(--line);padding-block:24px 40px;color:var(--sub)
   .tl-label b{font-size:32px}.tl-label em{margin:0 0 0 auto}.tl-label span{margin:0}
   .tl-chips{padding:10px;gap:6px}
   .tl-chip{flex:1 1 100%}
-  .tl-dist{height:54px}
+  .tl-dist{justify-self:center}.tl-seg{height:28px}
 }
 @media (prefers-reduced-motion:no-preference){
   .tl-seg{animation:tlGrow .9s cubic-bezier(.2,.8,.2,1) both;animation-delay:calc(.15s + var(--i) * 90ms);transform-origin:bottom}
-  @keyframes tlGrow{from{opacity:0;transform:scaleY(.15)}to{opacity:1;transform:none}}
+  @keyframes tlGrow{from{opacity:0;transform:translateY(-14px) scaleX(.6)}to{opacity:1;transform:none}}
   .tl-row{animation:tlRow .6s cubic-bezier(.2,.75,.2,1) both;animation-delay:calc(var(--r) * 110ms)}
   @keyframes tlRow{from{opacity:0;transform:translateX(-24px)}to{opacity:1;transform:none}}
   .tl-chip{animation:tlPop .45s cubic-bezier(.2,.9,.3,1.3) both;animation-delay:calc(.2s + var(--r) * 110ms + var(--i) * 28ms);transition:transform .16s ease,box-shadow .2s ease,border-color .2s ease}
@@ -2511,15 +2511,15 @@ p,.sec-sub,.note{text-wrap:pretty}
 
 <div class="modal" id="modal" onclick="if(event.target===this)closeModal()"><div class="mbox" id="mbox"></div></div>
 
-<script src="data.js?v=mwomd3ch"></script>
-<script src="photos.js?v=mwomd3ch"></script>
-<script src="history.js?v=mwomd3ch"></script>
-<script src="maps.js?v=mwomd3ch"></script>
-<script src="marathon.js?v=mwomd3ch"></script>
-<script src="stories.js?v=mwomd3ch"></script>
-<script src="reviews.js?v=mwomd3ch"></script>
-<script src="train.js?v=mwomd3ch"></script>
-<script src="gear.js?v=mwomd3ch"></script>
-<script src="app.js?v=mwomd3ch"></script>
+<script src="data.js?v=mwomjw39"></script>
+<script src="photos.js?v=mwomjw39"></script>
+<script src="history.js?v=mwomjw39"></script>
+<script src="maps.js?v=mwomjw39"></script>
+<script src="marathon.js?v=mwomjw39"></script>
+<script src="stories.js?v=mwomjw39"></script>
+<script src="reviews.js?v=mwomjw39"></script>
+<script src="train.js?v=mwomjw39"></script>
+<script src="gear.js?v=mwomjw39"></script>
+<script src="app.js?v=mwomjw39"></script>
 </body>
 </html>

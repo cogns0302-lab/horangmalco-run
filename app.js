@@ -2011,7 +2011,7 @@ function viewTier() {
         <div class="tl-upd"><span>📅 <b>${DATA_UPDATED}</b> 기준 최신 모델</span><span>🔄 매달 1일·15일 자동 업데이트</span></div>
       </div>
       <div class="tl-dist" aria-label="티어별 모델 수">
-        ${rows.map(([t, l], i) => `<button class="tl-seg" style="--c1:${t[4]};--c2:${t[5]};--w:${Math.max(l.length / total * 100, l.length ? 6 : 0)}%;--i:${i}" onclick="document.getElementById('tier-${t[0]}').scrollIntoView({behavior:'smooth',block:'center'})" ${l.length ? '' : 'hidden'}><b>${t[0]}</b><span>${l.length}</span></button>`).join('')}
+        ${rows.map(([t, l], i) => `<button class="tl-seg" style="--c1:${t[4]};--c2:${t[5]};--k:${(i + 2) / (rows.length + 1) * 100}%;--in:${(100 / (2 * (i + 2))).toFixed(2)}%;--i:${i}" onclick="document.getElementById('tier-${t[0]}').scrollIntoView({behavior:'smooth',block:'center'})" title="${t[0]} 티어 ${l.length}개"><b>${t[0]}</b><span>${l.length}</span></button>`).join('')}
       </div>
     </section>
     <div class="tl-filter">${TIER_GROUPS.map(([g, cs]) => { const n = all.filter(s => !cs || cs.includes(s.c)).length; return `<button class="${g === tierGroup ? 'on' : ''}" onclick="tierGroup='${g}';viewTier()">${g} <small>${n}</small></button>`; }).join('')}</div>
